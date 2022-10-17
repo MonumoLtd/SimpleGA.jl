@@ -5,8 +5,11 @@ Module representing the `GA(2, 0)` geometric algebra.
 """
 module GA20
 
+# Export the default basis.
+export e1, e2, I2
+
 using GADraft
-using GADraft: _complex_T
+using GADraft: _complex_T, _scalar_T
 
 struct MV{P,T} <: MultiVector{P,T}
     c1::Complex{T}
