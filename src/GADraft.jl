@@ -34,9 +34,25 @@ Base.iseven(::MultiVector{Even}) = true
 Base.iseven(::MultiVector{Odd}) = false
 Base.isodd(mv::MultiVector) = !iseven(mv)
 
+# TODO Check if we actually use these anywhere, delete if not.
 # Allow inversion of type parameters for convenience.
 Base.:(!)(::Type{Even}) = Odd
 Base.:(!)(::Type{Odd}) = Even
+
+# For internal use only (not exported).
+_scalar_T(::MultiVector{P,T}) where {P,T} = T
+_complex_T(::Complex{T}) where {T<:Real} = T
+
+# Used in implementations of Base.show.
+function string_parts(x::Real, label::Union{Nothing,AbstractString}=nothing)
+    return if iszero(x)
+        String[]
+    elseif isnothing(label)
+        ["$x"]
+    else
+        ["$x $label"]
+    end
+end
 
 """
     project(mv::MultiVector, grade::Integer) -> MultiVector
@@ -56,9 +72,17 @@ In the second form, return the scalar part of `a * b`. Whilst equivalent to `sca
 """
 function scalar end
 
-# For internal use only (not exported).
-_scalar_T(::MultiVector{P,T}) where {P,T} = T
-_complex_T(::Complex{T}) where {T<:Real} = T
+# Implementations that we know will give zero regardless of dimension.
+scalar(a::MultiVector{Odd}) = zero(_scalar_T(a))
+function scalar(a::MultiVector{Odd}, b::MultiVector{Even})
+    return zero(promote_type(_scalar_T(a), _scalar_T(b)))
+end
+function scalar(a::MultiVector{Even}, b::MultiVector{Odd})
+    return zero(promote_type(_scalar_T(a), _scalar_T(b)))
+end
+
+# Lightweight quaternion implementation, which is used in certain algebras.
+include("quaternion.jl")
 
 # Implementations of algebras.
 include("ga20.jl")

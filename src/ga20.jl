@@ -9,7 +9,7 @@ module GA20
 export e1, e2, I2
 
 using GADraft
-using GADraft: _complex_T, _scalar_T
+using GADraft: string_parts, _complex_T
 
 struct MV{P,T} <: MultiVector{P,T}
     c1::Complex{T}
@@ -30,15 +30,12 @@ Base.isapprox(a::MV{P}, b::MV{P}; kwargs...) where {P} = isapprox(a.c1, b.c1; kw
 # Base.imag(a::MV{Even}) = MV{Even}(imag(a.c1)) # not wrapped?
 
 function Base.show(io::IO, a::MV)
-    res = if iseven(a)
-        (iszero(real(a.c1)) ? "" : " + $(real(a.c1))") *
-        (iszero(imag(a.c1)) ? "" : " + $(imag(a.c1)) I2")
+    parts = if iseven(a)
+        vcat(string_parts(real(a.c1)), string_parts(imag(a.c1), "I2"))
     else  # isodd(a)
-        (iszero(real(a.c1)) ? "" : " + $(real(a.c1)) e1") *
-        (iszero(imag(a.c1)) ? "" : " + $(imag(a.c1)) e2")
+        vcat(string_parts(real(a.c1), "e1"), string_parts(imag(a.c1), "e2"))
     end
-    res = isempty(res) ? "0.0" : res[4:end]
-    return print(io, res)
+    return print(io, join(parts, " + "))
 end
 
 # Unary negation.
@@ -63,6 +60,8 @@ Base.:(-)(a::MV{Even}, x::Real) = MV{Even}(a.c1 - x)
 # Multiplication with scalars.
 Base.:(*)(x::Real, a::MV{P}) where {P} = MV{P}(x * a.c1)
 Base.:(*)(a::MV{P}, x::Real) where {P} = MV{P}(a.c1 * x)
+
+# TODO division
 
 """
     reverse(a::MultiVector)
@@ -97,11 +96,8 @@ function GADraft.project(a::MV{Odd}, grade::Integer)
 end
 
 GADraft.scalar(a::MV{Even}) = real(a.c1)
-GADraft.scalar(a::MV{Odd}) = zero(_scalar_T(a))
 GADraft.scalar(a::MV{Even}, b::MV{Even}) = real(a.c1 * b.c1)
 GADraft.scalar(a::MV{Odd}, b::MV{Odd}) = real(conj(a.c1) * b.c1)
-# Catches Even * Odd and Odd * Even.
-GADraft.scalar(a::MV, b::MV) = zero(promote_type(_scalar_T(a), _scalar_T(b)))
 
 # Default basis uses Float64.
 const e1 = MV{Odd,Float64}(1.0)
