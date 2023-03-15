@@ -11,7 +11,13 @@ Base.:(-)(a::Even,num::Number) = (-num) + a
 Base.:(*)(a::Even,num::Number) = num * a
 Base.:(*)(a::Odd,num::Number) = num * a
 
+
+#Division by a real
+Base.:(/)(a::Even,num::Number) = (1/num)*a
+Base.:(/)(a::Odd,num::Number) = (1/num)*a
+
+
 #Projection
-tr(a::Odd) = 0
-dot(a::Even,b::Odd) = 0
-dot(a::Odd,b::Even) = 0
+LinearAlgebra.tr(a::Odd) = 0
+LinearAlgebra.dot(a::Even,b::Odd) = 0
+LinearAlgebra.dot(a::Odd,b::Even) = 0

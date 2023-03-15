@@ -30,7 +30,7 @@ end
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a.w,-a.x,-a.y,-a.z)
 Base.:(-)(a::Odd) = Odd(-a.w,-a.x,-a.y,-a.z)
-Base.:(+)(a::Even,b::Even) = EEven(a.w + b.w, a.x + b.x, a.y + b.y, a.z + b.z)
+Base.:(+)(a::Even,b::Even) = Even(a.w + b.w, a.x + b.x, a.y + b.y, a.z + b.z)
 Base.:(+)(a::Odd,b::Odd) = Odd(a.w + b.w, a.x + b.x, a.y + b.y, a.z + b.z)
 Base.:(-)(a::Even,b::Even) = Even(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z)
 Base.:(-)(a::Odd,b::Odd) = Odd(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z)
@@ -73,11 +73,6 @@ function Base.:(*)(a::Odd, b::Odd)
             -a.w*b.y - a.y*b.w - a.z*b.x + a.x*b.z,
             -a.w*b.z - a.z*b.w - a.x*b.y + a.y*b.x )
 end
-
-
-#Division by a real
-Base.:(/)(a::Even,num::Number) = (1/num)*a
-Base.:(/)(a::Odd,num::Number) = (1/num)*a
 
 
 #Reverse

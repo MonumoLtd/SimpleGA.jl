@@ -5,11 +5,11 @@ The core mirrors much of the GA code structure.
 For completeness we have defined a division operation for quaternions as they are a division algebra.
 =#
 
+using LinearAlgebra
+
 import ..project
 import ..expb
-import LinearAlgebra.norm
-import LinearAlgebra.dot
-import Base.show
+
 
 export real_part, imag_part, expb, Quaternion
 
@@ -27,8 +27,8 @@ end
 Base.:(-)(a::Quaternion) = Quaternion(-a.w, -a.x, -a.y, -a.z)
 Base.:(+)(a::Quaternion, b::Quaternion) = Quaternion(a.w + b.w, a.x + b.x, a.y + b.y, a.z + b.z)
 Base.:(-)(a::Quaternion, b::Quaternion) = Quaternion(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z)
-Base.:(+)(x::Real, a::Quaternion) = Quaternion(x + a.w, a.x, a.y, a.z)
-Base.:(-)(x::Real, a::Quaternion) = Quaternion(x - a.w, -a.x, -a.y, -a.z)
+Base.:(+)(x::Number, a::Quaternion) = Quaternion(x + a.w, a.x, a.y, a.z)
+Base.:(-)(x::Number, a::Quaternion) = Quaternion(x - a.w, -a.x, -a.y, -a.z)
 Base.:(+)(a::Quaternion, x::Real) = Quaternion(a.w + x, a.x, a.y, a.z)
 Base.:(-)(a::Quaternion, x::Real) = Quaternion(a.w - x, a.x, a.y, a.z)
 
@@ -47,14 +47,14 @@ end
 
 Base.:(/)(a::Quaternion, x::Real) = (1/x)*a
 Base.:(/)(a::Quaternion, b::Quaternion) = a*conj(b) / dot(b,conj(b))
-norm(a::Quaternion) = sqrt(a.w^2+a.x^2+a.y^2+a.z^2)
+LinearAlgebra.norm(a::Quaternion) = sqrt(a.w^2+a.x^2+a.y^2+a.z^2)
 
 #Reverse
 Base.conj(a::Quaternion) = Quaternion(a.w, -a.x, -a.y, -a.z)
 
 
 #Projection operations
-dot(a::Quaternion, b::Quaternion) = a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z
+LinearAlgebra.dot(a::Quaternion, b::Quaternion) = a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z
 Base.real(a::Quaternion) = a.w
 real_part(a::Quaternion) = Quaternion(a.w,zero(a.w),zero(a.w),zero(a.w))
 imag_part(a::Quaternion) = Quaternion(zero(a.w),a.x,a.y,a.z)

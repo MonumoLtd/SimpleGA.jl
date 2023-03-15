@@ -4,11 +4,10 @@ Core code for the implementation of GA(2,0)
 Underlying representation is with complex numbers, so essentially a wrapper for Julia's internal ComplexF{T} formats.
 =#
 
+
+
 import ..project
 import ..expb
-import LinearAlgebra.tr
-import LinearAlgebra.dot
-import LinearAlgebra.adjoint
 
 
 struct Even{T<:Real} <: Number
@@ -20,6 +19,8 @@ struct Odd{T<:Real} <: Number
     c1::Complex{T}
 end
 
+#Base.convert(T,a::Even) = Even{T}(convert(Complex{T},a.c1))
+#Base.convert(T,a::Odd) = Odd(convert(T,a.c1))
 
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a)
@@ -45,24 +46,20 @@ Base.:(*)(a::Odd, b::Even) = Odd(a.c1*b.c1)
 Base.:(*)(a::Odd, b::Odd) = Even(conj(a.c1)*b.c1)    
 
 
-#Division by a real
-Base.:(/)(a::Even,num::Number) = Even((1/num)*a.c1)
-Base.:(/)(a::Odd,num::Number) = Odd((1/num)*a.c1)
-
 #Allow this here as complex numbers are a division algebra.
 Base.:(/)(a::Even,b::Even) = Even(a.c1/b.c1)
 
 
 #Reverse
-adjoint(a::Even) = Even(conj(a.c1))
-adjoint(a::Odd) = a
+LinearAlgebra.adjoint(a::Even) = Even(conj(a.c1))
+LinearAlgebra.adjoint(a::Odd) = a
 
 #Grade and projection
 function project(a::Even,n::Integer)
     if (n==0)
-        return Even(real(a.c1))
+        return Even((a.c1+conj(a.c1))/2)
     elseif (n==2)
-        return Even(imag(a.c1)*im )
+        return Even((a.c1-conj(a.c1))/2 )
     else
         return Even(zero(a.c1))
     end
@@ -76,9 +73,9 @@ function project(a::Odd,n::Integer)
     end
 end
 
-tr(a::Even) = real(a.c1)
-dot(a::Even, b::Even) = real(a.c1*b.c1)    
-dot(a::Odd, b::Odd) = real(conj(a.c1)*b.c1)
+LinearAlgebra.tr(a::Even) = real(a.c1)
+LinearAlgebra.dot(a::Even, b::Even) = real(a.c1*b.c1)    
+LinearAlgebra.dot(a::Odd, b::Odd) = real(conj(a.c1)*b.c1)
 
 
 #Exponentiation

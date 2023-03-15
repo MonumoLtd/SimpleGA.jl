@@ -76,11 +76,6 @@ function Base.:(*)(a::Odd, b::Odd)
 end
 
 
-#Division by a real
-Base.:(/)(a::Even,num::Number) = (1/num)*a
-Base.:(/)(a::Odd,num::Number) = (1/num)*a
-
-
 #Reverse
 adjoint(a::Even) = Even(a.c4, -a.c2, -a.c3, a.c1)
 adjoint(a::Odd) = Odd(conj(a.c1), conj(a.c3), conj(a.c2), conj(a.c4))
@@ -88,12 +83,13 @@ adjoint(a::Odd) = Odd(conj(a.c1), conj(a.c3), conj(a.c2), conj(a.c4))
 
 #Grade and projection
 function project(a::Even,n::Integer)
+    tra = (a.c1+a.c4)/2
     if (n==0)
-        return Even((real(a.c1+a.c4))/2, 0, 0, (real(a.c1+a.c4))/2)
+        return Even((tra+conj(tra))/2, zero(a.c1), zero(a.c1), (tra+conj(tra))/2)
     elseif (n==2)
         return Even((a.c1-a.c4)/2, a.c2, a.c3, (a.c4-a.c1)/2 )
     elseif (n==4)
-        return Even((imag(a.c1+a.c4)*im)/2, 0, 0, imag(a.c1+a.c4)*im)/2
+        return Even((tra-conj(tra))/2, zero(a.c1), zero(a.c1), (tra-conj(tra))/2)
     else
         return Even(zero(a.c1), zero(a.c1), zero(a.c1), zero(a.c1))
     end
@@ -101,9 +97,9 @@ end
 
 function project(a::Odd,n::Integer)
     if (n==1)
-        return Odd(real(a.c1), (a.c2 + conj(a.c3))/2, (a.c3+ conj(a.c2))/2 , real(a.c4))
+        return Odd((a.c1+conj(a.c1))/2, (a.c2+conj(a.c3))/2, (a.c3+conj(a.c2))/2 , (a.c4+conj(a.c4))/2)
     elseif (n==3)
-        return Odd(imag(a.c1)*im, (a.c2 - conj(a.c3))/2, (a.c3 - conj(a.c2))/2 , imag(a.c4)*im)
+        return Odd((a.c1-conj(a.c1))/2, (a.c2-conj(a.c3))/2, (a.c3-conj(a.c2))/2 , (a.c4-conj(a.c4))/2)
     else
         return Odd(zero(a.c1), zero(a.c1), zero(a.c1), zero(a.c1))
     end
