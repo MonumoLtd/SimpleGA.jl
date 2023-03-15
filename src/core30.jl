@@ -1,166 +1,124 @@
-#=
+ #=
 Core code for the implementation of GA(3,0).
 Underlying representation is with quaternions, though in this case we do not use the quaternion code as that would put in an unnecesary layer of indirection.
 Instead we just use the hard-coded version of quaternions multiplication.
 =#
 
-import Base.:*
-import Base.:+
-import Base.:-
-import Base.:/
-import Base.exp
+
+import ..project
+import ..expb
 import LinearAlgebra.tr
 import LinearAlgebra.dot
 import LinearAlgebra.adjoint
-import ..project
-import ..expb
 
-struct Even
-    w::Float64
-    x::Float64
-    y::Float64
-    z::Float64
+
+struct Even{T<:Real} <: Number
+    w::T
+    x::T
+    y::T
+    z::T
 end
 
-struct Odd
-    w::Float64
-    x::Float64
-    y::Float64
-    z::Float64
+struct Odd{T<:Real} <: Number
+    w::T
+    x::T
+    y::T
+    z::T
 end
+
 
 #Addition / subtraction
-function -(a::Even)
-    Even(-a.w,-a.x,-a.y,-a.z)
-end
+Base.:(-)(a::Even) = Even(-a.w,-a.x,-a.y,-a.z)
+Base.:(-)(a::Odd) = Odd(-a.w,-a.x,-a.y,-a.z)
+Base.:(+)(a::Even,b::Even) = EEven(a.w + b.w, a.x + b.x, a.y + b.y, a.z + b.z)
+Base.:(+)(a::Odd,b::Odd) = Odd(a.w + b.w, a.x + b.x, a.y + b.y, a.z + b.z)
+Base.:(-)(a::Even,b::Even) = Even(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z)
+Base.:(-)(a::Odd,b::Odd) = Odd(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z)
 
-function -(a::Odd)
-    Odd(-a.w,-a.x,-a.y,-a.z)
-end
-
-function +(a::Even, b::Even)
-    Even(a.w + b.w, a.x + b.x, a.y + b.y, a.z + b.z)
-end
-
-function (-)(a::Even,b::Even)
-    Even(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z)
-end
-
-function +(a::Odd, b::Odd)
-    Odd(a.w + b.w, a.x + b.x, a.y + b.y, a.z + b.z)
-end
-
-function -(a::Odd, b::Odd)
-    Odd(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z)
-end
 
 #Scalar addition / subtraction. Other cases are in GAcommon
-function +(num::Number,a::Even)
-    Even(a.w+convert(Float64,num), a.x, a.y, a.z)
-end
-
-function -(num::Number,a::Even)
-    Even(-a.w+convert(Float64,num), -a.x, -a.y, -a.z)
-end
+#Relies on Julia's promotion rules to do the sensible thing.
+Base.:(+)(num::Number,a::Even) = Even(a.w+num, a.x, a.y, a.z)
+Base.:(-)(num::Number,a::Even) = Even(-a.w+num, -a.x, -a.y, -a.z)
+   
 
 #Multiplication
-function *(num::Number,a::Even)
-    num = convert(Float64,num)
-    Even(num*a.w, num*a.x, num*a.y, num*a.z)
-end
+Base.:(*)(num::Number,a::Even) = Even(num*a.w, num*a.x, num*a.y, num*a.z)
+Base.:(*)(num::Number,a::Odd) = Odd(num*a.w, num*a.x, num*a.y, num*a.z)
 
-function *(num::Number,a::Odd)
-    num = convert(Float64,num)
-    Odd(num*a.w, num*a.x, num*a.y, num*a.z)
-end
-
-function *(a::Even, b::Even)
+function Base.:(*)(a::Even, b::Even)
     Even(a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z,
              a.w*b.x + a.x*b.w + a.y*b.z - a.z*b.y,
              a.w*b.y + a.y*b.w + a.z*b.x - a.x*b.z,
              a.w*b.z + a.z*b.w + a.x*b.y - a.y*b.x )
 end
 
-function *(a::Even, b::Odd)
+function Base.:(*)(a::Even, b::Odd)
     Odd(a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z,
             a.w*b.x + a.x*b.w + a.y*b.z - a.z*b.y,
             a.w*b.y + a.y*b.w + a.z*b.x - a.x*b.z,
             a.w*b.z + a.z*b.w + a.x*b.y - a.y*b.x )
 end
 
-function *(a::Odd, b::Even)
+function Base.:(*)(a::Odd, b::Even)
     Odd(a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z,
             a.w*b.x + a.x*b.w + a.y*b.z - a.z*b.y,
             a.w*b.y + a.y*b.w + a.z*b.x - a.x*b.z,
             a.w*b.z + a.z*b.w + a.x*b.y - a.y*b.x )
 end
 
-function *(a::Odd, b::Odd)
+function Base.:(*)(a::Odd, b::Odd)
     Even(-a.w*b.w + a.x*b.x + a.y*b.y + a.z*b.z,
             -a.w*b.x - a.x*b.w - a.y*b.z + a.z*b.y,
             -a.w*b.y - a.y*b.w - a.z*b.x + a.x*b.z,
             -a.w*b.z - a.z*b.w - a.x*b.y + a.y*b.x )
 end
 
-#Division by a real
-function /(a::Even,num::Number)
-    num = convert(Float64,1/num)
-    Even(num*a.w, num*a.x, num*a.y, num*a.z)
-end
 
-function /(a::Odd,num::Number)
-    num = convert(Float64,1/num)
-    Odd(num*a.w, num*a.x, num*a.y, num*a.z)
-end
+#Division by a real
+Base.:(/)(a::Even,num::Number) = (1/num)*a
+Base.:(/)(a::Odd,num::Number) = (1/num)*a
+
 
 #Reverse
-function adjoint(a::Even)
-    Even(a.w,-a.x, -a.y, -a.z)
-end
+adjoint(a::Even) = Even(a.w,-a.x, -a.y, -a.z)
+adjoint(a::Odd) = Odd(-a.w,a.x, a.y, a.z)
 
-function adjoint(a::Odd)
-    Odd(-a.w,a.x, a.y, a.z)
-end
 
 #Grade and projection
 function project(a::Even,n::Integer)
     if (n == 0)
-        return Even(a.w,0,0,0)
+        return Even(a.w,zero(a.w),zero(a.w),zero(a.w))
     elseif (n == 2)
-        return Even(0,a.x,a.y,a.z)
+        return Even(zero(a.w),a.x,a.y,a.z)
     else
-        return Even(0,0,0,0)
+        return Even(zero(a.w),zero(a.w),zero(a.w),zero(a.w))
     end
 end
+
 
 function project(a::Odd,n::Integer)
     if (n == 3)
-        return Odd(a.w,0,0,0)
+        return Odd(a.w,zero(a.w),zero(a.w),zero(a.w))
     elseif (n == 1)
-        return Odd(0,a.x,a.y,a.z)
+        return Odd(zero(a.w),a.x,a.y,a.z)
     else
-        return Odd(0,0,0,0)
+        return Odd(zero(a.w),zero(a.w),zero(a.w),zero(a.w))
     end
 end
 
-function tr(a::Even)
-    a.w
-end
 
-function dot(a::Even, b::Even)
-    a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z
-end
+tr(a::Even) = a.w
+dot(a::Even, b::Even) = a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z
+dot(a::Odd, b::Odd) = -a.w*b.w + a.x*b.x + a.y*b.y + a.z*b.z
 
-function dot(a::Odd, b::Odd)
-    -a.w*b.w + a.x*b.x + a.y*b.y + a.z*b.z
-end
 
 #Exponentiation
 function expb(a::Even)
     a = project(a,2)
     nrm = sqrt(dot(a,-a))
     if iszero(nrm)
-        return Even(one(nrm),0,0,0)
+        return Even(one(a.w),zero(a.w),zero(a.w),zero(a.w))
     else
         return cos(nrm) + sin(nrm)*a/nrm
     end

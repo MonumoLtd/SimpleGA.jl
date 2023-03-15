@@ -4,14 +4,72 @@
 Module representing the `GA(3, 0)` geometric algebra.
 """
 module GA30
+using LinearAlgebra
 
-export e1, e2, e3, I3
+include("core30.jl")
+include("common.jl")
 
-using GADraft
-using GADraft: Quaternion, string_parts
 
-# Note: we represent GA(3, 0) with a quaternion for each of the even and odd parts.
-#   This does not add any overhead, since the compiler will elide the nested structures.
+
+const e1 = Odd{Float64}(0,1,0,0)
+const e2 = Odd{Float64}(0,0,1,0)
+const e3 = Odd{Float64}(0,0,0,1)
+const I3 = Odd{Float64}(1,0,0,0)
+
+bas30 = [e1,e2,e3]
+
+
+function basis30(T)
+    return [Odd{T}(0,1,0,0), Odd{T}(0,0,1,0), Odd{T}(0,0,0,1) ]
+end
+export bas30, basis30
+
+
+#Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
+approxzero(x::Real) = isapprox(1+x,1.0)
+
+
+function mvtype(a::Even)
+    res=""
+    tp = approxzero(a.w) ? "" : " + " * string(a.w)
+    res *= tp
+    tp = approxzero(a.x) ? "" : " + " * string(-a.x) * "e2e3"
+    res *= tp
+    tp = approxzero(a.y) ? "" : " + " * string(-a.y) * "e3e1"
+    res *= tp
+    tp = approxzero(a.z) ? "" : " + " * string(-a.z) * "e1e2"
+    res *= tp
+    if (length(res) == 0)
+        res = "0.0"
+    else
+        res = chop(res,head=3,tail=0)
+    end
+    return res
+end
+
+function mvtype(a::Odd)
+    res=""
+    tp = approxzero(a.x) ? "" : " + " * string(a.x) * "e1"
+    res *= tp
+    tp = approxzero(a.y) ? "" : " + " * string(a.y) * "e2"
+    res *= tp
+    tp = approxzero(a.z) ? "" : " + " * string(a.z) * "e3"
+    res *= tp
+    tp = approxzero(a.w) ? "" : " + " * string(a.w) * "e123"
+    res *= tp
+    if (length(res) == 0)
+        res = "0.0"
+    else
+        res = chop(res,head=3,tail=0)
+    end
+    return res
+end
+
+include("show.jl")
+
+end
+
+#=
 struct MV{P,T} <: MultiVector{P,T}
     q::Quaternion{T}
 end
@@ -113,3 +171,4 @@ const e3 = MV{Odd,Float64}(0.0, 0.0, 0.0, 1.0)
 const I3 = MV{Odd,Float64}(1.0, 0.0, 0.0, 0.0)
 
 end  # module GA30
+=#

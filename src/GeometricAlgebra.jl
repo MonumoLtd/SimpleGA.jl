@@ -15,37 +15,23 @@ function inject(xs,ys)
 end
 
 
-#=
-#Quaternion module
-
-module Quaternions
-include("quaternion.jl")
-export quat, real_part, imag_part, expb, qzero, Quaternion
-
-end #module
-=#
-
-
-# Concrete Geometric algebra modules. Should we export these?
-#export GA20, GA30
-
-
-
 #Each algebra in a separate sub-module.
 
-
+include("quaternion.jl")
+using .Quaternions
 
 include("ga20.jl")
 using .GA20
 
+include("GA30.jl")
+using .GA30
 
 include("sta.jl")
 using .STA
 export bar
 
 #=
-include("GA30.jl")
-using .GA30
+
 
 include("GA40.jl")
 using .GA40
@@ -102,6 +88,8 @@ end
 function basis(T,alg)
     if alg == "GA20" 
         return basis20(T)
+    elseif alg =="GA30"
+        return basis30(T)
     elseif alg =="STA"
         return basisSTA(T)
     end
