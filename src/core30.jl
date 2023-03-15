@@ -7,10 +7,6 @@ Instead we just use the hard-coded version of quaternions multiplication.
 
 import ..project
 import ..expb
-import LinearAlgebra.tr
-import LinearAlgebra.dot
-import LinearAlgebra.adjoint
-
 
 struct Even{T<:Real} <: Number
     w::T
@@ -25,6 +21,9 @@ struct Odd{T<:Real} <: Number
     y::T
     z::T
 end
+
+Base.convert(::Type{Even{T}},a::Even) where {T <: Real} = Even{T}(convert(T,a.w), convert(T,a.x), convert(T,a.y), convert(T,a.z))
+Base.convert(::Type{Odd{T}},a::Odd) where {T <: Real} = Odd{T}(convert(T,a.w), convert(T,a.x), convert(T,a.y), convert(T,a.z))
 
 
 #Addition / subtraction
@@ -76,8 +75,8 @@ end
 
 
 #Reverse
-adjoint(a::Even) = Even(a.w,-a.x, -a.y, -a.z)
-adjoint(a::Odd) = Odd(-a.w,a.x, a.y, a.z)
+LinearAlgebra.adjoint(a::Even) = Even(a.w,-a.x, -a.y, -a.z)
+LinearAlgebra.adjoint(a::Odd) = Odd(-a.w,a.x, a.y, a.z)
 
 
 #Grade and projection
@@ -103,9 +102,9 @@ function project(a::Odd,n::Integer)
 end
 
 
-tr(a::Even) = a.w
-dot(a::Even, b::Even) = a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z
-dot(a::Odd, b::Odd) = -a.w*b.w + a.x*b.x + a.y*b.y + a.z*b.z
+LinearAlgebra.tr(a::Even) = a.w
+LinearAlgebra.dot(a::Even, b::Even) = a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z
+LinearAlgebra.dot(a::Odd, b::Odd) = -a.w*b.w + a.x*b.x + a.y*b.y + a.z*b.z
 
 
 #Exponentiation
@@ -119,7 +118,7 @@ function expb(a::Even)
     end
 end
 
-function exp(a::Even)
+function Base.exp(a::Even)
     R = expb(a)
     if iszero(a.w)
         return R

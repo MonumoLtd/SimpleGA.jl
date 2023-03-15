@@ -7,10 +7,37 @@ module GA44
 
 using LinearAlgebra
 
-include("GA44Core.jl")
-import Base.show
+include("core44.jl")
 
+# Constructors
+const e1 = Multivector{Float64}([parse(UInt8, "00000001", base=2)],[1.0])
+const e2 = Multivector{Float64}([parse(UInt8, "00000111", base=2)],[1.0])
+const e3 = Multivector{Float64}([parse(UInt8, "00011111", base=2)],[1.0])
+const e4 = Multivector{Float64}([parse(UInt8, "01111111", base=2)],[1.0])
+const f1 = Multivector{Float64}([parse(UInt8, "00000010", base=2)],[1.0])
+const f2 = Multivector{Float64}([parse(UInt8, "00001011", base=2)],[1.0])
+const f3 = Multivector{Float64}([parse(UInt8, "00101111", base=2)],[1.0])
+const f4 = Multivector{Float64}([parse(UInt8, "10111111", base=2)],[1.0])
 
+bas44 = [e1,e2,e3,e4,f1,f2,f3,f4]
+
+function basis44(T)
+    e1 = Multivector{T}([parse(UInt8, "00000001", base=2)],[1.0])
+    e2 = Multivector{T}([parse(UInt8, "00000111", base=2)],[1.0])
+    e3 = Multivector{T}([parse(UInt8, "00011111", base=2)],[1.0])
+    e4 = Multivector{T}([parse(UInt8, "01111111", base=2)],[1.0])
+    f1 = Multivector{T}([parse(UInt8, "00000010", base=2)],[1.0])
+    f2 = Multivector{T}([parse(UInt8, "00001011", base=2)],[1.0])
+    f3 = Multivector{T}([parse(UInt8, "00101111", base=2)],[1.0])
+    f4 = Multivector{T}([parse(UInt8, "10111111", base=2)],[1.0])
+    return [e1,e2,e3,e4,f1,f2,f3,f4]
+end
+
+export bas44, construct44, basis44
+
+#Additional functions
+
+#Helpful to have a blade struct for typing.
 struct Blade
     bas::UInt8
     val::Number
@@ -26,22 +53,6 @@ function bldless(x::Blade,y::Blade)
         return isless(x.bas,y.bas)
     end
 end
-
-
-# Constructors
-const e1 = Multivector([parse(UInt8, "00000001", base=2)],[1.0])
-const e2 = Multivector([parse(UInt8, "00000111", base=2)],[1.0])
-const e3 = Multivector([parse(UInt8, "00011111", base=2)],[1.0])
-const e4 = Multivector([parse(UInt8, "01111111", base=2)],[1.0])
-const f1 = Multivector([parse(UInt8, "00000010", base=2)],[1.0])
-const f2 = Multivector([parse(UInt8, "00001011", base=2)],[1.0])
-const f3 = Multivector([parse(UInt8, "00101111", base=2)],[1.0])
-const f4 = Multivector([parse(UInt8, "10111111", base=2)],[1.0])
-
-bas44 = [e1,e2,e3,e4,f1,f2,f3,f4]
-export bas44, construct44
-
-#Additional functions
 
 #Removes zeros from a multivector.
 #Used for pretty typing. Can be used (with care) to optimise.
@@ -111,10 +122,7 @@ function mvtype(mv::Multivector)
     return res
 end
 
-function Base.show(io::IO, mv::Multivector)
-    print(mvtype(mv))
-end
-
+Base.show(io::IO, ::MIME"text/plain", mv::Multivector) = print(io, "", mvtype(mv))
 
 function Base.show(io::IO, ::MIME"text/plain", mvs::Vector{Multivector})
     n= length(mvs)

@@ -19,8 +19,8 @@ struct Odd{T<:Real} <: Number
     c1::Complex{T}
 end
 
-#Base.convert(T,a::Even) = Even{T}(convert(Complex{T},a.c1))
-#Base.convert(T,a::Odd) = Odd(convert(T,a.c1))
+Base.convert(::Type{Even{T}},a::Even) where {T <: Real} = Even{T}(convert(Complex{T},a.c1))
+Base.convert(::Type{Odd{T}},a::Odd) where {T <: Real} = Odd{T}(convert(Complex{T},a.c1))
 
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a)

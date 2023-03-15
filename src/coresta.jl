@@ -7,9 +7,6 @@ Makes use of Julia's internal ComplexF64 format.
 
 import ..project
 import ..expb
-import LinearAlgebra.tr
-import LinearAlgebra.dot
-import LinearAlgebra.adjoint
 
 
 struct Even{T<:Real} <: Number
@@ -26,6 +23,13 @@ struct Odd{T<:Real} <: Number
     c4::Complex{T}
 end
 
+function Base.convert(::Type{Even{T}},a::Even) where {T <: Real} 
+    return Even{T}(convert(Complex{T},a.c1), convert(Complex{T},a.c2), convert(Complex{T},a.c3), convert(Complex{T},a.c4))
+end
+
+function Base.convert(::Type{Odd{T}},a::Odd) where {T <: Real} 
+    return Odd{T}(convert(Complex{T},a.c1), convert(Complex{T},a.c2), convert(Complex{T},a.c3), convert(Complex{T},a.c4))
+end
 
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a.c1,-a.c2,-a.c3,-a.c4)
@@ -77,8 +81,8 @@ end
 
 
 #Reverse
-adjoint(a::Even) = Even(a.c4, -a.c2, -a.c3, a.c1)
-adjoint(a::Odd) = Odd(conj(a.c1), conj(a.c3), conj(a.c2), conj(a.c4))
+LinearAlgebra.adjoint(a::Even) = Even(a.c4, -a.c2, -a.c3, a.c1)
+LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.c1), conj(a.c3), conj(a.c2), conj(a.c4))
 
 
 #Grade and projection
@@ -106,9 +110,9 @@ function project(a::Odd,n::Integer)
 end
 
 
-tr(a::Even) = (real(a.c1+a.c4))/2
-dot(a::Even, b::Even) = real(a.c1*b.c1 + a.c2*b.c3 + a.c4*b.c4 + a.c3*b.c2)/2    
-dot(a::Odd, b::Odd) = real(a.c1*conj(b.c4) - a.c2*conj(b.c2) + a.c4*conj(b.c1) - a.c3*conj(b.c3))/2   
+LinearAlgebra.tr(a::Even) = (real(a.c1+a.c4))/2
+LinearAlgebra.dot(a::Even, b::Even) = real(a.c1*b.c1 + a.c2*b.c3 + a.c4*b.c4 + a.c3*b.c2)/2    
+LinearAlgebra.dot(a::Odd, b::Odd) = real(a.c1*conj(b.c4) - a.c2*conj(b.c2) + a.c4*conj(b.c1) - a.c3*conj(b.c3))/2   
 
 
 #Exponentiation
@@ -123,7 +127,7 @@ function expb(a::Even)
     end
 end
 
-function exp(a::Even)
+function Base.exp(a::Even)
     R = expb(a)
     fct = (a.c1+a.c4)/2
     if iszero(fct)

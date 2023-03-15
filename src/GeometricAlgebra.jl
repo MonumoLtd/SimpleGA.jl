@@ -1,8 +1,6 @@
-
 using LinearAlgebra
 
 module GeometricAlgebra
-
 
 # Core functions.
 export project, expb, inject, basis
@@ -30,6 +28,12 @@ include("sta.jl")
 using .STA
 export bar
 
+
+include("GA44.jl")
+using .GA44
+export construct44
+
+
 #=
 
 
@@ -50,10 +54,6 @@ using .GA33
 
 include("GA24.jl")
 using .GA24
-
-include("GA44.jl")
-using .GA44
-export construct44
 
 include("GA64.jl")
 using .GA64
@@ -92,12 +92,12 @@ function basis(T,alg)
         return basis30(T)
     elseif alg =="STA"
         return basisSTA(T)
+    elseif alg =="GA44"
+        return basis44(T)
     end
 end
 
-#=
 include("embed.jl")
 export embed
-=#
 
 end #module
