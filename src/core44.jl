@@ -35,6 +35,7 @@ function construct44(T,bs,vs)
     end
 end
 
+Base.convert(::Type{Multivector{T}},a::Multivector) where {T <: Number} = Multivector{T}(a.bas, convert.(T,a.val))
 
 #Addition / subtraction
 Base.:(-)(mv::Multivector) = Multivector(mv.bas,-mv.val)
