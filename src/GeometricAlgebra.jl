@@ -28,17 +28,13 @@ include("sta.jl")
 using .STA
 export bar
 
-
-include("GA44.jl")
+include("ga44.jl")
 using .GA44
 export construct44
 
-
-#=
-
-
-include("GA40.jl")
+include("ga40.jl")
 using .GA40
+
 
 include("PGA.jl")
 using .PGA
@@ -47,7 +43,7 @@ export pdual
 include("CGA.jl")
 using .CGA
 
-
+#=
 include("GA33.jl")
 using .GA33
 

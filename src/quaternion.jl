@@ -20,21 +20,28 @@ struct Quaternion{T<:Real}
     z::T
 end
 
-function Base.zero(::Type{Quaternion{T}}) where {T}
-    return Quaternion{T}(zero(T), zero(T), zero(T), zero(T))
+Quaternion(w::Real) = Quaternion{typeof(w)}(w,zero(w),zero(w),zero(w))
+Quaternion{T}(w::Real)  where T<:Real = Quaternion(convert(T,w))
+Quaternion(w,x,y,z) = Quaternion{Float64}(w,x,y,z)
+
+function Base.convert(::Type{Quaternion{T}}, a::Quaternion) where {T <: Real} 
+    return Quaternion{T}(convert(T,a.w), convert(T,a.x), convert(T,a.y), convert(T, a.z))
 end
 
+Base.zero(a::Quaternion) = Quaternion(zero(a.w))
+Base.one(a::Quaternion) = Quaternion(one(a.w))
+   
 Base.:(-)(a::Quaternion) = Quaternion(-a.w, -a.x, -a.y, -a.z)
 Base.:(+)(a::Quaternion, b::Quaternion) = Quaternion(a.w + b.w, a.x + b.x, a.y + b.y, a.z + b.z)
 Base.:(-)(a::Quaternion, b::Quaternion) = Quaternion(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z)
 Base.:(+)(x::Number, a::Quaternion) = Quaternion(x + a.w, a.x, a.y, a.z)
 Base.:(-)(x::Number, a::Quaternion) = Quaternion(x - a.w, -a.x, -a.y, -a.z)
-Base.:(+)(a::Quaternion, x::Real) = Quaternion(a.w + x, a.x, a.y, a.z)
-Base.:(-)(a::Quaternion, x::Real) = Quaternion(a.w - x, a.x, a.y, a.z)
+Base.:(+)(a::Quaternion, x::Number) = Quaternion(a.w + x, a.x, a.y, a.z)
+Base.:(-)(a::Quaternion, x::Number) = Quaternion(a.w - x, a.x, a.y, a.z)
 
 #Multiplication
-Base.:(*)(x::Real, a::Quaternion) = Quaternion(x * a.w, x * a.x, x * a.y, x * a.z)
-Base.:(*)(a::Quaternion, x::Real) = x*a
+Base.:(*)(x::Number, a::Quaternion) = Quaternion(x * a.w, x * a.x, x * a.y, x * a.z)
+Base.:(*)(a::Quaternion, x::Number) = x*a
 
 function Base.:(*)(a::Quaternion, b::Quaternion)
     return Quaternion(
@@ -45,7 +52,7 @@ function Base.:(*)(a::Quaternion, b::Quaternion)
     )
 end
 
-Base.:(/)(a::Quaternion, x::Real) = (1/x)*a
+Base.:(/)(a::Quaternion, x::Number) = (1/x)*a
 Base.:(/)(a::Quaternion, b::Quaternion) = a*conj(b) / dot(b,conj(b))
 LinearAlgebra.norm(a::Quaternion) = sqrt(a.w^2+a.x^2+a.y^2+a.z^2)
 
@@ -70,7 +77,7 @@ function expb(a::Quaternion)
     end
 end
 
-function exp(a::Quaternion)
+function Base.exp(a::Quaternion)
     R = expb(a)
     if iszero(a.w)
         return R

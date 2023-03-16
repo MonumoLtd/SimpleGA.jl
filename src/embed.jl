@@ -47,12 +47,11 @@ function embed(a::STA.Odd)
     return inject(oddlist,bas)
 end
 
-#=
-
-
 function embed(a::GA40.Even)
-    (e1,e2,e3,e4) = (GA.GA40.e1, GA.GA40.e2, GA.GA40.e3, GA.GA40.e4)
-    (E1,E2,E3,E4) = (GA.GA44.e1, GA.GA44.e2, GA.GA44.e3, GA.GA44.e4)
+    bas40 = basis("GA40")
+    (e1,e2,e3,e4) = (bas40[1], bas40[2], bas40[3], bas40[4])
+    bas44 = basis("GA44")
+    (E1,E2,E3,E4) = (bas44[1], bas44[2], bas44[3], bas44[4])
     b40 = [-e1*e2, -e1*e3, -e1*e4, -e2*e3, -e2*e4, -e3*e4, e1*e2*e3*e4]
     b44 = [E1*E2, E1*E3, E1*E4, E2*E3, E2*E4, E3*E4, E1*E2*E3*E4]
     res = tr(a)
@@ -63,8 +62,10 @@ function embed(a::GA40.Even)
 end
 
 function embed(a::GA40.Odd)
-    (e1,e2,e3,e4) = (GA.GA40.e1, GA.GA40.e2, GA.GA40.e3, GA.GA40.e4)
-    (E1,E2,E3,E4) = (GA.GA44.e1, GA.GA44.e2, GA.GA44.e3, GA.GA44.e4)
+    bas40 = basis("GA40")
+    (e1,e2,e3,e4) = (bas40[1], bas40[2], bas40[3], bas40[4])
+    bas44 = basis("GA44")
+    (E1,E2,E3,E4) = (bas44[1], bas44[2], bas44[3], bas44[4])
     b40 = [e1, e2, e3, e4, -e2*e3*e4, -e1*e3*e4, -e1*e2*e4, -e1*e2*e3]
     b44 = [E1, E2, E3, E4, E2*E3*E4, E1*E3*E4, E1*E2*E4, E1*E2*E3 ]
     res = 0.0*E1
@@ -74,9 +75,10 @@ function embed(a::GA40.Odd)
     return res
 end
 
-   
+ 
 function embed(a::PGA.Even)
-    (E1,E2,E3,E0) = (GA.GA44.e1, GA.GA44.e2, GA.GA44.e3, GA.GA44.e4+GA.GA44.f4)
+    bas44 = basis("GA44")
+    (E1,E2,E3,E0) = (bas44[1], bas44[2], bas44[3], bas44[4]+bas44[8])
     I3 = E1*E2*E3
     evenlist = [a.q.w, -a.q.z, - a.q.x, -a.q.y, -a.n.x, -a.n.y, -a.n.z, -a.n.w]
     bas = [1, E1*E2, E2*E3, E3*E1, E0*E1, E0*E2, E0*E3, E0*I3 ]
@@ -84,7 +86,8 @@ function embed(a::PGA.Even)
 end
 
 function embed(a::PGA.Odd)
-    (E1,E2,E3,E0) = (GA.GA44.e1, GA.GA44.e2, GA.GA44.e3, GA.GA44.e4+GA.GA44.f4)
+    bas44 = basis("GA44")
+    (E1,E2,E3,E0) = (bas44[1], bas44[2], bas44[3], bas44[4]+bas44[8])
     I3 = E1*E2*E3
     oddlist = [a.n.w,-a.q.x,-a.q.y,-a.q.z,a.n.z,a.n.y,a.n.x,-a.q.w]
     bas = [E0, E1, E2, E3, E0*E2*E1, E0*E1*E3, E0*E3*E2, I3]
@@ -93,8 +96,10 @@ end
 
 
 function embed(a::CGA.Even)
-    (e1,e2,e3,e4,f4) = (GA.CGA.e1, GA.CGA.e2, GA.CGA.e3, GA.CGA.e4, GA.CGA.f4 )
-    (E1,E2,E3,E4,F4) = (GA.GA44.e1, GA.GA44.e2, GA.GA44.e3, GA.GA44.e4, GA.GA44.f4)
+    bascga = basis("CGA")
+    (e1,e2,e3,e4,f4) = (bascga[1], bascga[2], bascga[3], bascga[4], bascga[5] )
+    bas44 = basis("GA44")
+    (E1,E2,E3,E4,F4) = (bas44[1], bas44[2], bas44[3], bas44[4], bas44[8])
     i5 = e1*e2*e3*e4*f4
     I5 = E1*E2*E3*E4*F4
     evenbas = [-e1*e2, -e1*e3, -e1*e4, -e2*e3, -e2*e4, -e3*e4, e1*f4, e2*f4, e3*f4, e4*f4, -i5*e1, -i5*e2, -i5*e3, -i5*e4, i5*f4] 
@@ -105,8 +110,10 @@ end
 
 
 function embed(a::CGA.Odd)
-    (e1,e2,e3,e4,f4) = (GA.CGA.e1, GA.CGA.e2, GA.CGA.e3, GA.CGA.e4, GA.CGA.f4 )
-    (E1,E2,E3,E4,F4) = (GA.GA44.e1, GA.GA44.e2, GA.GA44.e3, GA.GA44.e4, GA.GA44.f4)
+    bascga = basis("CGA")
+    (e1,e2,e3,e4,f4) = (bascga[1], bascga[2], bascga[3], bascga[4], bascga[5] )
+    bas44 = basis("GA44")
+    (E1,E2,E3,E4,F4) = (bas44[1], bas44[2], bas44[3], bas44[4], bas44[8])
     i5 = e1*e2*e3*e4*f4
     I5 = E1*E2*E3*E4*F4
     oddbas = [e1,e2,e3,e4,-f4, i5*e1*e2, i5*e1*e3, i5*e1*e4, i5*e2*e3, i5*e2*e4, i5*e3*e4, -i5*e1*f4, -i5*e2*f4, -i5*e3*f4, -i5*e4*f4, -i5 ]
@@ -115,6 +122,7 @@ function embed(a::CGA.Odd)
     return inject(vals,resbas)
 end
 
+#=
 function embed(a::GA33.Even)
     e1 = GA.bas33[1]
     e2 = GA.bas33[2]

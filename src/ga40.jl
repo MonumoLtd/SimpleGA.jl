@@ -1,29 +1,41 @@
+
+module GA40
+
 #=
 Code for GA(4,0). Even and odd elements are stored as quaternion pairs.
 =#
 
-module GA40
+using LinearAlgebra
 
-include("GAcore40.jl")
-include("GAcommon.jl")
-import Base.show
+include("core40.jl")
+include("common.jl")
 
-#Sets tolerance for not displaying results. 
-function approxzero(x::Float64)
-    isapprox(x,0.0; atol = 1e-14)
-end
 
 #Basis
-const e1 = MVodd(Quaternion(0,1,0,0), Quaternion(0,-1,0,0))
-const e2 = MVodd(Quaternion(0,0,1,0), Quaternion(0,0,-1,0))
-const e3 = MVodd(Quaternion(0,0,0,1), Quaternion(0,0,0,-1))
-const e4 = MVodd(Quaternion(1,0,0,0), Quaternion(1,0,0,0))
+const e1 = Odd{Float64}(Quaternion(0,1,0,0), Quaternion(0,-1,0,0))
+const e2 = Odd{Float64}(Quaternion(0,0,1,0), Quaternion(0,0,-1,0))
+const e3 = Odd{Float64}(Quaternion(0,0,0,1), Quaternion(0,0,0,-1))
+const e4 = Odd{Float64}(Quaternion(1,0,0,0), Quaternion(1,0,0,0))
 const E4 = e1*e2*e3*e4
 
 bas40 = [e1,e2,e3,e4]
-export bas40
 
-function mvtype(a::MVeven)
+function basis40(T)
+    e1 = Odd{T}(Quaternion(0,1,0,0), Quaternion(0,-1,0,0))
+    e2 = Odd{T}(Quaternion(0,0,1,0), Quaternion(0,0,-1,0))
+    e3 = Odd{T}(Quaternion(0,0,0,1), Quaternion(0,0,0,-1))
+    e4 = Odd{T}(Quaternion(1,0,0,0), Quaternion(1,0,0,0))
+    return [e1,e2,e3,e4]
+end
+    
+export bas40, basis40
+
+
+#Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
+approxzero(x::Real) = isapprox(1+x,1.0)
+
+
+function mvtype(a::Even)
     res=""
     scl = tr(a)
     tp = approxzero(scl) ? "" : " + " * string(scl)
@@ -58,7 +70,7 @@ function mvtype(a::MVeven)
 end
 
 
-function mvtype(a::MVodd)
+function mvtype(a::Odd)
     res=""
     scl = dot(a,e1)
     tp = approxzero(scl) ? "" : " + " * string(scl) * "e1"
@@ -92,6 +104,6 @@ function mvtype(a::MVodd)
     return res
 end
 
-include("GAshow.jl")
+include("show.jl")
 
 end #Module

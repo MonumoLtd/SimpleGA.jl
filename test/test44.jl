@@ -1,16 +1,18 @@
 #Stand-alone tests of GA(4,4)
 #All other algebras are compared to this.
 
-v1 = inject(rand(8), GA.bas44)
-v2 = inject(rand(8), GA.bas44)
-v3 = inject(rand(8), GA.bas44)
-v4 = inject(rand(8), GA.bas44)
-v5 = inject(rand(8), GA.bas44)
-v6 = inject(rand(8), GA.bas44)
-v7 = inject(rand(8), GA.bas44)
-v8 = inject(rand(8), GA.bas44)
-v9 = inject(rand(8), GA.bas44)
-v10 = inject(rand(8), GA.bas44)
+bas44 = basis("GA44")
+
+v1 = inject(rand(8), bas44)
+v2 = inject(rand(8), bas44)
+v3 = inject(rand(8), bas44)
+v4 = inject(rand(8), bas44)
+v5 = inject(rand(8), bas44)
+v6 = inject(rand(8), bas44)
+v7 = inject(rand(8), bas44)
+v8 = inject(rand(8), bas44)
+v9 = inject(rand(8), bas44)
+v10 = inject(rand(8), bas44)
 
 me1 = v1*v2*v3*v4*v5*v6*v7*v8
 me2 = v1*v2*v3*v4*v5*v6*v9*v10
@@ -46,3 +48,4 @@ R = expb(v1*v2)
 no1 = R*mo1*R'
 no2 = R*mo2*R'
 @test isapprox(dot(mo1,mo2),dot(no1,no2))
+

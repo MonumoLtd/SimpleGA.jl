@@ -1,5 +1,9 @@
 #Test shared across all algebras.
 
+#Addition
+@test isapprox(1.0+me1, me1+1.0)
+@test isapprox(-1.0+me1, me1-1.0)
+
 #Distributivity
 @test isapprox(me1*(me2+me3), me1*me2 + me1*me3)
 @test isapprox(mo1*(me2+me3), mo1*me2 + mo1*me3)
