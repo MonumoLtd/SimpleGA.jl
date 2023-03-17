@@ -1,9 +1,11 @@
+"""
+    GA40
+
+Code for GA(4,0). Even and odd elements are stored as quaternion pairs.
+
+"""
 
 module GA40
-
-#=
-Code for GA(4,0). Even and odd elements are stored as quaternion pairs.
-=#
 
 using LinearAlgebra
 

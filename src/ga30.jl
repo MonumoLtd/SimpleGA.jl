@@ -1,16 +1,18 @@
 """
     GA30
 
-Module representing the `GA(3, 0)` geometric algebra.
+Module representing the GA(3, 0) geometric algebra.
+Underlying rep is quaternions, but not used explicitly here to keep this code self-contained.
 """
+
 module GA30
+
 using LinearAlgebra
 
 include("core30.jl")
 include("common.jl")
 
-
-
+#Basis
 const e1 = Odd{Int8}(0,1,0,0)
 const e2 = Odd{Int8}(0,0,1,0)
 const e3 = Odd{Int8}(0,0,0,1)

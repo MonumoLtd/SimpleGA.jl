@@ -1,7 +1,9 @@
-#= 
-Code for GA(4,4)
-=#
+"""
+    GA44
 
+Uses a list-based approach to multivector storage.
+Not as fast as smaller algebras, but useful for checks.
+"""
 
 module GA44
 
@@ -10,14 +12,14 @@ using LinearAlgebra
 include("core44.jl")
 
 # Constructors
-const e1 = Multivector{Float64}([parse(UInt8, "00000001", base=2)],[1.0])
-const e2 = Multivector{Float64}([parse(UInt8, "00000111", base=2)],[1.0])
-const e3 = Multivector{Float64}([parse(UInt8, "00011111", base=2)],[1.0])
-const e4 = Multivector{Float64}([parse(UInt8, "01111111", base=2)],[1.0])
-const f1 = Multivector{Float64}([parse(UInt8, "00000010", base=2)],[1.0])
-const f2 = Multivector{Float64}([parse(UInt8, "00001011", base=2)],[1.0])
-const f3 = Multivector{Float64}([parse(UInt8, "00101111", base=2)],[1.0])
-const f4 = Multivector{Float64}([parse(UInt8, "10111111", base=2)],[1.0])
+const e1 = Multivector{Int8}([parse(UInt8, "00000001", base=2)],[1.0])
+const e2 = Multivector{Int8}([parse(UInt8, "00000111", base=2)],[1.0])
+const e3 = Multivector{Int8}([parse(UInt8, "00011111", base=2)],[1.0])
+const e4 = Multivector{Int8}([parse(UInt8, "01111111", base=2)],[1.0])
+const f1 = Multivector{Int8}([parse(UInt8, "00000010", base=2)],[1.0])
+const f2 = Multivector{Int8}([parse(UInt8, "00001011", base=2)],[1.0])
+const f3 = Multivector{Int8}([parse(UInt8, "00101111", base=2)],[1.0])
+const f4 = Multivector{Int8}([parse(UInt8, "10111111", base=2)],[1.0])
 
 bas44 = [e1,e2,e3,e4,f1,f2,f3,f4]
 
@@ -62,7 +64,7 @@ function mvtidy(mv::Multivector)
         return Multivector([0x00],[0.0])
     end
     rsbas = zeros(UInt8,ln)
-    rsval = zeros(Float64,ln)
+    rsval = zeros(typeof(mv.val[1]),ln)
     j=1
     for i = 1:length(mv.bas)
         if !isapprox(mv.val[i],0.0;atol = 1e-12)

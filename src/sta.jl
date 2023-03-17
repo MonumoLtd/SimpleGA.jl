@@ -1,9 +1,12 @@
+"""
+    STA
+
+Code for GA(1,3). Even and odd elements are stored as complex structs.
+2x2 matrix products are unwrapped. 
+Gamma and sigma used for pretty typing.
+"""
 
 module STA
-#=
-Code for GA(1,3). Even and odd elements are stored as complex 'matrices'. 
-Gamma and sigma used for pretty typing.
-=#
 
 using LinearAlgebra
 

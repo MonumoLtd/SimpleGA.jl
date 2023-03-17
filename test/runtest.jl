@@ -12,8 +12,8 @@ using Test
     include("testPGA.jl")
     include("testCGA.jl")
     include("test33.jl")
-    #include("test24.jl")
+    include("test24.jl")
     include("test44.jl")
-    #include("test64.jl")
+    include("test64.jl")
 end
 

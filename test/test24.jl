@@ -3,7 +3,7 @@
 
 
 bas24 = basis("GA24")
-(g0,g1,g2,g3,g4,g5) = (bas24[1], bas24[2], bas24[3], bas24[4], bas24[5])
+(g0,g1,g2,g3,g4,g5) = (bas24[1], bas24[2], bas24[3], bas24[4], bas24[5], bas24[6])
 
 me1 = rand() + rand()*g0*g1 + g0*g3*rand() + g0*rand()*g4 - rand()*g3*g1 + g1*g4/rand() + rand()*g3*g4 + rand()*g0*g1*g3*g4 +
     g2*(rand()*g0 + rand()*g1 + g3*rand() + g4*rand() + g0*g1*g3*g4*(rand()*g0 + rand()*g1 + g3*rand() + g4*rand() ) ) +
@@ -42,16 +42,16 @@ G3 = bas44[7]
 G4 = bas44[8]
 G5 = bas44[4]
 arr1 = rand(6)
-v1 = inject(arr1,GA.bas24)
+v1 = inject(arr1,bas24)
 V1 = inject(arr1,[G0,G1,G2,G3,G4,G5])
 arr2 = rand(6)
-v2 = inject(arr2,GA.bas24)
+v2 = inject(arr2,bas24)
 V2 = inject(arr2,[G0,G1,G2,G3,G4,G5])
 arr3 = rand(6)
-v3 = inject(arr3,GA.bas24)
+v3 = inject(arr3,bas24)
 V3 = inject(arr3,[G0,G1,G2,G3,G4,G5])
 arr4 = rand(6)
-v4 = inject(arr4,GA.bas24)
+v4 = inject(arr4,bas24)
 V4 = inject(arr4,[G0,G1,G2,G3,G4,G5])
 @test isapprox(dot(v1,v1),dot(V1,V1))
 @test isapprox(dot(v1*v2*v3,g1), dot(V1*V2*V3,G1))

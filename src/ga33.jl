@@ -1,8 +1,11 @@
-module GA33
+"""
+    GA33
 
-#=
-Code for GA(3,3). 
-=#
+Module for GA(3,3). Base representation is a pair of 4x4 static arrays. 
+
+"""
+
+module GA33
 
 using LinearAlgebra
 using StaticArrays

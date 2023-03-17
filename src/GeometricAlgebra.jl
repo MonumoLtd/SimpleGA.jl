@@ -47,12 +47,12 @@ include("GA33.jl")
 using .GA33
 
 
-#include("GA24.jl")
-#using .GA24
+include("GA24.jl")
+using .GA24
 
-#include("GA64.jl")
-#using .GA64
-#export construct64
+include("GA64.jl")
+using .GA64
+export construct64
 
 
 function basis(alg)

@@ -1,8 +1,13 @@
-module GA24
 
-#=
-Code for G(2,4)
-=#
+"""
+    GA24
+
+Module representing the GA(2,4) geometric algebra.
+Even and odd elements are stored as complex Static Arrays.
+
+"""
+
+module GA24
 
 using LinearAlgebra
 using StaticArrays
@@ -19,7 +24,7 @@ const g5 = Odd(SMatrix{4,4,Complex{Int8},16}([0 0 1 0; 0 0 0 1; -1 0 0 0; 0 -1 0
 
 const I6 = g0*g1*g2*g3*g4*g5
 
-bas24 = [1.0*g0, 1.0*g1, 1.0*g2, 1.0*g3, 1.0*g4, 1.0*g5]
+bas24 = [g0, g1, g2, g3, g4, g5]
 
 function basis24(T) 
     scl = convert(T,1)

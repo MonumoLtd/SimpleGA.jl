@@ -4,7 +4,7 @@
 
 function randvec(n)
     rints = rand(1:64,n)
-    bas = map(i->GA.bas64[i],rints)
+    bas = map(i->GeometricAlgebra.bas64[i],rints)
     return inject(rand(n),bas )
 end
 

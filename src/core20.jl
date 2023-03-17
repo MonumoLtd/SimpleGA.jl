@@ -25,6 +25,7 @@ Base.zero(a::Even) = Even(zero(a.c1))
 Base.zero(a::Odd) = Odd(zero(a.c1))
 Base.one(a::Even) = Even(one(a.c1))
 
+
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a)
 Base.:(-)(a::Odd) = Odd(-a)

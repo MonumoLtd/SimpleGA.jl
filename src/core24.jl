@@ -20,7 +20,6 @@ const adj = SMatrix{4,4,Complex{Int8},16}([0 0 1 0; 0 0 0 1; -1 0 0 0; 0 -1 0 0 
 const rev = SMatrix{4,4,Complex{Int8},16}([0  0 0 -im; 0 0 im 0;  0 -im 0 0; im 0 0 0])
 
 
-
 function Base.convert(::Type{Even{T}},a::Even) where {T <: Real} 
     return Even{T}(convert(SMatrix{4,4,Complex{T},16}, (a.m) ))
 end
@@ -99,9 +98,13 @@ function project(a::Odd,n::Integer)
 end   
 
 
+LinearAlgebra.tr(a::Even) = real(tr(a.m))/4
+LinearAlgebra.dot(a::Even, b::Even) = real(tr(a.m*b.m))/4  
+LinearAlgebra.dot(a::Odd, b::Odd) = real(tr(a.m*g2.m*conj(b.m)*g2.m))/4  
+
 
 #Exponentiation
-function exp(a::Even)
+function Base.exp(a::Even)
     return Even(exp(a.m))
 end
 

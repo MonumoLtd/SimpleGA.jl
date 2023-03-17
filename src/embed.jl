@@ -160,25 +160,16 @@ function embed(a::GA33.Odd)
 end
 
 
-#=
 function embed(a::GA24.Even)
-    g0 = GA.bas24[1]
-    g1 = GA.bas24[2]
-    g2 = GA.bas24[3]
-    g3 = GA.bas24[4]
-    g4 = GA.bas24[5]
-    g5 = GA.bas24[6]
+    bas24= basis("GA24")
+    (g0,g1,g2,g3,g4,g5) = (bas24[1], bas24[2], bas24[3], bas24[4], bas24[5], bas24[6])
     i6 = g0*g1*g2*g3*g4*g5
     evenbas = [g1*g0, g2*g0, g3*g0, g4*g0, -g5*g0, -g1*g2, -g1*g3, -g1*g4, g1*g5, -g2*g3, -g2*g4, g2*g5, -g3*g4, g3*g5, g4*g5,
     -g1*g0*i6, -g2*g0*i6, -g3*g0*i6, -g4*g0*i6, g5*g0*i6, 
     g1*g2*i6, g1*g3*i6, g1*g4*i6, -g1*g5*i6, g2*g3*i6, g2*g4*i6, -g2*g5*i6, g3*g4*i6, -g3*g5*i6, -g4*g5*i6, -i6]
     vals = map(bs->dot(a,bs),evenbas)
-    G0 = GA.bas44[1]
-    G1 = GA.bas44[5]
-    G2 = GA.bas44[6]
-    G3 = GA.bas44[7]
-    G4 = GA.bas44[8]
-    G5 = GA.bas44[4]
+    bas44 = basis("GA44")
+    (G0,G1,G2,G3,G4,G5) = (bas44[1], bas44[5], bas44[6], bas44[7], bas44[8], bas44[4])
     I6 = G0*G1*G2*G3*G4*G5
     resbas = [G1*G0, G2*G0, G3*G0, G4*G0, G5*G0, G1*G2, G1*G3, G1*G4, G1*G5, G2*G3, G2*G4, G2*G5, G3*G4, G3*G5, G4*G5,
    G1*G0*I6, G2*G0*I6, G3*G0*I6, G4*G0*I6, G5*G0*I6, G1*G2*I6, G1*G3*I6, G1*G4*I6, G1*G5*I6, G2*G3*I6, G2*G4*I6, G2*G5*I6, G3*G4*I6, G3*G5*I6, G4*G5*I6, I6 ]
@@ -188,24 +179,16 @@ end
 
 
 function embed(a::GA24.Odd)
-    g0 = GA.bas24[1]
-    g1 = GA.bas24[2]
-    g2 = GA.bas24[3]
-    g3 = GA.bas24[4]
-    g4 = GA.bas24[5]
-    g5 = GA.bas24[6]
+    bas24= basis("GA24")
+    (g0,g1,g2,g3,g4,g5) = (bas24[1], bas24[2], bas24[3], bas24[4], bas24[5], bas24[6])
     i6 = g0*g1*g2*g3*g4*g5
     oddbas = [g0, -g1, -g2, -g3, -g4, g5, 
     -g0*g1*g2, -g0*g1*g3, -g0*g1*g4, g0*g1*g5, -g0*g2*g3, -g0*g2*g4, g0*g2*g5, -g0*g3*g4, g0*g3*g5, g0*g4*g5,
     -g0*g1*g2*i6, -g0*g1*g3*i6, -g0*g1*g4*i6, g0*g1*g5*i6, -g0*g2*g3*i6, -g0*g2*g4*i6, g0*g2*g5*i6, -g0*g3*g4*i6, g0*g3*g5*i6, g0*g4*g5*i6,
     g0*i6, -g1*i6, -g2*i6, -g3*i6, -g4*i6, g5*i6 ]
     vals = map(bs->dot(a,bs),oddbas)
-    G0 = GA.bas44[1]
-    G1 = GA.bas44[5]
-    G2 = GA.bas44[6]
-    G3 = GA.bas44[7]
-    G4 = GA.bas44[8]
-    G5 = GA.bas44[4]
+    bas44 = basis("GA44")
+    (G0,G1,G2,G3,G4,G5) = (bas44[1], bas44[5], bas44[6], bas44[7], bas44[8], bas44[4])
     I6 = G0*G1*G2*G3*G4*G5
     resbas = [G0, G1, G2, G3, G4, G5, 
     G0*G1*G2, G0*G1*G3, G0*G1*G4, G0*G1*G5, G0*G2*G3, G0*G2*G4, G0*G2*G5, G0*G3*G4, G0*G3*G5, G0*G4*G5,
@@ -214,4 +197,3 @@ function embed(a::GA24.Odd)
     return  inject(vals,resbas)
 end
 
-=#

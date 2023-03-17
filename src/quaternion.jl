@@ -1,9 +1,12 @@
-module Quaternions
-#=
+"""
+    Quaternions
+
 Quaternion code. This is called by some of the later GA implementations. 
 The core mirrors much of the GA code structure.
 For completeness we have defined a division operation for quaternions as they are a division algebra.
-=#
+"""
+
+module Quaternions
 
 using LinearAlgebra
 
@@ -13,15 +16,17 @@ import ..expb
 
 export real_part, imag_part, expb, Quaternion
 
-struct Quaternion{T<:Real}
+struct Quaternion{T<:Number}
     w::T
     x::T
     y::T
     z::T
 end
 
-Quaternion(w::Real) = Quaternion{typeof(w)}(w,zero(w),zero(w),zero(w))
-Quaternion{T}(w::Real)  where T<:Real = Quaternion(convert(T,w))
+Quaternion(w::Number) = Quaternion{typeof(w)}(w,zero(w),zero(w),zero(w))
+Quaternion{T}(w::Number)  where T<:Number = Quaternion(convert(T,w))
+
+#Default creator is FP64.
 Quaternion(w,x,y,z) = Quaternion{Float64}(w,x,y,z)
 
 function Base.convert(::Type{Quaternion{T}}, a::Quaternion) where {T <: Real} 

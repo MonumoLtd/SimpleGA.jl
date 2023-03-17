@@ -10,7 +10,7 @@ import ..expb
 
 using SparseArrays
 
-#This avoids rounding error bloating multivectors. Set to zero if unsure
+#This avoids rounding error bloating multivectors. Assumes using FP64. Set to zero if unsure
 const mvtol = 1e-14
 sparsify(x, eps) = abs(x) < eps ? 0.0 : x
 
@@ -113,7 +113,7 @@ function project(mv::Multivector,n::Int64)
     if ln == 0
         return zero(mv)
     end
-    rsval = zeros(Float64,ln)
+    rsval = zeros(typeof(mv.val[1]),ln)
     for i in 1:ln
         j=findfirst(isequal(rsbas[i]),mv.bas)
         rsval[i]=mv.val[j]
