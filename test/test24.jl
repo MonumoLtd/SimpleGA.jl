@@ -2,13 +2,8 @@
 #Test stand-alone results and compares with GA(2,4)
 
 
-g0 = GA.bas24[1]
-g1 = GA.bas24[2]
-g2 = GA.bas24[3]
-g3 = GA.bas24[4]
-g4 = GA.bas24[5]
-g5 = GA.bas24[6]
-
+bas24 = basis("GA24")
+(g0,g1,g2,g3,g4,g5) = (bas24[1], bas24[2], bas24[3], bas24[4], bas24[5])
 
 me1 = rand() + rand()*g0*g1 + g0*g3*rand() + g0*rand()*g4 - rand()*g3*g1 + g1*g4/rand() + rand()*g3*g4 + rand()*g0*g1*g3*g4 +
     g2*(rand()*g0 + rand()*g1 + g3*rand() + g4*rand() + g0*g1*g3*g4*(rand()*g0 + rand()*g1 + g3*rand() + g4*rand() ) ) +

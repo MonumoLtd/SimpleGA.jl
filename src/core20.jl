@@ -21,6 +21,9 @@ end
 
 Base.convert(::Type{Even{T}},a::Even) where {T <: Real} = Even{T}(convert(Complex{T},a.c1))
 Base.convert(::Type{Odd{T}},a::Odd) where {T <: Real} = Odd{T}(convert(Complex{T},a.c1))
+Base.zero(a::Even) = Even(zero(a.c1))
+Base.zero(a::Odd) = Odd(zero(a.c1))
+Base.one(a::Even) = Even(one(a.c1))
 
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a)
@@ -61,7 +64,7 @@ function project(a::Even,n::Integer)
     elseif (n==2)
         return Even((a.c1-conj(a.c1))/2 )
     else
-        return Even(zero(a.c1))
+        return zero(a)
     end
 end
 
@@ -69,7 +72,7 @@ function project(a::Odd,n::Integer)
     if (n==1)
         return a
     else
-        return Odd(zero(a.c1))
+        return zero(a)
     end
 end
 

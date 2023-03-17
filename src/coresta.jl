@@ -31,6 +31,11 @@ function Base.convert(::Type{Odd{T}},a::Odd) where {T <: Real}
     return Odd{T}(convert(Complex{T},a.c1), convert(Complex{T},a.c2), convert(Complex{T},a.c3), convert(Complex{T},a.c4))
 end
 
+Base.zero(a::Even) = Even(zero(a.c1), zero(a.c2), zero(a.c3), zero(a.c4))
+Base.zero(a::Odd) = Odd(zero(a.c1), zero(a.c2), zero(a.c3), zero(a.c4))
+Base.one(a::Even) = Even(one(a.c1), zero(a.c2), zero(a.c3), one(a.c4))
+
+
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a.c1,-a.c2,-a.c3,-a.c4)
 Base.:(-)(a::Odd) = Odd(-a.c1,-a.c2,-a.c3,-a.c4)
@@ -89,23 +94,23 @@ LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.c1), conj(a.c3), conj(a.c2), conj(a.c
 function project(a::Even,n::Integer)
     tra = (a.c1+a.c4)/2
     if (n==0)
-        return Even((tra+conj(tra))/2, zero(a.c1), zero(a.c1), (tra+conj(tra))/2)
+        return real(tra)*one(a)
     elseif (n==2)
-        return Even((a.c1-a.c4)/2, a.c2, a.c3, (a.c4-a.c1)/2 )
+        return (a-a')/2
     elseif (n==4)
         return Even((tra-conj(tra))/2, zero(a.c1), zero(a.c1), (tra-conj(tra))/2)
     else
-        return Even(zero(a.c1), zero(a.c1), zero(a.c1), zero(a.c1))
+        return zero(a)
     end
 end
 
 function project(a::Odd,n::Integer)
     if (n==1)
-        return Odd((a.c1+conj(a.c1))/2, (a.c2+conj(a.c3))/2, (a.c3+conj(a.c2))/2 , (a.c4+conj(a.c4))/2)
+        return (a+a')/2
     elseif (n==3)
-        return Odd((a.c1-conj(a.c1))/2, (a.c2-conj(a.c3))/2, (a.c3-conj(a.c2))/2 , (a.c4-conj(a.c4))/2)
+        return (a-a')/2
     else
-        return Odd(zero(a.c1), zero(a.c1), zero(a.c1), zero(a.c1))
+        return zero(a)
     end
 end
 

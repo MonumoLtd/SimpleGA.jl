@@ -30,9 +30,10 @@ function Base.convert(::Type{Odd{T}},a::Odd) where {T <: Real}
     return Odd{T}(convert(Quaternion{T},a.q), convert(Quaternion{T}, a.n))
 end
 
+Base.zero(a::Even) = Even(zero(a.q), zero(a.n))
+Base.zero(a::Odd) = Odd(zero(a.q), zero(a.n))
+Base.one(a::Even) = Even(one(a.q), zero(a.n))
 
-
-#Addition / subtraction
 
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a.q,-a.n)
@@ -69,7 +70,7 @@ function project(a::Even,n::Integer)
     elseif (n==4)
         return Even(zero(a.q), real_part(a.n))
     else
-        return Even(zero(a.q),zero(a.q))
+        return zero(a)
     end
 end
 
@@ -79,7 +80,7 @@ function project(a::Odd,n::Integer)
     elseif (n==3)
         return Odd(real_part(a.q), imag_part(a.n))
     else
-        return Odd(zero(a.q), zero(a.q))
+        return zero(a)
     end
 end
 

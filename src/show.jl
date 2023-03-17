@@ -4,7 +4,7 @@ Base.show(io::IO, ::MIME"text/plain", mv::Even) = print(io, "", mvtype(mv))
 
 function Base.show(io::IO, ::MIME"text/plain", mvs::Vector{Even})
     n= length(mvs)
-    println(io,n,"-element Vector{MVeven}")
+    println(io,n,"-element Vector{Even}")
     for i in eachindex(mvs)
     println(io, " ", mvtype(mvs[i]))
     end
@@ -15,7 +15,7 @@ Base.show(io::IO, ::MIME"text/plain", mv::Odd) = print(io, "", mvtype(mv))
 
 function Base.show(io::IO, ::MIME"text/plain", mvs::Vector{Odd})
     n= length(mvs)
-    println(io,n,"-element Vector{MVodd}")
+    println(io,n,"-element Vector{Odd}")
     for i in eachindex(mvs)
     println(io, " ", mvtype(mvs[i]))
     end

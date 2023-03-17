@@ -12,10 +12,10 @@ include("common.jl")
 
 
 #Basis
-const e1 = Odd{Float64}(Quaternion(0,1,0,0), Quaternion(0,-1,0,0))
-const e2 = Odd{Float64}(Quaternion(0,0,1,0), Quaternion(0,0,-1,0))
-const e3 = Odd{Float64}(Quaternion(0,0,0,1), Quaternion(0,0,0,-1))
-const e4 = Odd{Float64}(Quaternion(1,0,0,0), Quaternion(1,0,0,0))
+const e1 = Odd{Int8}(Quaternion(0,1,0,0), Quaternion(0,-1,0,0))
+const e2 = Odd{Int8}(Quaternion(0,0,1,0), Quaternion(0,0,-1,0))
+const e3 = Odd{Int8}(Quaternion(0,0,0,1), Quaternion(0,0,0,-1))
+const e4 = Odd{Int8}(Quaternion(1,0,0,0), Quaternion(1,0,0,0))
 const E4 = e1*e2*e3*e4
 
 bas40 = [e1,e2,e3,e4]

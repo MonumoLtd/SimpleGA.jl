@@ -28,6 +28,10 @@ function Base.convert(::Type{Odd{T}},a::Odd) where {T <: Real}
     return Odd{T}(convert(Quaternion{T},a.qp), convert(Quaternion{T}, a.qm))
 end
 
+Base.zero(a::Even) = Even(zero(a.qp), zero(a.qm))
+Base.zero(a::Odd) = Odd(zero(a.qp), zero(a.qm))
+Base.one(a::Even) = Even(one(a.qp), one(a.qm))
+
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a.qp,-a.qm)
 Base.:(-)(a::Odd) = Odd(-a.qp,-a.qm)
@@ -60,11 +64,11 @@ function project(a::Even,n::Integer)
     if (n==0)
         return Even(Quaternion((a.qp.w+a.qm.w)/2), Quaternion((a.qp.w+a.qm.w)/2))
     elseif (n==2)
-        return Even(imag_part(a.qp), imag_part(a.qm))
+        return (a-a')/2
     elseif (n==4)
         return Even(Quaternion((a.qp.w-a.qm.w)/2), Quaternion((-a.qp.w+a.qm.w)/2))
     else
-        return Even(zero(a.qp),zero(a.qp))
+        return zero(a)
     end
 end
 
@@ -74,7 +78,7 @@ function project(a::Odd,n::Integer)
     elseif (n==3)
         return Odd((a.qp - conj(a.qm))/2, (a.qm - conj(a.qp))/2)
     else
-        return Odd(zero(a.qp), zero(a.qp))
+        return zero(a)
     end
 end
 

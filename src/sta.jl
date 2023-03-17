@@ -11,10 +11,10 @@ include("coresta.jl")
 include("common.jl")
 
 #Basis
-const s1 = Even{Float64}(0,1,1,0)
-const s2 = Even{Float64}(0,-im,im,0)
-const s3 = Even{Float64}(1,0,0,-1)
-const g0 = Odd{Float64}(1,0,0,1)
+const s1 = Even{Int8}(0,1,1,0)
+const s2 = Even{Int8}(0,-im,im,0)
+const s3 = Even{Int8}(1,0,0,-1)
+const g0 = Odd{Int8}(1,0,0,1)
 const g1 = s1*g0
 const g2 = s2*g0
 const g3 = s3*g0

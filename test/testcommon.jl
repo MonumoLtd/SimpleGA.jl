@@ -22,8 +22,8 @@
 
 
 #Projection
-@test isapprox(me1  , project(me1,0) + project(me1,2) + project(me1,4) + project(me1,6))
-@test isapprox(mo1  , project(mo1,1) + project(mo1,3) + project(mo1,5))
+@test isapprox(me1  , project(me1,0) + project(me1,2) + project(me1,4) + project(me1,6) + project(me1,8))
+@test isapprox(mo1  , project(mo1,1) + project(mo1,3) + project(mo1,5) + project(mo1,7))
 
 
 #Rotation

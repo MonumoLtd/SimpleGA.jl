@@ -23,6 +23,7 @@ struct Odd{T<:Real} <: Number
 end
 
 Base.zero(a::Even) = Even(zero(a.q1),zero(a.q1),zero(a.q1),zero(a.q1))
+Base.zero(a::Odd) = Odd(zero(a.q1),zero(a.q1),zero(a.q1),zero(a.q1))
 Base.one(a::Even) = Even(one(a.q1),zero(a.q1),zero(a.q1),one(a.q1))
 
 

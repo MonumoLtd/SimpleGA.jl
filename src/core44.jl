@@ -22,8 +22,6 @@ struct Multivector{T<:Number}
     val::Vector{T}
 end
 
-mvzero(T) = Multivector{T}([0x00], [0.0])
-
 Multivector(ns,vs) = Multivector{typeof(vs[1])}(convert(Vector{UInt8},ns), vs)
 
 function construct44(T,bs,vs)
@@ -36,6 +34,9 @@ function construct44(T,bs,vs)
 end
 
 Base.convert(::Type{Multivector{T}},a::Multivector) where {T <: Number} = Multivector{T}(a.bas, convert.(T,a.val))
+Base.zero(a::Multivector) = Multivector([0x00],[zero(a.val[1])])
+Base.one(a::Multivector) = Multivector([0x00],[one(a.val[1])])
+
 
 #Addition / subtraction
 Base.:(-)(mv::Multivector) = Multivector(mv.bas,-mv.val)
@@ -43,7 +44,7 @@ Base.:(-)(mv::Multivector) = Multivector(mv.bas,-mv.val)
 function Base.:(+)(mv1::Multivector, mv2::Multivector)
     res = SparseVector(256,mv1.bas .+ 1, mv1.val) + SparseVector(256,mv2.bas .+ 1, mv2.val)
     sps = sparse(sparsify.(res,mvtol))
-    return length(sps.nzind) == 0 ? mvzero(typeof(mv1.val[1])) : Multivector(sps.nzind .- 1,sps.nzval)
+    return length(sps.nzind) == 0 ? zero(mv1) : Multivector(sps.nzind .- 1,sps.nzval)
 end
 
 Base.:(+)(nm::Number,mv::Multivector) = mv + Multivector([0x00],[nm])
@@ -69,10 +70,7 @@ function Base.:(*)(mv1::Multivector,mv2::Multivector)
         end
     end
     sps = sparse(sparsify.(res,mvtol))
-    if length(sps.nzind) == 0
-        return mvzero(typeof(mv1.val[1]))
-    end
-    return Multivector(sps.nzind .- 1,sps.nzval)
+    return length(sps.nzind) == 0 ? zero(mv1) : Multivector(sps.nzind .- 1,sps.nzval)
 end
 
 Base.:(*)(num::Number,mv::Multivector) = Multivector(mv.bas,num*mv.val)
@@ -113,7 +111,7 @@ function project(mv::Multivector,n::Int64)
     rsbas = filter(x->grd(x)==n,mv.bas)
     ln = length(rsbas)
     if ln == 0
-        return mvzero(typeof(mv.val[1]))
+        return zero(mv)
     end
     rsval = zeros(Float64,ln)
     for i in 1:ln

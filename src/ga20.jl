@@ -14,9 +14,9 @@ include("common.jl")
 
 
 #Basis
-const e1 = Odd{Float64}(1)
-const e2 = Odd{Float64}(im)
-const I2 = Even{Float64}(im)
+const e1 = Odd{Int8}(1)
+const e2 = Odd{Int8}(im)
+const I2 = Even{Int8}(im)
 
 bas20 = [e1,e2]
 
@@ -67,7 +67,7 @@ end
 
 function Base.show(io::IO, ::MIME"text/plain", mvs::Vector{Even})
     n= length(mvs)
-    println(io,n,"-element Vector{MVeven}")
+    println(io,n,"-element Vector{Even}")
     for i in eachindex(mvs)
     println(io, " ", mvtype(mvs[i]))
     end

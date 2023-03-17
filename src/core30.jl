@@ -24,6 +24,9 @@ end
 
 Base.convert(::Type{Even{T}},a::Even) where {T <: Real} = Even{T}(convert(T,a.w), convert(T,a.x), convert(T,a.y), convert(T,a.z))
 Base.convert(::Type{Odd{T}},a::Odd) where {T <: Real} = Odd{T}(convert(T,a.w), convert(T,a.x), convert(T,a.y), convert(T,a.z))
+Base.zero(a::Even) = Even(zero(a.w), zero(a.x), zero(a.y), zero(a.z))
+Base.zero(a::Odd) = Odd(zero(a.w), zero(a.x), zero(a.y), zero(a.z))
+Base.one(a::Even) = Even(one(a.w), one(a.x), one(a.y), one(a.z))
 
 
 #Addition / subtraction
@@ -86,7 +89,7 @@ function project(a::Even,n::Integer)
     elseif (n == 2)
         return Even(zero(a.w),a.x,a.y,a.z)
     else
-        return Even(zero(a.w),zero(a.w),zero(a.w),zero(a.w))
+        return zero(a)
     end
 end
 
@@ -97,7 +100,7 @@ function project(a::Odd,n::Integer)
     elseif (n == 1)
         return Odd(zero(a.w),a.x,a.y,a.z)
     else
-        return Odd(zero(a.w),zero(a.w),zero(a.w),zero(a.w))
+        return zero(a)
     end
 end
 

@@ -11,10 +11,10 @@ include("common.jl")
 
 
 
-const e1 = Odd{Float64}(0,1,0,0)
-const e2 = Odd{Float64}(0,0,1,0)
-const e3 = Odd{Float64}(0,0,0,1)
-const I3 = Odd{Float64}(1,0,0,0)
+const e1 = Odd{Int8}(0,1,0,0)
+const e2 = Odd{Int8}(0,0,1,0)
+const e3 = Odd{Int8}(0,0,0,1)
+const I3 = Odd{Int8}(1,0,0,0)
 
 bas30 = [e1,e2,e3]
 
