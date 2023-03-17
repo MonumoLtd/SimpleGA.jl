@@ -99,3 +99,5 @@ end
 #Comparison
 Base.isapprox(a::Even, b::Even) = isapprox(a.qp,b.qp) && isapprox(a.qm, b.qm) 
 Base.isapprox(a::Odd, b::Odd) = isapprox(a.qp,b.qp) && isapprox(a.qm, b.qm) 
+Base.isequal(a::Even, b::Even) = isequal(a.qp,b.qp) && isequal(a.qm, b.qm) 
+Base.isequal(a::Odd, b::Odd) = isequal(a.qp,b.qp) && isequal(a.qm, b.qm) 

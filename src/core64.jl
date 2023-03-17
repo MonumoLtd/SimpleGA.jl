@@ -210,3 +210,9 @@ function Base.isapprox(mv1::Multivector, mv2::Multivector)
     tmp = mvtidy(mv1-mv2)
     return tmp.bas == [basscl] && tmp.val ==[0.0]
 end
+
+function Base.isequal(mv1::Multivector, mv2::Multivector) 
+    tmp = mv1-mv2
+    return iszero(tmp.val)
+end
+    

@@ -124,17 +124,6 @@ function mvtype(mv::Multivector)
     return res
 end
 
-function Base.show(io::IO, mv::Multivector)
-    print(mvtype(mv))
-end
-
-
-function Base.show(io::IO, ::MIME"text/plain", mvs::Vector{Multivector})
-    n= length(mvs)
-    println(io,n,"-element Vector{Multivector}")
-    for i in eachindex(mvs)
-    println(io, " ", mvtype(mvs[i]))
-    end
-end
+Base.show(io::IO, mv::Multivector) = print(io, mvtype(mv))
 
 end #Module

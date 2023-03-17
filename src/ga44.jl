@@ -22,20 +22,7 @@ const f3 = Multivector{Int8}([parse(UInt8, "00101111", base=2)],[1.0])
 const f4 = Multivector{Int8}([parse(UInt8, "10111111", base=2)],[1.0])
 
 bas44 = [e1,e2,e3,e4,f1,f2,f3,f4]
-
-function basis44(T)
-    e1 = Multivector{T}([parse(UInt8, "00000001", base=2)],[1.0])
-    e2 = Multivector{T}([parse(UInt8, "00000111", base=2)],[1.0])
-    e3 = Multivector{T}([parse(UInt8, "00011111", base=2)],[1.0])
-    e4 = Multivector{T}([parse(UInt8, "01111111", base=2)],[1.0])
-    f1 = Multivector{T}([parse(UInt8, "00000010", base=2)],[1.0])
-    f2 = Multivector{T}([parse(UInt8, "00001011", base=2)],[1.0])
-    f3 = Multivector{T}([parse(UInt8, "00101111", base=2)],[1.0])
-    f4 = Multivector{T}([parse(UInt8, "10111111", base=2)],[1.0])
-    return [e1,e2,e3,e4,f1,f2,f3,f4]
-end
-
-export bas44, construct44, basis44
+export bas44, construct44
 
 #Additional functions
 
@@ -125,15 +112,6 @@ function mvtype(mv::Multivector)
 end
 
 Base.show(io::IO, ::MIME"text/plain", mv::Multivector) = print(io, "", mvtype(mv))
-
-function Base.show(io::IO, ::MIME"text/plain", mvs::Vector{Multivector})
-    n= length(mvs)
-    println(io,n,"-element Vector{Multivector}")
-    for i in eachindex(mvs)
-    println(io, " ", mvtype(mvs[i]))
-    end
-end
-
 
 
 end #Module

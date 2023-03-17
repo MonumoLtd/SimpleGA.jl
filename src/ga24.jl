@@ -25,13 +25,7 @@ const g5 = Odd(SMatrix{4,4,Complex{Int8},16}([0 0 1 0; 0 0 0 1; -1 0 0 0; 0 -1 0
 const I6 = g0*g1*g2*g3*g4*g5
 
 bas24 = [g0, g1, g2, g3, g4, g5]
-
-function basis24(T) 
-    scl = convert(T,1)
-    return [scl*g0, scl*g1, scl*g2, scl*g3, scl*g4, scl*g5]
-end
-
-export bas24, basis24
+export bas24
 
 
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.

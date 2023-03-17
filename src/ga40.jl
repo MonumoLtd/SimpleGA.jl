@@ -21,16 +21,7 @@ const e4 = Odd{Int8}(Quaternion(1,0,0,0), Quaternion(1,0,0,0))
 const E4 = e1*e2*e3*e4
 
 bas40 = [e1,e2,e3,e4]
-
-function basis40(T)
-    e1 = Odd{T}(Quaternion(0,1,0,0), Quaternion(0,-1,0,0))
-    e2 = Odd{T}(Quaternion(0,0,1,0), Quaternion(0,0,-1,0))
-    e3 = Odd{T}(Quaternion(0,0,0,1), Quaternion(0,0,0,-1))
-    e4 = Odd{T}(Quaternion(1,0,0,0), Quaternion(1,0,0,0))
-    return [e1,e2,e3,e4]
-end
-    
-export bas40, basis40
+export bas40
 
 
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.

@@ -21,16 +21,7 @@ const e0 = Odd{Int8}(Quaternion(0.0), Quaternion(1.0,0,0,0))
 const I3 = e1*e2*e3
 
 basPGA = [e1,e2,e3, e0]
-
-function basisPGA(T)
-    e1 = Odd{T}(Quaternion{T}(0, -1, 0, 0), Quaternion{T}(0))
-    e2 = Odd{T}(Quaternion{T}(0, 0, -1, 0),Quaternion{T}(0))
-    e3 = Odd{T}(Quaternion{T}(0, 0, 0, -1),Quaternion{T}(0))
-    e0 = Odd{T}(Quaternion{T}(0), Quaternion{T}(1,0,0,0))
-    return [e1,e2,e3,e0]
-end
-
-export basPGA, basisPGA, pdual
+export basPGA, pdual
 
 
 #Additional Functions. Sign conventions agree with De Keninck et al.

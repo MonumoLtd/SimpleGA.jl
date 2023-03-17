@@ -133,3 +133,5 @@ end
 #Comparison. Using default tolerances.
 Base.isapprox(a::Even, b::Even) = isapprox(a.w,b.w) && isapprox(a.x,b.x) && isapprox(a.y,b.y) && isapprox(a.z,b.z) 
 Base.isapprox(a::Odd, b::Odd) = isapprox(a.w,b.w) && isapprox(a.x,b.x) && isapprox(a.y,b.y) && isapprox(a.z,b.z) 
+Base.isequal(a::Even, b::Even) = isequal(a.w,b.w) && isequal(a.x,b.x) && isequal(a.y,b.y) && isequal(a.z,b.z) 
+Base.isequal(a::Odd, b::Odd) = isequal(a.w,b.w) && isequal(a.x,b.x) && isequal(a.y,b.y) && isequal(a.z,b.z) 

@@ -19,12 +19,7 @@ const e2 = Odd{Int8}(im)
 const I2 = Even{Int8}(im)
 
 bas20 = [e1,e2]
-
-function basis20(T)
-    return [Odd{T}(1) , Odd{T}(im)]
-end
-
-export bas20, basis20
+export bas20
 
 #Extra functions on even elements
 Base.log(a::Even) = Even(log(a.c1))

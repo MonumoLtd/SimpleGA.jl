@@ -162,4 +162,5 @@ end
 #Comparison
 Base.isapprox(a::Even, b::Even) = isapprox(a.q1,b.q1) && isapprox(a.q2, b.q2) && isapprox(a.q3,b.q3) && isapprox(a.q4, b.q4)
 Base.isapprox(a::Odd, b::Odd) = isapprox(a.q1,b.q1) && isapprox(a.q2, b.q2) && isapprox(a.q3,b.q3) && isapprox(a.q4, b.q4) 
-
+Base.isequal(a::Even, b::Even) = isequal(a.q1,b.q1) && isequal(a.q2, b.q2) && isequal(a.q3,b.q3) && isequal(a.q4, b.q4)
+Base.isequal(a::Odd, b::Odd) = isequal(a.q1,b.q1) && isequal(a.q2, b.q2) && isequal(a.q3,b.q3) && isequal(a.q4, b.q4) 

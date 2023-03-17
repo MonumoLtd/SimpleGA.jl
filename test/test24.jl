@@ -1,9 +1,10 @@
 #Test suite for GA(2,4).
 #Test stand-alone results and compares with GA(2,4)
 
-
-bas24 = basis("GA24")
 (g0,g1,g2,g3,g4,g5) = (bas24[1], bas24[2], bas24[3], bas24[4], bas24[5], bas24[6])
+
+@test map(x->dot(x,x), bas24) == [1,-1,-1,-1,-1,1]
+@test testbas(bas24) 
 
 me1 = rand() + rand()*g0*g1 + g0*g3*rand() + g0*rand()*g4 - rand()*g3*g1 + g1*g4/rand() + rand()*g3*g4 + rand()*g0*g1*g3*g4 +
     g2*(rand()*g0 + rand()*g1 + g3*rand() + g4*rand() + g0*g1*g3*g4*(rand()*g0 + rand()*g1 + g3*rand() + g4*rand() ) ) +
@@ -34,13 +35,7 @@ mo3 = (rand()*g0 + rand()*g1 + g3*rand() + g4*rand() + g0*g1*g3*g4*(rand()*g0 + 
 
 
 #Comparison with GA(4,4)
-bas44 = basis("GA44")
-G0 = bas44[1]
-G1 = bas44[5]
-G2 = bas44[6]
-G3 = bas44[7]
-G4 = bas44[8]
-G5 = bas44[4]
+(G0,G1,G2,G3,G4,G5) = (bas44[1], bas44[5], bas44[6], bas44[7], bas44[8], bas44[4])
 arr1 = rand(6)
 v1 = inject(arr1,bas24)
 V1 = inject(arr1,[G0,G1,G2,G3,G4,G5])

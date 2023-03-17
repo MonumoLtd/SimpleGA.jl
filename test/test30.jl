@@ -1,10 +1,14 @@
-#Test suite for GA 30.
+#Test suite for GA(3,0).
 #Test stand-alone results and compares with GA(4,4)
 
-bas30 = basis("GA30")
+
 e1 = bas30[1]
 e2 = bas30[2]
 e3 = bas30[3]
+
+@test map(x->dot(x,x), bas30) == [1,1,1]
+@test testbas(bas30) 
+
 me1 = rand() + rand()*e1*e2 + e1*e3*rand() + e3*rand()*e2
 me2 = rand() + rand()*e1*e2 + e1*e3*rand() + e3*rand()*e2
 me3 = rand() + rand()*e1*e2 + e1*e3*rand() + e3*rand()*e2
@@ -15,10 +19,7 @@ mo3 = rand()*e1 + rand()*e2 + e3*rand() + e3*rand()*e2*e1
 
 
 #Comparison with GA(4,4)
-bas44 = basis("GA44")
-E1 = bas44[1]
-E2 = bas44[2]
-E3 = bas44[3]
+(E1,E2,E3) = (bas44[1], bas44[2],bas44[3])
 arr1 = rand(3)
 v1 = inject(arr1,bas30)
 V1 = inject(arr1,[E1,E2,E3])

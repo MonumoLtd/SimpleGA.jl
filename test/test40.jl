@@ -1,12 +1,11 @@
-#Test suite for GA 40.
+#Test suite for GA(4,0).
 #Test stand-alone results and compares with GA(4,4)
 
-bas40 = basis("GA40")
-e1 = bas40[1]
-e2 = bas40[2]
-e3 = bas40[3]
-e4 = bas40[4]
+(e1,e2,e3,e4) = (bas40[1],bas40[2],bas40[3],bas40[4])
 E4 = e1*e2*e3*e4
+
+@test map(x->dot(x,x), bas40) == [1,1,1,1]
+@test testbas(bas40) 
 
 me1 = rand() + rand()*e1*e2 + e1*e3*rand() + e3*rand()*e2 - rand()*e1*e4 + rand()*e2*e4 + rand()*e3*e4 + rand()*E4
 me2 = rand() + rand()*e1*e2 + e1*e3*rand() + e3*rand()*e2 - rand()*e1*e4 + rand()*e2*e4 + rand()*e3*e4 + rand()*E4
@@ -17,11 +16,7 @@ mo3 = rand()*e1 + rand()*e2 + e3*rand() + e4*rand() + E4*(rand()*e1 + rand()*e2 
 
 
 #Comparison with GA(4,4)
-bas44 = basis("GA44")
-E1 = bas44[1]
-E2 = bas44[2]
-E3 = bas44[3]
-E4 = bas44[4]
+(E1,E2,E3,E4) = (bas44[1], bas44[2], bas44[3],bas44[4])
 arr1 = rand(4)
 v1 = inject(arr1,bas40)
 V1 = inject(arr1,[E1,E2,E3,E4])

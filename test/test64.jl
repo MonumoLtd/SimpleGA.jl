@@ -1,6 +1,8 @@
 #Tests of GA(32,32)
 #Full fat products are slow in this algebra, so test with random subsets
 
+@test map(x->dot(x,x), bas64) == [1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1]
+@test testbas(bas64)
 
 function randvec(n)
     rints = rand(1:64,n)

@@ -19,12 +19,7 @@ const e3 = Odd{Int8}(0,0,0,1)
 const I3 = Odd{Int8}(1,0,0,0)
 
 bas30 = [e1,e2,e3]
-
-
-function basis30(T)
-    return [Odd{T}(0,1,0,0), Odd{T}(0,0,1,0), Odd{T}(0,0,0,1) ]
-end
-export bas30, basis30
+export bas30
 
 
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.

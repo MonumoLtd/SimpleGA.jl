@@ -2,9 +2,8 @@ using LinearAlgebra
 
 module GeometricAlgebra
 
-# Core functions.
-export project, expb, inject, basis
-
+# Utility functions.
+ 
 function project() end
 function expb() end
 
@@ -12,85 +11,60 @@ function inject(xs,ys)
     reduce(+,map((x,y)->x*y,xs,ys))
 end
 
+export project, expb, inject
 
-#Each algebra in a separate sub-module.
+#Each algebra is in a separate sub-module.
 
 include("quaternion.jl")
 using .Quaternions
 
 include("ga20.jl")
 using .GA20
+export bas20
 
 include("GA30.jl")
 using .GA30
+export bas30
 
 include("sta.jl")
 using .STA
 export bar
+export basSTA
 
 include("ga44.jl")
 using .GA44
-export construct44
+export construct44, bas44
 
 include("ga40.jl")
 using .GA40
-
+export bas40
 
 include("PGA.jl")
 using .PGA
-export pdual
+export pdual, basPGA
 
 include("CGA.jl")
 using .CGA
+export basCGA
 
 include("GA33.jl")
 using .GA33
-
+export bas33
 
 include("GA24.jl")
 using .GA24
+export bas24
 
 include("GA64.jl")
 using .GA64
-export construct64
+export construct64, bas64
 
 
-function basis(alg)
-    if alg == "GA20" 
-        return bas20
-    elseif alg =="GA30"
-        return bas30
-    elseif alg =="GA40"
-        return bas40
-    elseif alg =="PGA"
-        return basPGA
-    elseif alg =="CGA"
-        return basCGA
-    elseif alg =="STA"
-        return basSTA
-    elseif alg =="GA33"
-        return bas33
-    elseif alg == "GA24"
-        return bas24
-    elseif alg =="GA44"
-        return bas44
-    elseif alg == "GA64"
-        return bas64
-    end
-end
+#The main basis function.
+include("basis.jl")
+export basis, testbas
 
-function basis(T,alg)
-    if alg == "GA20" 
-        return basis20(T)
-    elseif alg =="GA30"
-        return basis30(T)
-    elseif alg =="STA"
-        return basisSTA(T)
-    elseif alg =="GA44"
-        return basis44(T)
-    end
-end
-
+#Maps into GA(4,4). Primarily for testing.
 include("embed.jl")
 export embed
 

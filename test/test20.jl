@@ -1,9 +1,12 @@
 #Test suite for GA 20.
 #Test stand-alone results and compares with GA(4,4)
 
-bas20 = basis("GA20")
 e1 = bas20[1]
 e2 = bas20[2]
+
+@test map(x->dot(x,x), bas20) == [1,1]
+@test testbas(bas20) 
+
 me1 = rand() + rand()*e1*e2 
 me2 = rand() + rand()*e1*e2 
 me3 = rand() + rand()*e1*e2 
@@ -13,9 +16,7 @@ mo3 = rand()*e1 + rand()*e2
 
 
 #Comparison with GA(4,4)
-bas44 = basis("GA44")
-E1 = bas44[1]
-E2 = bas44[2]
+(E1, E2) = (bas44[1],bas44[2])
 arr1 = rand(2)
 v1 = inject(arr1,bas20)
 V1 = inject(arr1,[E1,E2])

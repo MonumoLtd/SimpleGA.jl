@@ -1,9 +1,11 @@
 #Test suite for CGA.
 #Test stand-alone results and compares with GA(4,4)
 
-bascga = basis("CGA")
-(e1,e2,e3,e4,f4) = (bascga[1], bascga[2], bascga[3], bascga[4], bascga[5] )
+(e1,e2,e3,e4,f4) = (basCGA[1], basCGA[2], basCGA[3], basCGA[4], basCGA[5])
 I5 = e1*e2*e3*e4*f4
+
+@test map(x->dot(x,x), basCGA) == [1,1,1,1,-1]
+@test testbas(basCGA) 
 
 #CGA
 me1 = rand() + rand()*e1*e2 + e1*e3*rand() + e3*rand()*e2 - rand()*e1*e4 + rand()*e2*e4 + e3*e4/rand() + 
@@ -21,26 +23,21 @@ I5*(rand()*e1*e2 + e1*e3*rand() + e3*rand()*e2 - rand()*e1*e4 + rand()*e2*e4 + e
 
 
 #Comparison with GA(4,4)
-bas44 = basis("GA44")
-E1 = bas44[1]
-E2 = bas44[2]
-E3 = bas44[3]
-E4 = bas44[4]
-F4 = bas44[8]
+(E1,E2,E3,E4,F4) = (bas44[1], bas44[2], bas44[3], bas44[4], bas44[8])
 arr1 = rand(5)
-v1 = inject(arr1,bascga)
+v1 = inject(arr1,basCGA)
 V1 = inject(arr1,[E1,E2,E3,E4,F4])
 arr2 = rand(5)
-v2 = inject(arr2,bascga)
+v2 = inject(arr2,basCGA)
 V2 = inject(arr2,[E1,E2,E3,E4,F4])
 arr3 = rand(5)
-v3 = inject(arr3,bascga)
+v3 = inject(arr3,basCGA)
 V3 = inject(arr3,[E1,E2,E3,E4, F4])
 arr4 = rand(5)
-v4 = inject(arr4,bascga)
+v4 = inject(arr4,basCGA)
 V4 = inject(arr4,[E1,E2,E3,E4,F4])
 arr5 = rand(5)
-v5 = inject(arr5,bascga)
+v5 = inject(arr5,basCGA)
 V5 = inject(arr5,[E1,E2,E3,E4,F4])
 @test isapprox(dot(v1,v1),dot(V1,V1))
 @test isapprox(dot(v1*v2*v3,e1), dot(V1*V2*V3,E1))

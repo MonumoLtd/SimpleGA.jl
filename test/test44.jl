@@ -1,7 +1,8 @@
 #Stand-alone tests of GA(4,4)
 #All other algebras are compared to this.
 
-bas44 = basis("GA44")
+@test map(x->dot(x,x), bas44) == [1,1,1,1,-1,-1,-1,-1]
+@test testbas(bas44) 
 
 v1 = inject(rand(8), bas44)
 v2 = inject(rand(8), bas44)

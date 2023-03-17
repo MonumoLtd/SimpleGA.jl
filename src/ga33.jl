@@ -42,18 +42,7 @@ const f3 = Odd(
 E6 = f1*e1*f2*e2*f3*e3
 
 bas33 = [e1,e2,e3,f1,f2,f3]
-
-function basis33(T)
-    e1 = Odd(SMatrix{4,4,T}([0 0 1 0; 0 0 0 1; -1 0 0 0; 0 -1 0 0]), SMatrix{4,4,T}([0 0 -1 0; 0 0 0 -1; 1 0 0 0; 0 1 0 0]))
-    e2 = Odd(SMatrix{4,4,T}([0 0 0 1; 0 0 -1 0; 0 1 0 0; -1 0 0 0]), SMatrix{4,4,T}([0 0 0 -1; 0 0 1 0; 0 -1 0 0; 1 0 0 0]))
-    e3 = Odd(id4(T), id4(T))
-    f1 = Odd(SMatrix{4,4,T}([0 0 1 0; 0 0 0 -1; 1 0 0 0; 0 -1 0 0]),SMatrix{4,4,T}([0 0 -1 0; 0 0 0 1; -1 0 0 0; 0 1 0 0]))
-    f2 = Odd(SMatrix{4,4,T}([0 0 0 1; 0 0 1 0; 0 1 0 0; 1 0 0 0]),SMatrix{4,4,T}([0 0 0 -1; 0 0 -1 0; 0 -1 0 0; -1 0 0 0]))
-    f3 = Odd(SMatrix{4,4,T}([1 0 0 0; 0 1 0 0; 0 0 -1 0; 0 0 0 -1]),SMatrix{4,4,T}([-1 0 0 0; 0 -1 0 0; 0 0 1 0; 0 0 0 1]))
-    return [e1,e2,e3,f1,f2,f3]
-end
-
-export bas33, basis33
+export bas33
 
 
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.

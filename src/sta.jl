@@ -24,16 +24,7 @@ const g3 = s3*g0
 const I4 = g0*g1*g2*g3
 
 basSTA = [g0,g1,g2,g3]
-
-function basisSTA(T)
-    s1 = Even{T}(0,1,1,0)
-    s2 = Even{T}(0,-im,im,0)
-    s3 = Even{T}(1,0,0,-1)
-    g0 = Odd{T}(1,0,0,1)
-    return [g0 , s1*g0, s2*g0, s3*g0 ]
-end
-
-export basSTA, basisSTA, bar
+export basSTA, bar
 
 #Additional function for Pauli operations.Pre and post multiply by g0.
 function bar(a::Even)

@@ -171,3 +171,4 @@ end
 Base.isapprox(mv1::Multivector, mv2::Multivector) = isapprox(SparseVector(256,mv1.bas .+ 1, mv1.val), 
         SparseVector(256,mv2.bas .+ 1, mv2.val))
 
+Base.isequal(mv1::Multivector, mv2::Multivector) = isequal(mv1.bas,mv2.bas) && isequal(mv1.val,mv2.val)

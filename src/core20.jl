@@ -92,5 +92,7 @@ end
 #Comparison, using default tolerances.
 Base.isapprox(a::Even, b::Even) = isapprox(a.c1,b.c1) 
 Base.isapprox(a::Odd, b::Odd) = isapprox(a.c1,b.c1) 
+Base.isequal(a::Even, b::Even) = isequal(a.c1,b.c1)
+Base.isequal(a::Odd, b::Odd) = isequal(a.c1,b.c1)
 
 
