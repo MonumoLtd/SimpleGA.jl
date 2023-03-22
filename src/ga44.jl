@@ -12,16 +12,16 @@ using LinearAlgebra
 include("core44.jl")
 
 # Constructors
-const e1 = Multivector{Int8}([parse(UInt8, "00000001", base=2)],[1.0])
-const e2 = Multivector{Int8}([parse(UInt8, "00000111", base=2)],[1.0])
-const e3 = Multivector{Int8}([parse(UInt8, "00011111", base=2)],[1.0])
-const e4 = Multivector{Int8}([parse(UInt8, "01111111", base=2)],[1.0])
-const f1 = Multivector{Int8}([parse(UInt8, "00000010", base=2)],[1.0])
-const f2 = Multivector{Int8}([parse(UInt8, "00001011", base=2)],[1.0])
-const f3 = Multivector{Int8}([parse(UInt8, "00101111", base=2)],[1.0])
-const f4 = Multivector{Int8}([parse(UInt8, "10111111", base=2)],[1.0])
+const e1 = Multivector{Int8}([parse(UInt8, "00000001"; base=2)], [1.0])
+const e2 = Multivector{Int8}([parse(UInt8, "00000111"; base=2)], [1.0])
+const e3 = Multivector{Int8}([parse(UInt8, "00011111"; base=2)], [1.0])
+const e4 = Multivector{Int8}([parse(UInt8, "01111111"; base=2)], [1.0])
+const f1 = Multivector{Int8}([parse(UInt8, "00000010"; base=2)], [1.0])
+const f2 = Multivector{Int8}([parse(UInt8, "00001011"; base=2)], [1.0])
+const f3 = Multivector{Int8}([parse(UInt8, "00101111"; base=2)], [1.0])
+const f4 = Multivector{Int8}([parse(UInt8, "10111111"; base=2)], [1.0])
 
-bas44 = [e1,e2,e3,e4,f1,f2,f3,f4]
+bas44 = [e1, e2, e3, e4, f1, f2, f3, f4]
 export bas44, construct44
 
 #Additional functions
@@ -32,73 +32,70 @@ struct Blade
     val::Number
 end
 
-
-function bldless(x::Blade,y::Blade)
+function bldless(x::Blade, y::Blade)
     if grd(x.bas) < grd(y.bas)
         return true
     elseif grd(x.bas) > grd(y.bas)
         return false
     else
-        return isless(x.bas,y.bas)
+        return isless(x.bas, y.bas)
     end
 end
 
 #Removes zeros from a multivector.
 #Used for pretty typing. Can be used (with care) to optimise.
 function mvtidy(mv::Multivector)
-    ln=length(filter(x->!isapprox(x,0.0;atol = 1e-12), mv.val))
-    if ln==0
-        return Multivector([0x00],[0.0])
+    ln = length(filter(x -> !isapprox(x, 0.0; atol=1e-12), mv.val))
+    if ln == 0
+        return Multivector([0x00], [0.0])
     end
-    rsbas = zeros(UInt8,ln)
-    rsval = zeros(typeof(mv.val[1]),ln)
-    j=1
-    for i = 1:length(mv.bas)
-        if !isapprox(mv.val[i],0.0;atol = 1e-12)
-            rsbas[j]=mv.bas[i]
-            rsval[j]=mv.val[i]
-            j+=1
+    rsbas = zeros(UInt8, ln)
+    rsval = zeros(typeof(mv.val[1]), ln)
+    j = 1
+    for i in 1:length(mv.bas)
+        if !isapprox(mv.val[i], 0.0; atol=1e-12)
+            rsbas[j] = mv.bas[i]
+            rsval[j] = mv.val[i]
+            j += 1
         end
     end
-    return Multivector(rsbas,rsval)
+    return Multivector(rsbas, rsval)
 end
 
-
 function bdptype(nn::UInt8)
-    res=""
-    tp = isodd(count_ones( nn & 0b11111101)) ? "e1" : ""
+    res = ""
+    tp = isodd(count_ones(nn & 0b11111101)) ? "e1" : ""
     res *= tp
-    tp = isodd(count_ones( nn & 0b11111110)) ? "f1" : ""
+    tp = isodd(count_ones(nn & 0b11111110)) ? "f1" : ""
     res *= tp
-    tp = isodd(count_ones( nn & 0b11110100)) ? "e2" : ""
+    tp = isodd(count_ones(nn & 0b11110100)) ? "e2" : ""
     res *= tp
-    tp = isodd(count_ones( nn & 0b11111000)) ? "f2" : ""
+    tp = isodd(count_ones(nn & 0b11111000)) ? "f2" : ""
     res *= tp
-    tp = isodd(count_ones( nn & 0b11010000)) ? "e3" : ""
+    tp = isodd(count_ones(nn & 0b11010000)) ? "e3" : ""
     res *= tp
-    tp = isodd(count_ones( nn & 0b11100000)) ? "f3" : ""
+    tp = isodd(count_ones(nn & 0b11100000)) ? "f3" : ""
     res *= tp
-    tp = isodd(count_ones( nn & 0b01000000)) ? "e4" : ""
+    tp = isodd(count_ones(nn & 0b01000000)) ? "e4" : ""
     res *= tp
-    tp = isodd(count_ones( nn & 0b10000000)) ? "f4" : ""
+    tp = isodd(count_ones(nn & 0b10000000)) ? "f4" : ""
     res *= tp
     return res
 end
 
-
 function mvtoblds(mvin::Multivector)
-    mv=mvtidy(mvin)
+    mv = mvtidy(mvin)
     ln = length(mv.bas)
-    res=Array{Blade}(undef,ln)
+    res = Array{Blade}(undef, ln)
     for i in 1:ln
-        res[i]=Blade(mv.bas[i],mv.val[i])
+        res[i] = Blade(mv.bas[i], mv.val[i])
     end
     return res
 end
 
 function mvtype(mv::Multivector)
     blds = mvtoblds(mv)
-    sort!(blds,lt=bldless)
+    sort!(blds; lt=bldless)
     res = string(blds[1].val) * bdptype(blds[1].bas)
     n = length(blds)
     if n == 1
@@ -112,6 +109,5 @@ function mvtype(mv::Multivector)
 end
 
 Base.show(io::IO, ::MIME"text/plain", mv::Multivector) = print(io, "", mvtype(mv))
-
 
 end #Module

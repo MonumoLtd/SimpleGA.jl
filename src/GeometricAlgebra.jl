@@ -3,12 +3,12 @@ using LinearAlgebra
 module GeometricAlgebra
 
 # Utility functions.
- 
+
 function project() end
 function expb() end
 
-function inject(xs,ys) 
-    reduce(+,map((x,y)->x*y,xs,ys))
+function inject(xs, ys)
+    return reduce(+, map((x, y) -> x * y, xs, ys))
 end
 
 export project, expb, inject
@@ -58,7 +58,6 @@ export bas24
 include("GA64.jl")
 using .GA64
 export construct64, bas64
-
 
 #The main basis function.
 include("basis.jl")

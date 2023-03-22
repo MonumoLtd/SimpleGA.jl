@@ -44,13 +44,10 @@ E6 = f1*e1*f2*e2*f3*e3
 bas33 = [e1,e2,e3,f1,f2,f3]
 export bas33
 
-
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1+x,1.0)
 
-
 #Arrays to simplify MVtype code
-
 function mvtype(a::Even)
     scl = tr(a)
     res = approxzero(scl) ? "" : " + " * string(scl)

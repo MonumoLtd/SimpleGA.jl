@@ -42,8 +42,6 @@ struct Blade
     val::Number
 end
 
-
-
 function Base.isless(x::Blade,y::Blade)
     if grd(x.bas) < grd(y.bas)
         return true
@@ -53,7 +51,6 @@ function Base.isless(x::Blade,y::Blade)
         return isless(x.bas,y.bas)
     end
 end
-
 
 function mvtoblds(mvin::Multivector)
     mv=mvtidy(mvin)
@@ -65,8 +62,6 @@ function mvtoblds(mvin::Multivector)
     return res
 end
 
-
-
 function vece(n::Int)
     if n == 0
         return Multivector([0x0000000000000000],[1.0])
@@ -75,7 +70,6 @@ function vece(n::Int)
     nn = ((((n-1) % 32) + 32) % 32) +1 
     return Multivector([bldlut[2*n-1]],[1.0])
 end
-
 
 function vece(n::Int, val::Float64)
     return val*vece(n)
