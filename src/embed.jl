@@ -96,7 +96,7 @@ end
 
 
 function embed(a::CGA.Even)
-    bascga = basis("CGA")
+    bascga = CGA.basis
     (e1,e2,e3,e4,f4) = (bascga[1], bascga[2], bascga[3], bascga[4], bascga[5] )
     bas44 = basis("GA44")
     (E1,E2,E3,E4,F4) = (bas44[1], bas44[2], bas44[3], bas44[4], bas44[8])
@@ -110,7 +110,7 @@ end
 
 
 function embed(a::CGA.Odd)
-    bascga = basis("CGA")
+    bascga = CGA.basis
     (e1,e2,e3,e4,f4) = (bascga[1], bascga[2], bascga[3], bascga[4], bascga[5] )
     bas44 = basis("GA44")
     (E1,E2,E3,E4,F4) = (bas44[1], bas44[2], bas44[3], bas44[4], bas44[8])
@@ -161,7 +161,7 @@ end
 
 
 function embed(a::GA24.Even)
-    bas24= basis("GA24")
+    bas24= GA24.basis
     (g0,g1,g2,g3,g4,g5) = (bas24[1], bas24[2], bas24[3], bas24[4], bas24[5], bas24[6])
     i6 = g0*g1*g2*g3*g4*g5
     evenbas = [g1*g0, g2*g0, g3*g0, g4*g0, -g5*g0, -g1*g2, -g1*g3, -g1*g4, g1*g5, -g2*g3, -g2*g4, g2*g5, -g3*g4, g3*g5, g4*g5,
@@ -179,7 +179,7 @@ end
 
 
 function embed(a::GA24.Odd)
-    bas24= basis("GA24")
+    bas24= GA24.basis
     (g0,g1,g2,g3,g4,g5) = (bas24[1], bas24[2], bas24[3], bas24[4], bas24[5], bas24[6])
     i6 = g0*g1*g2*g3*g4*g5
     oddbas = [g0, -g1, -g2, -g3, -g4, g5, 

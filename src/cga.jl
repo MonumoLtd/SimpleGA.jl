@@ -25,44 +25,9 @@ const e4 = Odd{Int8}(
 const f4 = Odd{Int8}(
     Quaternion(0.0), Quaternion(-1, 0, 0, 0), Quaternion(1, 0, 0, 0), Quaternion(0.0)
 )
+
 const I5 = e1 * e2 * e3 * e4 * f4
-
-function basisCGA(T)
-    e1 = Odd{T}(
-        Quaternion{T}(0, 1, 0, 0),
-        Quaternion{T}(0),
-        Quaternion{T}(0),
-        Quaternion{T}(0, -1, 0, 0),
-    )
-    e2 = Odd{T}(
-        Quaternion{T}(0, 0, 1, 0),
-        Quaternion{T}(0),
-        Quaternion{T}(0),
-        Quaternion{T}(0, 0, -1, 0),
-    )
-    e3 = Odd{T}(
-        Quaternion{T}(0, 0, 0, 1),
-        Quaternion{T}(0),
-        Quaternion{T}(0),
-        Quaternion{T}(0, 0, 0, -1),
-    )
-    e4 = Odd{T}(
-        Quaternion{T}(0),
-        Quaternion{T}(1, 0, 0, 0),
-        Quaternion{T}(1, 0, 0, 0),
-        Quaternion{T}(0),
-    )
-    f4 = Odd{T}(
-        Quaternion{T}(0),
-        Quaternion{T}(-1, 0, 0, 0),
-        Quaternion{T}(1, 0, 0, 0),
-        Quaternion{T}(0),
-    )
-    return [e1, e2, e3, e4, f4]
-end
-
-basCGA = [e1, e2, e3, e4, f4]
-export basCGA, basisCGA
+const basis = [e1, e2, e3, e4, f4]
 
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)

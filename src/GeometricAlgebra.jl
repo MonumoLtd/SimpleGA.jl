@@ -20,7 +20,7 @@ using .Quaternions
 
 include("ga20.jl")
 using .GA20
-export bas20
+export GA20
 
 include("GA30.jl")
 using .GA30
@@ -45,7 +45,7 @@ export pdual, basPGA
 
 include("CGA.jl")
 using .CGA
-export basCGA
+export CGA
 
 include("GA33.jl")
 using .GA33
@@ -53,7 +53,7 @@ export bas33
 
 include("GA24.jl")
 using .GA24
-export bas24
+export GA24
 
 include("GA64.jl")
 using .GA64
