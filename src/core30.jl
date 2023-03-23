@@ -4,8 +4,8 @@ Underlying representation is with quaternions, though in this case we do not use
 Instead we just use the hard-coded version of quaternions multiplication.
 =#
 
-using ..project: project
-using ..expb: expb
+import ..project
+import ..expb
 
 struct Even{T<:Real} <: Number
     w::T

@@ -3,8 +3,8 @@ Core code for the implementation of GA(4,1).
 Representation is as a 2x2 matrix of quaternions.
 =#
 
-using ..project: project
-using ..expb: expb
+import ..project
+import ..expb
 
 using ..Quaternions
 

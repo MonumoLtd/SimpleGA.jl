@@ -4,8 +4,8 @@ Work using self-dual and anti-self-dual decomposition. Base element is a 4x4 mat
 Useful algebra for line geometry.
 =#
 
-using ..project: project
-using ..expb: expb
+import ..project
+import ..expb
 
 struct Even{T<:Real} <: Number
     p::SMatrix{4,4,T,16}

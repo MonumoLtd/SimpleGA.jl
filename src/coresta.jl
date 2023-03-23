@@ -4,8 +4,8 @@ Underlying representation is with 2x2 complex matrices, though no matrices are f
 Makes use of Julia's internal ComplexF64 format.
 =#
 
-using ..project: project
-using ..expb: expb
+import ..project
+import ..expb
 
 struct Even{T<:Real} <: Number
     c1::Complex{T}

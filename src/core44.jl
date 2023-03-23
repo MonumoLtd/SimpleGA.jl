@@ -4,8 +4,8 @@ Uses a Uint8 representation of basis blades and bitwise operations.
 Used for checking other algebras.
 =#
 
-using ..project: project
-using ..expb: expb
+import ..project
+import ..expb
 
 using SparseArrays
 

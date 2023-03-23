@@ -10,8 +10,8 @@ module Quaternions
 
 using LinearAlgebra
 
-using ..project: project
-using ..expb: expb
+import ..project
+import ..expb
 
 export real_part, imag_part, expb, Quaternion
 
@@ -79,10 +79,10 @@ imag_part(a::Quaternion) = Quaternion(zero(a.w), a.x, a.y, a.z)
 function expb(a::Quaternion)
     a = imag_part(a)
     nrm = norm(a)
-    if iszero(nrm)
-        return Quaternion(one(nrm), 0, 0, 0)
+    return if iszero(nrm)
+        Quaternion(one(nrm), 0, 0, 0)
     else
-        return cos(nrm) + sin(nrm) * a / nrm
+        cos(nrm) + sin(nrm) * a / nrm
     end
 end
 

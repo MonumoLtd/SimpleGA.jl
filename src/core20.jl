@@ -4,8 +4,8 @@ Core code for the implementation of GA(2,0)
 Underlying representation is with complex numbers, so essentially a wrapper for Julia's internal ComplexF{T} formats.
 =#
 
-using ..project: project
-using ..expb: expb
+import ..project
+import ..expb
 
 struct Even{T<:Real} <: Number
     c1::Complex{T}

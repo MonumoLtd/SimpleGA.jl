@@ -4,8 +4,8 @@ Work using self-dual and anti-self-dual decomposition, so just use a pair of qua
 Useful algebra for projective geometry.
 =#
 
-using ..project: project
-using ..expb: expb
+import ..project
+import ..expb
 
 using ..Quaternions
 

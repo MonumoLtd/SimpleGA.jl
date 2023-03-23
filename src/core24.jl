@@ -4,8 +4,8 @@ Base element is a 4x4 Complex matrix built on Static Arrays library.
 This is the conformal algebra for spacetime, also relevant to twistor geometry.
 =#
 
-using ..project: project
-using ..expb: expb
+import ..project
+import ..expb
 
 struct Even{T<:Real} <: Number
     m::SMatrix{4,4,Complex{T},16}

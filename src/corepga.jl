@@ -5,8 +5,8 @@ Even / odd map performed by I3
 Useful for performance if CGA is too slow.
 =#
 
-using ..project: project
-using ..expb: expb
+import ..project
+import ..expb
 
 using ..Quaternions
 

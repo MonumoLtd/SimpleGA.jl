@@ -2,30 +2,6 @@
 The core interface function Basis.
 """
 
-function basis(alg::String)
-    if alg == "GA20"
-        return bas20
-    elseif alg == "GA30"
-        return bas30
-    elseif alg == "GA40"
-        return bas40
-    elseif alg == "PGA"
-        return basPGA
-    elseif alg == "CGA"
-        return basCGA
-    elseif alg == "STA"
-        return basSTA
-    elseif alg == "GA33"
-        return bas33
-    elseif alg == "GA24"
-        return bas24
-    elseif alg == "GA44"
-        return bas44
-    elseif alg == "GA64"
-        return bas64
-    end
-end
-
 function basis(p::Integer)
     return if p <= 2
         bas20
@@ -81,6 +57,33 @@ function basis(p::Integer, q::Integer, r::Integer)
         return basis(p + r, q + r)
     end
 end
+
+#Included for convenience for people who prefer to refer to an algebra by name.
+function basis(alg::String)
+    if alg == "GA20"
+        return bas20
+    elseif alg == "GA30"
+        return bas30
+    elseif alg == "GA40"
+        return bas40
+    elseif alg == "PGA"
+        return basPGA
+    elseif alg == "CGA"
+        return basCGA
+    elseif alg == "STA"
+        return basSTA
+    elseif alg == "GA33"
+        return bas33
+    elseif alg == "GA24"
+        return bas24
+    elseif alg == "GA44"
+        return bas44
+    elseif alg == "GA64"
+        return bas64
+    else throw(ArgumentError(alg * " is not a recognised algebra."))
+    end
+end
+
 
 #Test functions
 
