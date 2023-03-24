@@ -4,8 +4,8 @@ Core code for the implementation of GA(2,0)
 Underlying representation is with complex numbers, so essentially a wrapper for Julia's internal ComplexF{T} formats.
 =#
 
-import ..project
-import ..expb
+import ..GeometricAlgebra: project
+import ..GeometricAlgebra: bivector_exp
 
 struct Even{T<:Real} <: Number
     c1::Complex{T}
@@ -75,7 +75,7 @@ LinearAlgebra.dot(a::Odd, b::Odd) = real(conj(a.c1) * b.c1)
 #Exponentiation
 Base.exp(a::Even) = Even(exp(a.c1))
 
-function expb(a::Even)
+function bivector_exp(a::Even)
     return Even(exp(im * a.c1.im))
 end
 

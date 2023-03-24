@@ -1,6 +1,7 @@
 #Test suite for STA.
 #Test STAnd-alone results and compares with GA(4,4)
 
+basSTA = STA.basis
 (g0,g1,g2,g3) = g0 = (basSTA[1], basSTA[2], basSTA[3], basSTA[4])
 I4 = g0*g1*g2*g3
 
@@ -17,6 +18,7 @@ mo3 = rand()*g1 + rand()*g2 + g3*rand() + g0*rand() + I4*(rand()*g1 + rand()*g2 
 
 
 #Comparison with GA(4,4)
+bas44 = GA44.basis
 G0 = bas44[1]
 G1 = bas44[5]
 G2 = bas44[6]
@@ -41,6 +43,6 @@ V4 = inject(arr4,[G0,G1,G2,G3])
 @test isapprox(embed(v1*v2*v3), V1*V2*V3)
 @test isapprox(embed(v1*v2*v3*v4), V1*V2*V3*V4)
 @test isapprox(embed(exp(v1*v2)),exp(V1*V2))
-@test isapprox(embed(expb(v1*v2)),expb(V1*V2))
+@test isapprox(embed(bivector_exp(v1*v2)),bivector_exp(V1*V2))
 
-include("testcommon.jl")
+run_common_tests(me1, me2, me3, mo1, mo2, mo3, v1, v2)

@@ -21,8 +21,8 @@ const f2 = Multivector{Int8}([parse(UInt8, "00001011"; base=2)], [1.0])
 const f3 = Multivector{Int8}([parse(UInt8, "00101111"; base=2)], [1.0])
 const f4 = Multivector{Int8}([parse(UInt8, "10111111"; base=2)], [1.0])
 
-bas44 = [e1, e2, e3, e4, f1, f2, f3, f4]
-export bas44, construct44
+const basis = [e1, e2, e3, e4, f1, f2, f3, f4]
+export construct44
 
 #Additional functions
 
@@ -93,7 +93,7 @@ function mvtoblds(mvin::Multivector)
     return res
 end
 
-function mvtype(mv::Multivector)
+function mv_to_text(mv::Multivector)
     blds = mvtoblds(mv)
     sort!(blds; lt=bldless)
     res = string(blds[1].val) * bdptype(blds[1].bas)
@@ -108,6 +108,6 @@ function mvtype(mv::Multivector)
     return res
 end
 
-Base.show(io::IO, ::MIME"text/plain", mv::Multivector) = print(io, "", mvtype(mv))
+Base.show(io::IO, ::MIME"text/plain", mv::Multivector) = print(io, "", mv_to_text(mv))
 
 end #Module

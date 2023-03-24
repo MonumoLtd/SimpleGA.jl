@@ -5,8 +5,8 @@ Even / odd map performed by I3
 Useful for performance if CGA is too slow.
 =#
 
-import ..project
-import ..expb
+import ..GeometricAlgebra: project
+import ..GeometricAlgebra: bivector_exp
 
 using ..Quaternions
 
@@ -84,7 +84,7 @@ LinearAlgebra.dot(a::Even, b::Even) = dot(a.q, b.q)
 LinearAlgebra.dot(a::Odd, b::Odd) = -dot(a.q, b.q)
 
 #Exponentiation
-function expb(a::Even)
+function bivector_exp(a::Even)
     a = project(a, 2)
     aa = -a * a
     if iszero(tr(aa))
@@ -102,7 +102,7 @@ function expb(a::Even)
 end
 
 function Base.exp(a::Even)
-    R = expb(a)
+    R = bivector_exp(a)
     return exp(a.q.w) * (1 + project(a, 4)) * R
 end
 

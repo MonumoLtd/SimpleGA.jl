@@ -94,14 +94,14 @@ An exponential operator is included for Even multivectors. Two version exist
 
 ```
 Base.exp(A) # Exponentiates the full even multivector A.
-expb(A) # Exponentiates the bivector part of A.
+bivector_exp(A) # Exponentiates the bivector part of A.
 ```
-Clearly if the argument is a bivector both ```exp(A)``` and and ```expb(A)``` will written the same answer (to some precision). The reason for having a separate ```expb()``` command is that it can take advantage of various optimisations to ensure rotors are calculated as efficiently as possible. A separate command was thought to be more efficient than implementing a runtime check on the argumed of ```exp(A)``` to determine if the argument was a bivector.
+Clearly if the argument is a bivector both ```exp(A)``` and and ```bivector_exp(A)``` will written the same answer (to some precision). The reason for having a separate ```bivector_exp()``` command is that it can take advantage of various optimisations to ensure rotors are calculated as efficiently as possible. A separate command was thought to be more efficient than implementing a runtime check on the argumed of ```exp(A)``` to determine if the argument was a bivector.
 
 ### Further Functions
-```inject``` is a simple utility function for injecting scalars into a basis set. The code is simple:
+```dot``` is a simple utility function for doting scalars into a basis set. The code is simple:
 ```
-inject(xs,ys) = reduce(+,map((x,y)->x*y,xs,ys))
+dot(xs,ys) = reduce(+,map((x,y)->x*y,xs,ys))
 ```
 
 One advantage of how this library uses Julia's namespace and module structure is that it is straightforward to have multiple algbras in flight at one time. In a given application you may want to move elements between algebras, which can be achieved with the ```dot``` function mainly. There were too many cases to try and provide a single conversion function, and too many different ways of converting (projective split, conformal split ...). One function that is provided is a universal ```embed``` function that lifts elements into the G(4,4) algebra. This is primarily for testing purposes, but might form the basis for writing more specific applications.

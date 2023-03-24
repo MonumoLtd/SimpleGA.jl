@@ -4,8 +4,8 @@ Underlying representation is with quaternions, though in this case we do not use
 Instead we just use the hard-coded version of quaternions multiplication.
 =#
 
-import ..project
-import ..expb
+import ..GeometricAlgebra: project
+import ..GeometricAlgebra: bivector_exp
 
 struct Even{T<:Real} <: Number
     w::T
@@ -114,7 +114,7 @@ LinearAlgebra.dot(a::Even, b::Even) = a.w * b.w - a.x * b.x - a.y * b.y - a.z * 
 LinearAlgebra.dot(a::Odd, b::Odd) = -a.w * b.w + a.x * b.x + a.y * b.y + a.z * b.z
 
 #Exponentiation
-function expb(a::Even)
+function bivector_exp(a::Even)
     a = project(a, 2)
     nrm = sqrt(dot(a, -a))
     if iszero(nrm)
@@ -125,7 +125,7 @@ function expb(a::Even)
 end
 
 function Base.exp(a::Even)
-    R = expb(a)
+    R = bivector_exp(a)
     if iszero(a.w)
         return R
     else

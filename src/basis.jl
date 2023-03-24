@@ -4,96 +4,77 @@ The core interface function Basis.
 
 function basis(p::Integer)
     return if p <= 2
-        bas20
+        GA20.basis
     elseif p == 3
-        bas30
+        GA30.basis
     elseif p == 4
-        bas40
+        GA40.basis
     else
-        bas64
+        GA3232.basis
     end
 end
 
 function basis(p::Integer, q::Integer)
-    if q == 0
-        return basis(p)
+    return if q == 0
+        basis(p)
     elseif q == 1
-        p <= 4 ? basCGA : bas64
+        p <= 4 ? CGA.basis : GA3232.basis
     elseif q == 2
         if p <= 1
-            basSTA
+            STA.basis
         elseif p <= 3
-            bas33
+            GA33.basis
         elseif p == 4
-            bas44
+            GA44.basis
         else
-            bas64
+            GA3232.basis
         end
     elseif q == 3
         if p <= 1
-            basSTA
+            STA.basis
         elseif p == 2
-            bas24
+            GA24.basis
         elseif p == 3
-            bas33
+            GA33.basis
         elseif p == 4
-            bas44
+            GA44.basis
         else
-            bas64
+            GA3232.basis
         end
     elseif q == 4
-        p <= 4 ? bas44 : bas64
+        if p <= 2 
+            GA24.basis
+        else
+            p <= 4 ? GA44.basis : GA3232.basis
+        end
     else
-        return bas64
+        GA3232.basis
     end
 end
 
 function basis(p::Integer, q::Integer, r::Integer)
-    if r == 0
-        return basis(p, q)
+    return if r == 0
+        basis(p, q)
     elseif r == 1
-        p <= 3 && q == 0 ? basPGA : basis(p + 1, q + 1)
+        p <= 3 && q == 0 ? PGA.basis : basis(p + 1, q + 1)
     else
-        return basis(p + r, q + r)
+        basis(p + r, q + r)
     end
 end
 
-#Included for convenience for people who prefer to refer to an algebra by name.
-function basis(alg::String)
-    if alg == "GA20"
-        return bas20
-    elseif alg == "GA30"
-        return bas30
-    elseif alg == "GA40"
-        return bas40
-    elseif alg == "PGA"
-        return basPGA
-    elseif alg == "CGA"
-        return basCGA
-    elseif alg == "STA"
-        return basSTA
-    elseif alg == "GA33"
-        return bas33
-    elseif alg == "GA24"
-        return bas24
-    elseif alg == "GA44"
-        return bas44
-    elseif alg == "GA64"
-        return bas64
-    else throw(ArgumentError(alg * " is not a recognised algebra."))
-    end
+function basis()
+    println("Supported algebras and names ")
+    println("GA(2,0); GA20")
+    println("GA(3,0); GA30")
+    println("GA(4,0); GA40")
+    println("GA(1,3); STA")
+    println("GA(3,0,1); PGA")
+    println("GA(4,1); CGA")
+    println("GA(2,4); GA24")
+    println("GA(3,3); GA33")
+    println("GA(4,4); GA44")
+    println("GA(32,32); GA3232")
+    return
 end
 
 
-#Test functions
-
-function testbas(bas)
-    res = true
-    n = length(bas)
-    for i in 1:(n - 1)
-        for j in (i + 1):n
-            res = isequal(res && bas[i] * bas[j] + bas[j] * bas[i], zero(bas[i] * bas[j]))
-        end
-    end
-    return res
-end

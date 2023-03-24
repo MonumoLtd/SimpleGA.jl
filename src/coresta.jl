@@ -4,8 +4,8 @@ Underlying representation is with 2x2 complex matrices, though no matrices are f
 Makes use of Julia's internal ComplexF64 format.
 =#
 
-import ..project
-import ..expb
+import ..GeometricAlgebra: project
+import ..GeometricAlgebra: bivector_exp
 
 struct Even{T<:Real} <: Number
     c1::Complex{T}
@@ -135,7 +135,7 @@ function LinearAlgebra.dot(a::Odd, b::Odd)
 end
 
 #Exponentiation
-function expb(a::Even)
+function bivector_exp(a::Even)
     a = project(a, 2)
     aa = a * a
     fct = sqrt((aa.c1 + aa.c4) / 2)
@@ -147,7 +147,7 @@ function expb(a::Even)
 end
 
 function Base.exp(a::Even)
-    R = expb(a)
+    R = bivector_exp(a)
     fct = (a.c1 + a.c4) / 2
     if iszero(fct)
         return R

@@ -24,6 +24,7 @@ I5*(rand()*e1*e2 + e1*e3*rand() + e3*rand()*e2 - rand()*e1*e4 + rand()*e2*e4 + e
 
 
 #Comparison with GA(4,4)
+bas44 = GA44.basis
 (E1,E2,E3,E4,F4) = (bas44[1], bas44[2], bas44[3], bas44[4], bas44[8])
 arr1 = rand(5)
 v1 = inject(arr1,basCGA)
@@ -49,6 +50,6 @@ V5 = inject(arr5,[E1,E2,E3,E4,F4])
 @test isapprox(embed(v1*v2*v3*v4), V1*V2*V3*V4)
 @test isapprox(embed(v1*v2*v3*v4*v5), V1*V2*V3*V4*V5)
 @test isapprox(embed(exp(v1*v2)),exp(V1*V2))
-@test isapprox(embed(expb(v1*v2)),expb(V1*V2))
+@test isapprox(embed(bivector_exp(v1*v2)),bivector_exp(V1*V2))
 
-include("testcommon.jl")
+run_common_tests(me1, me2, me3, mo1, mo2, mo3, v1, v2)

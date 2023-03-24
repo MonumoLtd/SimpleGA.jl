@@ -1,6 +1,7 @@
 #Stand-alone tests of GA(4,4)
 #All other algebras are compared to this.
 
+bas44 = GA44.basis
 @test map(x->dot(x,x), bas44) == [1,1,1,1,-1,-1,-1,-1]
 @test testbas(bas44) 
 
@@ -45,7 +46,7 @@ mo3 = v8*v9*v10*v4*v5*v6*v7
 
 
 #Rotation
-R = expb(v1*v2)
+R = bivector_exp(v1*v2)
 no1 = R*mo1*R'
 no2 = R*mo2*R'
 @test isapprox(dot(mo1,mo2),dot(no1,no2))

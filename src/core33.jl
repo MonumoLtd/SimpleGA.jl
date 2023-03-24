@@ -4,8 +4,8 @@ Work using self-dual and anti-self-dual decomposition. Base element is a 4x4 mat
 Useful algebra for line geometry.
 =#
 
-import ..project
-import ..expb
+import ..GeometricAlgebra: project
+import ..GeometricAlgebra: bivector_exp
 
 struct Even{T<:Real} <: Number
     p::SMatrix{4,4,T,16}
@@ -105,7 +105,7 @@ function Base.exp(a::Even)
 end
 
 #TODO Any improvement here?
-function expb(a::Even)
+function bivector_exp(a::Even)
     a = project(a, 2)
     R = exp(a)
     delt = R * R' - 1

@@ -1,6 +1,7 @@
 #Test suite for PGA.
 #Test stand-alone results and compares with GA(4,4)
 
+basPGA = PGA.basis
 (e1,e2,e3,e0) = (basPGA[1], basPGA[2], basPGA[3], basPGA[4])
 @test map(x->dot(x,x), basPGA) == [1,1,1,0]
 @test testbas(basPGA) 
@@ -16,6 +17,7 @@ mo3 = rand()*e1 + rand()*e2 + e3*rand() + e0/rand() + I3*e0*(rand()*e1 + rand()*
 
 
 #Comparison with GA(4,4)
+bas44 = GA44.basis
 E1 = bas44[1]
 E2 = bas44[2]
 E3 = bas44[3]
@@ -39,6 +41,6 @@ V4 = inject(arr4,[E1,E2,E3,E0])
 @test isapprox(embed(v1*v2*v3), V1*V2*V3)
 @test isapprox(embed(v1*v2*v3*v4), V1*V2*V3*V4)
 @test isapprox(embed(exp(v1*v2)),exp(V1*V2))
-@test isapprox(embed(expb(v1*v2)),expb(V1*V2))
+@test isapprox(embed(bivector_exp(v1*v2)),bivector_exp(V1*V2))
 
-include("testcommon.jl")
+run_common_tests(me1, me2, me3, mo1, mo2, mo3, v1, v2)

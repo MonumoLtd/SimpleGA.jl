@@ -4,8 +4,8 @@ Base element is a 4x4 Complex matrix built on Static Arrays library.
 This is the conformal algebra for spacetime, also relevant to twistor geometry.
 =#
 
-import ..project
-import ..expb
+import ..GeometricAlgebra: project
+import ..GeometricAlgebra: bivector_exp
 
 struct Even{T<:Real} <: Number
     m::SMatrix{4,4,Complex{T},16}
@@ -99,7 +99,7 @@ function Base.exp(a::Even)
 end
 
 #TODO Any improvement here?
-function expb(a::Even)
+function bivector_exp(a::Even)
     a = project(a, 2)
     R = exp(a)
     delt = R * R' - 1

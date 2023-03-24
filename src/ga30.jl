@@ -18,13 +18,12 @@ const e2 = Odd{Int8}(0, 0, 1, 0)
 const e3 = Odd{Int8}(0, 0, 0, 1)
 const I3 = Odd{Int8}(1, 0, 0, 0)
 
-bas30 = [e1, e2, e3]
-export bas30
+const basis = [e1, e2, e3]
 
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)
 
-function mvtype(a::Even)
+function mv_to_text(a::Even)
     res = ""
     tp = approxzero(a.w) ? "" : " + " * string(a.w)
     res *= tp
@@ -42,7 +41,7 @@ function mvtype(a::Even)
     return res
 end
 
-function mvtype(a::Odd)
+function mv_to_text(a::Odd)
     res = ""
     tp = approxzero(a.x) ? "" : " + " * string(a.x) * "e1"
     res *= tp

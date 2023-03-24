@@ -1,12 +1,13 @@
 #Tests of GA(32,32)
 #Full fat products are slow in this algebra, so test with random subsets
 
+bas64 = GA3232.basis
 @test map(x->dot(x,x), bas64) == [1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1]
 @test testbas(bas64)
 
 function randvec(n)
     rints = rand(1:64,n)
-    bas = map(i->GeometricAlgebra.bas64[i],rints)
+    bas = map(i->GA3232.basis[i],rints)
     return inject(rand(n),bas )
 end
 

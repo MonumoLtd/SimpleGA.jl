@@ -1,20 +1,19 @@
 """
-    GA64
+    GA3232
 
     Code for GA(32,32).
     Not optimised in any way, but useful for some experimentation.
     Use with caution. GA(32,32) is very BIG!
 
 """
-module GA64
+module GA3232
 
 using LinearAlgebra
 
-include("core64.jl")
+include("core3232.jl")
 import Base.show
 
-
-
+#! format:off
 bldbas = [
 0x0000000000000001,0x0000000000000002,0x0000000000000007,0x000000000000000b,
 0x000000000000001f,0x000000000000002f,0x000000000000007f,0x00000000000000bf,
@@ -33,78 +32,79 @@ bldbas = [
 0x01ffffffffffffff,0x02ffffffffffffff,0x07ffffffffffffff,0x0bffffffffffffff,
 0x1fffffffffffffff,0x2fffffffffffffff,0x7fffffffffffffff,0xbfffffffffffffff
 ]
+#! format:on
 
-bas64 = map(n->Multivector([n],[convert(Int8,1)]), bldbas)
-export bas64, construct64
+basis = map(n -> Multivector([n], [convert(Int8, 1)]), bldbas)
+export construct3232
 
 struct Blade
     bas::UInt64
     val::Number
 end
 
-function Base.isless(x::Blade,y::Blade)
+function Base.isless(x::Blade, y::Blade)
     if grd(x.bas) < grd(y.bas)
         return true
     elseif grd(x.bas) > grd(y.bas)
         return false
     else
-        return isless(x.bas,y.bas)
+        return isless(x.bas, y.bas)
     end
 end
 
 function mvtoblds(mvin::Multivector)
-    mv=mvtidy(mvin)
+    mv = mvtidy(mvin)
     ln = length(mv.bas)
-    res=Array{Blade}(undef,ln)
+    res = Array{Blade}(undef, ln)
     for i in 1:ln
-        res[i]=Blade(mv.bas[i],mv.val[i])
+        res[i] = Blade(mv.bas[i], mv.val[i])
     end
     return res
 end
 
 function vece(n::Int)
     if n == 0
-        return Multivector([0x0000000000000000],[1.0])
+        return Multivector([0x0000000000000000], [1.0])
     end
     #Keep in range 1..32
-    nn = ((((n-1) % 32) + 32) % 32) +1 
-    return Multivector([bldlut[2*n-1]],[1.0])
+    nn = ((((n - 1) % 32) + 32) % 32) + 1
+    return Multivector([bldlut[2 * n - 1]], [1.0])
 end
 
 function vece(n::Int, val::Float64)
-    return val*vece(n)
+    return val * vece(n)
 end
 
 function vecf(n::Int)
     if n == 0
-        return Multivector([0x0000000000000000],[1.0])
+        return Multivector([0x0000000000000000], [1.0])
     end
     #Keep in range 1..32
-    nn = ((((n-1) % 32) + 32) % 32) +1 
-    return Multivector([bldlut[2*n]],[1.0])
+    nn = ((((n - 1) % 32) + 32) % 32) + 1
+    return Multivector([bldlut[2 * n]], [1.0])
 end
 
 function vecf(n::Int, val::Float64)
-    return val*vecf(n)
+    return val * vecf(n)
 end
 
 function bdptype(nn::UInt64)
     bldn = bldconvert(nn)
-    res=""
-    for i in 1:32 
+    res = ""
+    for i in 1:32
         if trailing_zeros(bldn) == 0
-            res = res *"e"* string(i)
+            res = res * "e" * string(i)
         end
         bldn = bldn >> 1
         if trailing_zeros(bldn) == 0
-            res = res *"f"* string(i)
+            res = res * "f" * string(i)
         end
         bldn = bldn >> 1
     end
     return res
 end
 
-function mvtype(mv::Multivector)
+function mv_to_text(mv::Multivector)
     blds = mvtoblds(mv)
     sort!(blds)
     res = string(blds[1].val) * bdptype(blds[1].bas)
@@ -118,6 +118,6 @@ function mvtype(mv::Multivector)
     return res
 end
 
-Base.show(io::IO, mv::Multivector) = print(io, mvtype(mv))
+Base.show(io::IO, mv::Multivector) = print(io, mv_to_text(mv))
 
 end #Module

@@ -32,7 +32,7 @@ const basis = [e1, e2, e3, e4, f4]
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)
 
-function mvtype(a::Even)
+function mv_to_text(a::Even)
     res = ""
     scl = tr(a)
     tp = approxzero(scl) ? "" : " + " * string(scl)
@@ -90,7 +90,7 @@ function mvtype(a::Even)
     return res
 end
 
-function mvtype(a::Odd)
+function mv_to_text(a::Odd)
     res = ""
     scl = dot(a, e1)
     tp = approxzero(scl) ? "" : " + " * string(scl) * "e1"

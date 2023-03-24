@@ -4,8 +4,8 @@ Uses a Uint8 representation of basis blades and bitwise operations.
 Used for checking other algebras.
 =#
 
-import ..project
-import ..expb
+import ..GeometricAlgebra: project
+import ..GeometricAlgebra: bivector_exp
 
 using SparseArrays
 
@@ -158,7 +158,7 @@ function Base.exp(a::Multivector)
     return res
 end
 
-function expb(a::Multivector)
+function bivector_exp(a::Multivector)
     R = exp(project(a, 2))
     delt = R * R' - 1
     return (1 - 0.5 * delt + 0.375 * delt * delt) * R
@@ -166,7 +166,7 @@ end
 
 function Base.isapprox(mv1::Multivector, mv2::Multivector)
     return isapprox(
-        SparseVector(256, mv1.bas .+ 1, mv1.val), SparseVector(256, mv2.bas .+ 1, mv2.val)
+        SparseVector(256, mv1.bas .+ 1, mv1.val), SparseVector(256, mv2.bas .+ 1, mv2.val); atol = 1e-7
     )
 end
 

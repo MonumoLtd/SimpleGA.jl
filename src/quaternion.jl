@@ -10,10 +10,10 @@ module Quaternions
 
 using LinearAlgebra
 
-import ..project
-import ..expb
+import ..GeometricAlgebra: project
+import ..GeometricAlgebra: bivector_exp
 
-export real_part, imag_part, expb, Quaternion
+export real_part, imag_part, bivector_exp, Quaternion
 
 struct Quaternion{T<:Number}
     w::T
@@ -76,7 +76,7 @@ real_part(a::Quaternion) = Quaternion(a.w, zero(a.w), zero(a.w), zero(a.w))
 imag_part(a::Quaternion) = Quaternion(zero(a.w), a.x, a.y, a.z)
 
 #Exponentiation
-function expb(a::Quaternion)
+function bivector_exp(a::Quaternion)
     a = imag_part(a)
     nrm = norm(a)
     return if iszero(nrm)
@@ -87,7 +87,7 @@ function expb(a::Quaternion)
 end
 
 function Base.exp(a::Quaternion)
-    R = expb(a)
+    R = bivector_exp(a)
     if iszero(a.w)
         return R
     else

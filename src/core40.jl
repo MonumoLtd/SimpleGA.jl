@@ -4,8 +4,8 @@ Work using self-dual and anti-self-dual decomposition, so just use a pair of qua
 Useful algebra for projective geometry.
 =#
 
-import ..project
-import ..expb
+import ..GeometricAlgebra: project
+import ..GeometricAlgebra: bivector_exp
 
 using ..Quaternions
 
@@ -83,8 +83,8 @@ LinearAlgebra.dot(a::Even, b::Even) = (dot(a.qp, b.qp) + dot(a.qm, b.qm)) / 2
 LinearAlgebra.dot(a::Odd, b::Odd) = (dot(a.qp, b.qm) + dot(a.qm, b.qp)) / 2
 
 #Exponentiation
-function expb(a::Even)
-    return Even(expb(a.qp), expb(a.qm))
+function bivector_exp(a::Even)
+    return Even(bivector_exp(a.qp), bivector_exp(a.qm))
 end
 
 function Base.exp(a::Even)

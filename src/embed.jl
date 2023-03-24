@@ -5,17 +5,17 @@ import LinearAlgebra.tr
 import LinearAlgebra.dot
 
 function embed(a::GA20.Odd)
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     return real(a.c1)*bas44[1]+imag(a.c1)*bas44[2]
 end
 
 function embed(a::GA20.Even)
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     return real(a.c1)+imag(a.c1)*bas44[1]*bas44[2]
 end
 
 function embed(a::GA30.Even)
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     return a.w - a.x*bas44[2]*bas44[3] - a.y*bas44[3]*bas44[1] - a.z*bas44[1]*bas44[2]
 end
 
@@ -24,9 +24,9 @@ function embed(a::GA30.Odd)
 end
 
 function embed(a::STA.Even)
-    bassta = basis("STA")
+    bassta = STA.basis
     (g0,g1,g2,g3) = (bassta[1], bassta[2], bassta[3], bassta[4])
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     (G0, G1,G2,G3) = (bas44[1], bas44[5], bas44[6], bas44[7])
     i4 = g0*g1*g2*g3
     I4 = G0*G1*G2*G3
@@ -36,9 +36,9 @@ function embed(a::STA.Even)
 end
 
 function embed(a::STA.Odd)
-    bassta = basis("STA")
+    bassta = STA.basis
     (g0,g1,g2,g3) = (bassta[1], bassta[2], bassta[3], bassta[4])
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     (G0, G1,G2,G3) = (bas44[1], bas44[5], bas44[6], bas44[7])
     i4 = g0*g1*g2*g3
     I4 = G0*G1*G2*G3
@@ -48,9 +48,9 @@ function embed(a::STA.Odd)
 end
 
 function embed(a::GA40.Even)
-    bas40 = basis("GA40")
+    bas40 = GA40.basis
     (e1,e2,e3,e4) = (bas40[1], bas40[2], bas40[3], bas40[4])
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     (E1,E2,E3,E4) = (bas44[1], bas44[2], bas44[3], bas44[4])
     b40 = [-e1*e2, -e1*e3, -e1*e4, -e2*e3, -e2*e4, -e3*e4, e1*e2*e3*e4]
     b44 = [E1*E2, E1*E3, E1*E4, E2*E3, E2*E4, E3*E4, E1*E2*E3*E4]
@@ -62,9 +62,9 @@ function embed(a::GA40.Even)
 end
 
 function embed(a::GA40.Odd)
-    bas40 = basis("GA40")
+    bas40 = GA40.basis
     (e1,e2,e3,e4) = (bas40[1], bas40[2], bas40[3], bas40[4])
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     (E1,E2,E3,E4) = (bas44[1], bas44[2], bas44[3], bas44[4])
     b40 = [e1, e2, e3, e4, -e2*e3*e4, -e1*e3*e4, -e1*e2*e4, -e1*e2*e3]
     b44 = [E1, E2, E3, E4, E2*E3*E4, E1*E3*E4, E1*E2*E4, E1*E2*E3 ]
@@ -77,7 +77,7 @@ end
 
  
 function embed(a::PGA.Even)
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     (E1,E2,E3,E0) = (bas44[1], bas44[2], bas44[3], bas44[4]+bas44[8])
     I3 = E1*E2*E3
     evenlist = [a.q.w, -a.q.z, - a.q.x, -a.q.y, -a.n.x, -a.n.y, -a.n.z, -a.n.w]
@@ -86,7 +86,7 @@ function embed(a::PGA.Even)
 end
 
 function embed(a::PGA.Odd)
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     (E1,E2,E3,E0) = (bas44[1], bas44[2], bas44[3], bas44[4]+bas44[8])
     I3 = E1*E2*E3
     oddlist = [a.n.w,-a.q.x,-a.q.y,-a.q.z,a.n.z,a.n.y,a.n.x,-a.q.w]
@@ -98,7 +98,7 @@ end
 function embed(a::CGA.Even)
     bascga = CGA.basis
     (e1,e2,e3,e4,f4) = (bascga[1], bascga[2], bascga[3], bascga[4], bascga[5] )
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     (E1,E2,E3,E4,F4) = (bas44[1], bas44[2], bas44[3], bas44[4], bas44[8])
     i5 = e1*e2*e3*e4*f4
     I5 = E1*E2*E3*E4*F4
@@ -112,7 +112,7 @@ end
 function embed(a::CGA.Odd)
     bascga = CGA.basis
     (e1,e2,e3,e4,f4) = (bascga[1], bascga[2], bascga[3], bascga[4], bascga[5] )
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     (E1,E2,E3,E4,F4) = (bas44[1], bas44[2], bas44[3], bas44[4], bas44[8])
     i5 = e1*e2*e3*e4*f4
     I5 = E1*E2*E3*E4*F4
@@ -124,14 +124,14 @@ end
 
 
 function embed(a::GA33.Even)
-    bas33 = basis("GA33")
+    bas33 = GA33.basis
     (e1,e2,e3,f1,f2,f3) = (bas33[1],bas33[2],bas33[3],bas33[4],bas33[5],bas33[6])
     i6 = e1*e2*e3*f1*f2*f3
     evenbas = [-e1*e2, -e1*e3, -e2*e3, -f1*f2, -f1*f3, -f2*f3, e1*f1, e1*f2, e1*f3, e2*f1, e2*f2, e2*f3, e3*f1, e3*f2, e3*f3,
         -e1*e2*i6, -e1*e3*i6, -e2*e3*i6, -f1*f2*i6, -f1*f3*i6, -f2*f3*i6, e1*f1*i6, e1*f2*i6, e1*f3*i6,e2*f1*i6, 
         e2*f2*i6, e2*f3*i6, e3*f1*i6, e3*f2*i6, e3*f3*i6,i6]
     vals = map(bs->dot(a,bs),evenbas)
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     (E1,E2,E3,F1,F2,F3) = (bas44[1], bas44[2], bas44[3], bas44[5], bas44[6], bas44[7])
     I6 = E1*E2*E3*F1*F2*F3
     resbas = [E1*E2, E1*E3, E2*E3, F1*F2, F1*F3, F2*F3, E1*F1, E1*F2, E1*F3, E2*F1, E2*F2, E2*F3, E3*F1, E3*F2, E3*F3,
@@ -141,7 +141,7 @@ function embed(a::GA33.Even)
 end
 
 function embed(a::GA33.Odd)
-    bas33 = basis("GA33")
+    bas33 = GA33.basis
     (e1,e2,e3,f1,f2,f3) = (bas33[1],bas33[2],bas33[3],bas33[4],bas33[5],bas33[6])
     i6 = e1*e2*e3*f1*f2*f3
     oddbas = [e1, e2, e3, -f1, -f2, -f3, -e1*e2*e3, 
@@ -149,7 +149,7 @@ function embed(a::GA33.Odd)
     -e1*f1*f2, - e1*f1*f3, -e1*f2*f3, -e2*f1*f2, - e2*f1*f3, -e2*f2*f3, -e3*f1*f2, - e3*f1*f3, -e3*f2*f3,
     f1*f2*f3, -e1*i6, -e2*i6, -e3*i6, f1*i6, f2*i6, f3*i6]
     vals = map(bs->dot(a,bs),oddbas)
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     (E1,E2,E3,F1,F2,F3) = (bas44[1], bas44[2], bas44[3], bas44[5], bas44[6], bas44[7])
     I6 = E1*E2*E3*F1*F2*F3
     resbas = [E1, E2, E3, F1, F2, F3, E1*E2*E3, 
@@ -168,7 +168,7 @@ function embed(a::GA24.Even)
     -g1*g0*i6, -g2*g0*i6, -g3*g0*i6, -g4*g0*i6, g5*g0*i6, 
     g1*g2*i6, g1*g3*i6, g1*g4*i6, -g1*g5*i6, g2*g3*i6, g2*g4*i6, -g2*g5*i6, g3*g4*i6, -g3*g5*i6, -g4*g5*i6, -i6]
     vals = map(bs->dot(a,bs),evenbas)
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     (G0,G1,G2,G3,G4,G5) = (bas44[1], bas44[5], bas44[6], bas44[7], bas44[8], bas44[4])
     I6 = G0*G1*G2*G3*G4*G5
     resbas = [G1*G0, G2*G0, G3*G0, G4*G0, G5*G0, G1*G2, G1*G3, G1*G4, G1*G5, G2*G3, G2*G4, G2*G5, G3*G4, G3*G5, G4*G5,
@@ -187,7 +187,7 @@ function embed(a::GA24.Odd)
     -g0*g1*g2*i6, -g0*g1*g3*i6, -g0*g1*g4*i6, g0*g1*g5*i6, -g0*g2*g3*i6, -g0*g2*g4*i6, g0*g2*g5*i6, -g0*g3*g4*i6, g0*g3*g5*i6, g0*g4*g5*i6,
     g0*i6, -g1*i6, -g2*i6, -g3*i6, -g4*i6, g5*i6 ]
     vals = map(bs->dot(a,bs),oddbas)
-    bas44 = basis("GA44")
+    bas44 = GA44.basis
     (G0,G1,G2,G3,G4,G5) = (bas44[1], bas44[5], bas44[6], bas44[7], bas44[8], bas44[4])
     I6 = G0*G1*G2*G3*G4*G5
     resbas = [G0, G1, G2, G3, G4, G5, 

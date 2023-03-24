@@ -2,8 +2,8 @@
 Implementation of GA(32,32) in Julia using Uint64 bitwise operations. 
 =#
 
-import ..project
-import ..expb
+import ..GeometricAlgebra: project
+import ..GeometricAlgebra: bivector_exp
 
 #The Multivector type assumes that the blade list is unique and in order. But we want to avoid checking this at runtime.
 #Only use this constructor if you are certain the blade list is correct. If not, use construct64()
@@ -189,7 +189,7 @@ function Base.exp(a::Multivector)
     return res
 end
 
-function expb(a::Multivector)
+function bivector_exp(a::Multivector)
     R = exp(project(a, 2))
     delt = R * R' - 1
     return (1 - 0.5 * delt + 0.375 * delt * delt) * R

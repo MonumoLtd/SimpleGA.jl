@@ -3,8 +3,8 @@ Core code for the implementation of GA(4,1).
 Representation is as a 2x2 matrix of quaternions.
 =#
 
-import ..project
-import ..expb
+import ..GeometricAlgebra: project
+import ..GeometricAlgebra: bivector_exp
 
 using ..Quaternions
 
@@ -174,7 +174,7 @@ end
 
 #Remove non-bivector terms. 
 #TODO - investigate if closed form gives any performance benefits. Suspect all the if statements would slow this down.
-function expb(a::Even)
+function bivector_exp(a::Even)
     a = project(a, 2)
     R = exp(a)
     delt = R * R' - 1

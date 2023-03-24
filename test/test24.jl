@@ -36,6 +36,7 @@ mo3 = (rand()*g0 + rand()*g1 + g3*rand() + g4*rand() + g0*g1*g3*g4*(rand()*g0 + 
 
 
 #Comparison with GA(4,4)
+bas44 = GA44.basis
 (G0,G1,G2,G3,G4,G5) = (bas44[1], bas44[5], bas44[6], bas44[7], bas44[8], bas44[4])
 arr1 = rand(6)
 v1 = inject(arr1,bas24)
@@ -57,7 +58,6 @@ V4 = inject(arr4,[G0,G1,G2,G3,G4,G5])
 @test isapprox(embed(v1*v2*v3), V1*V2*V3)
 @test isapprox(embed(v1*v2*v3*v4), V1*V2*V3*V4)
 @test isapprox(embed(exp(v1*v2)),exp(V1*V2))
-@test isapprox(embed(expb(v1*v2)),expb(V1*V2))
-
+@test isapprox(embed(bivector_exp(v1*v2)),bivector_exp(V1*V2))
     
-include("testcommon.jl")
+run_common_tests(me1, me2, me3, mo1, mo2, mo3, v1, v2)

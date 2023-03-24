@@ -26,7 +26,7 @@ Base.imag(a::Even) = imag(a.c1)
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)
 
-function mvtype(a::Even)
+function mv_to_text(a::Even)
     res = ""
     tp = approxzero(real(a.c1)) ? "" : " + " * string(real(a.c1))
     res *= tp
@@ -40,7 +40,7 @@ function mvtype(a::Even)
     return res
 end
 
-function mvtype(a::Odd)
+function mv_to_text(a::Odd)
     res = ""
     tp = approxzero(real(a.c1)) ? "" : " + " * string(real(a.c1)) * "e1"
     res *= tp
@@ -52,14 +52,6 @@ function mvtype(a::Odd)
         res = chop(res; head=3, tail=0)
     end
     return res
-end
-
-function Base.show(io::IO, ::MIME"text/plain", mvs::Vector{Even})
-    n = length(mvs)
-    println(io, n, "-element Vector{Even}")
-    for i in eachindex(mvs)
-        println(io, " ", mvtype(mvs[i]))
-    end
 end
 
 include("show.jl")

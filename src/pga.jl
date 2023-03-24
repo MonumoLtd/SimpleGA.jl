@@ -19,8 +19,8 @@ const e3 = Odd{Int8}(Quaternion(0, 0, 0, -1.0), Quaternion(0.0))
 const e0 = Odd{Int8}(Quaternion(0.0), Quaternion(1.0, 0, 0, 0))
 const I3 = e1 * e2 * e3
 
-basPGA = [e1, e2, e3, e0]
-export basPGA, pdual
+basis = [e1, e2, e3, e0]
+export pdual
 
 #Additional Functions. Sign conventions agree with De Keninck et al.
 function pdual(a::Even)
@@ -34,7 +34,7 @@ end
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)
 
-function mvtype(a::Even)
+function mv_to_text(a::Even)
     res = ""
     evenlist = [a.q.w, -a.q.z, -a.q.x, -a.q.y, -a.n.x, -a.n.y, -a.n.z, -a.n.w]
     evenstring = ["", "e1e2", "e2e3", "e3e1", "e0e1", "e0e2", "e0e3", "e0I3"]
@@ -50,7 +50,7 @@ function mvtype(a::Even)
     return res
 end
 
-function mvtype(a::Odd)
+function mv_to_text(a::Odd)
     res = ""
     oddlist = [a.n.w, -a.q.x, -a.q.y, -a.q.z, a.n.z, a.n.y, a.n.x, -a.q.w]
     oddstring = ["e0", "e1", "e2", "e3", "e0e2e1", "e0e1e3", "e0e3e2", "I3"]

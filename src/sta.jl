@@ -23,8 +23,8 @@ const g2 = s2 * g0
 const g3 = s3 * g0
 const I4 = g0 * g1 * g2 * g3
 
-basSTA = [g0, g1, g2, g3]
-export basSTA, bar
+const basis = [g0, g1, g2, g3]
+export bar
 
 #Additional function for Pauli operations.Pre and post multiply by g0.
 function bar(a::Even)
@@ -38,7 +38,7 @@ end
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)
 
-function mvtype(a::Even)
+function mv_to_text(a::Even)
     res = ""
     scl = tr(a)
     tp = approxzero(scl) ? "" : " + " * string(scl)
@@ -72,7 +72,7 @@ function mvtype(a::Even)
     return res
 end
 
-function mvtype(a::Odd)
+function mv_to_text(a::Odd)
     res = ""
     scl = dot(a, g0)
     tp = approxzero(scl) ? "" : " + " * string(scl) * "γ0"

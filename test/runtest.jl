@@ -1,5 +1,7 @@
-#Test suite for Geometric LinearAlgebra
+#Test suite for Geometric Algebra
 using Test
+
+include("testfuncs.jl")
 
 @testset "GA Tests" begin
     include("test20.jl")
@@ -11,5 +13,5 @@ using Test
     include("test33.jl")
     include("test24.jl")
     include("test44.jl")
-    include("test64.jl")
+    include("test3232.jl")
 end

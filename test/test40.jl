@@ -1,6 +1,7 @@
 #Test suite for GA(4,0).
 #Test stand-alone results and compares with GA(4,4)
 
+bas40 = GA40.basis
 (e1,e2,e3,e4) = (bas40[1],bas40[2],bas40[3],bas40[4])
 E4 = e1*e2*e3*e4
 
@@ -16,6 +17,7 @@ mo3 = rand()*e1 + rand()*e2 + e3*rand() + e4*rand() + E4*(rand()*e1 + rand()*e2 
 
 
 #Comparison with GA(4,4)
+bas44 = GA44.basis
 (E1,E2,E3,E4) = (bas44[1], bas44[2], bas44[3],bas44[4])
 arr1 = rand(4)
 v1 = inject(arr1,bas40)
@@ -36,6 +38,6 @@ V4 = inject(arr4,[E1,E2,E3,E4])
 @test isapprox(embed(v1*v2*v3), V1*V2*V3)
 @test isapprox(embed(v1*v2*v3*v4), V1*V2*V3*V4)
 @test isapprox(embed(exp(v1*v2)),exp(V1*V2))
-@test isapprox(embed(expb(v1*v2)),expb(V1*V2))
+@test isapprox(embed(bivector_exp(v1*v2)),bivector_exp(V1*V2))
 
-include("testcommon.jl")
+run_common_tests(me1, me2, me3, mo1, mo2, mo3, v1, v2)
