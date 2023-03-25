@@ -166,7 +166,9 @@ end
 
 function Base.isapprox(mv1::Multivector, mv2::Multivector)
     return isapprox(
-        SparseVector(256, mv1.bas .+ 1, mv1.val), SparseVector(256, mv2.bas .+ 1, mv2.val); atol = 1e-7
+        SparseVector(256, mv1.bas .+ 1, mv1.val),
+        SparseVector(256, mv2.bas .+ 1, mv2.val);
+        atol=1e-7,
     )
 end
 

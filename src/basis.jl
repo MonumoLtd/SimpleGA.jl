@@ -42,7 +42,7 @@ function basis(p::Integer, q::Integer)
             GA3232.basis
         end
     elseif q == 4
-        if p <= 2 
+        if p <= 2
             GA24.basis
         else
             p <= 4 ? GA44.basis : GA3232.basis
@@ -74,7 +74,4 @@ function basis()
     println("GA(3,3); GA33")
     println("GA(4,4); GA44")
     println("GA(32,32); GA3232")
-    return
 end
-
-
