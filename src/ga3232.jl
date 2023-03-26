@@ -34,7 +34,7 @@ bldbas = [
 ]
 #! format:on
 
-basis = map(n -> Multivector([n], [convert(Int8, 1)]), bldbas)
+const basis = map(n -> Multivector([n], [convert(Int8, 1)]), bldbas)
 export construct3232
 
 struct Blade
