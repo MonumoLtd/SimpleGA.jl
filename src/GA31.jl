@@ -5,7 +5,7 @@ Code for GA(3,1). Even and odd elements are stored as complex structs.
 2x2 matrix products are unwrapped.
 """
 
-module STA
+module GA31
 
 using GeometricAlgebra
 using LinearAlgebra
@@ -19,9 +19,9 @@ const s1 = Even{Int8}(0, 1, 1, 0)
 const s2 = Even{Int8}(0, -im, im, 0)
 const s3 = Even{Int8}(1, 0, 0, -1)
 const f3 = Odd{Int8}(im, 0, 0, im)
-const e1 = s1 * g0
-const e2 = s2 * g0
-const e3 = s3 * g0
+const e1 = s1 * f3
+const e2 = s2 * f3
+const e3 = s3 * f3
 const I4 = e1 * e2 * e3 * f3
 
 const basis = SA[e1, e2, e3, f3]
