@@ -1,8 +1,5 @@
 #Routines for converting from small algebras to G(4,4)
 
-import LinearAlgebra.tr
-import LinearAlgebra.dot
-
 function embed(a::GA20.Odd)
     bas44 = GA44.basis
     return real(a.c1) * bas44[1] + imag(a.c1) * bas44[2]
@@ -119,13 +116,13 @@ function embed(a::CGA.Even)
     i5 = e1 * e2 * e3 * e4 * f4
     I5 = E1 * E2 * E3 * E4 * F4
     #! format:off
-    evenbas = [-e1*e2, -e1*e3, -e1*e4, -e2*e3, -e2*e4, -e3*e4, e1*f4, e2*f4, e3*f4, e4*f4, 
-                -i5*e1, -i5*e2, -i5*e3, -i5*e4, i5*f4] 
+    evenbas = [-e1*e2, -e1*e3, -e1*e4, -e2*e3, -e2*e4, -e3*e4, e1*f4, e2*f4, e3*f4, e4*f4,
+                -i5*e1, -i5*e2, -i5*e3, -i5*e4, i5*f4]
     #! format:on
     vals = map(bs -> dot(a, bs), evenbas)
     #! format:off
-    resbas = [E1*E2, E1*E3, E1*E4, E2*E3, E2*E4, E3*E4, E1*F4, E2*F4, E3*F4, E4*F4, 
-                I5*E1, I5*E2, I5*E3, I5*E4, I5*F4] 
+    resbas = [E1*E2, E1*E3, E1*E4, E2*E3, E2*E4, E3*E4, E1*F4, E2*F4, E3*F4, E4*F4,
+                I5*E1, I5*E2, I5*E3, I5*E4, I5*F4]
     #! format:on
     return tr(a) + inject(vals, resbas)
 end
@@ -138,14 +135,14 @@ function embed(a::CGA.Odd)
     i5 = e1 * e2 * e3 * e4 * f4
     I5 = E1 * E2 * E3 * E4 * F4
     #! format:off
-    oddbas = [e1, e2, e3, e4, -f4, 
-            i5*e1*e2, i5*e1*e3, i5*e1*e4, i5*e2*e3, i5*e2*e4, i5*e3*e4, -i5*e1*f4, -i5*e2*f4, -i5*e3*f4, -i5*e4*f4, 
+    oddbas = [e1, e2, e3, e4, -f4,
+            i5*e1*e2, i5*e1*e3, i5*e1*e4, i5*e2*e3, i5*e2*e4, i5*e3*e4, -i5*e1*f4, -i5*e2*f4, -i5*e3*f4, -i5*e4*f4,
             -i5 ]
     #! format:on
     vals = map(bs -> dot(a, bs), oddbas)
     #! format:off
-    resbas = [E1, E2, E3, E4, F4, 
-                I5*E1*E2, I5*E1*E3, I5*E1*E4, I5*E2*E3, I5*E2*E4, I5*E3*E4, I5*E1*F4, I5*E2*F4, I5*E3*F4, I5*E4*F4, 
+    resbas = [E1, E2, E3, E4, F4,
+                I5*E1*E2, I5*E1*E3, I5*E1*E4, I5*E2*E3, I5*E2*E4, I5*E3*E4, I5*E1*F4, I5*E2*F4, I5*E3*F4, I5*E4*F4,
                 I5]
     #! format:on
     return inject(vals, resbas)
@@ -156,9 +153,9 @@ function embed(a::GA33.Even)
     (e1, e2, e3, f1, f2, f3) = (bas33[1], bas33[2], bas33[3], bas33[4], bas33[5], bas33[6])
     i6 = e1 * e2 * e3 * f1 * f2 * f3
     #! format:off
-    evenbas = [ -e1*e2, -e1*e3, -e2*e3, -f1*f2, -f1*f3, -f2*f3, 
+    evenbas = [ -e1*e2, -e1*e3, -e2*e3, -f1*f2, -f1*f3, -f2*f3,
                 e1*f1, e1*f2, e1*f3, e2*f1, e2*f2, e2*f3, e3*f1, e3*f2, e3*f3,
-                -e1*e2*i6, -e1*e3*i6, -e2*e3*i6, -f1*f2*i6, -f1*f3*i6, -f2*f3*i6, 
+                -e1*e2*i6, -e1*e3*i6, -e2*e3*i6, -f1*f2*i6, -f1*f3*i6, -f2*f3*i6,
                 e1*f1*i6, e1*f2*i6, e1*f3*i6,e2*f1*i6, e2*f2*i6, e2*f3*i6, e3*f1*i6, e3*f2*i6, e3*f3*i6,
                 i6]
         #! format:on
@@ -167,9 +164,9 @@ function embed(a::GA33.Even)
     (E1, E2, E3, F1, F2, F3) = (bas44[1], bas44[2], bas44[3], bas44[5], bas44[6], bas44[7])
     I6 = E1 * E2 * E3 * F1 * F2 * F3
     #! format:off
-    resbas = [  E1*E2, E1*E3, E2*E3, F1*F2, F1*F3, F2*F3, 
+    resbas = [  E1*E2, E1*E3, E2*E3, F1*F2, F1*F3, F2*F3,
                 E1*F1, E1*F2, E1*F3, E2*F1, E2*F2, E2*F3, E3*F1, E3*F2, E3*F3,
-                E1*E2*I6, E1*E3*I6, E2*E3*I6, F1*F2*I6, F1*F3*I6, F2*F3*I6, 
+                E1*E2*I6, E1*E3*I6, E2*E3*I6, F1*F2*I6, F1*F3*I6, F2*F3*I6,
                 E1*F1*I6, E1*F2*I6, E1*F3*I6,E2*F1*I6, E2*F2*I6, E2*F3*I6, E3*F1*I6, E3*F2*I6, E3*F3*I6,
                 I6]
     #! format:on
@@ -181,11 +178,11 @@ function embed(a::GA33.Odd)
     (e1, e2, e3, f1, f2, f3) = (bas33[1], bas33[2], bas33[3], bas33[4], bas33[5], bas33[6])
     i6 = e1 * e2 * e3 * f1 * f2 * f3
     #! format:off
-    oddbas = [  e1, e2, e3, -f1, -f2, -f3, 
-                -e1*e2*e3, 
+    oddbas = [  e1, e2, e3, -f1, -f2, -f3,
+                -e1*e2*e3,
                 e1*e2*f1, e1*e3*f1, e2*e3*f1, e1*e2*f2, e1*e3*f2, e2*e3*f2, e1*e2*f3, e1*e3*f3, e2*e3*f3,
                 -e1*f1*f2, - e1*f1*f3, -e1*f2*f3, -e2*f1*f2, - e2*f1*f3, -e2*f2*f3, -e3*f1*f2, - e3*f1*f3, -e3*f2*f3,
-                f1*f2*f3, 
+                f1*f2*f3,
                 -e1*i6, -e2*i6, -e3*i6, f1*i6, f2*i6, f3*i6]
     #! format:on
     vals = map(bs -> dot(a, bs), oddbas)
@@ -193,11 +190,11 @@ function embed(a::GA33.Odd)
     (E1, E2, E3, F1, F2, F3) = (bas44[1], bas44[2], bas44[3], bas44[5], bas44[6], bas44[7])
     I6 = E1 * E2 * E3 * F1 * F2 * F3
     #! format:off
-    resbas = [  E1, E2, E3, F1, F2, F3, 
-                E1*E2*E3, 
+    resbas = [  E1, E2, E3, F1, F2, F3,
+                E1*E2*E3,
                 E1*E2*F1, E1*E3*F1, E2*E3*F1, E1*E2*F2, E1*E3*F2, E2*E3*F2, E1*E2*F3, E1*E3*F3, E2*E3*F3,
                 E1*F1*F2,  E1*F1*F3, E1*F2*F3, E2*F1*F2, E2*F1*F3, E2*F2*F3, E3*F1*F2,  E3*F1*F3, E3*F2*F3,
-                F1*F2*F3, 
+                F1*F2*F3,
                 E1*I6, E2*I6, E3*I6, F1*I6, F2*I6, F3*I6]
     #! format:on
     return inject(vals, resbas)
@@ -208,16 +205,16 @@ function embed(a::GA24.Even)
     (g0, g1, g2, g3, g4, g5) = (bas24[1], bas24[2], bas24[3], bas24[4], bas24[5], bas24[6])
     i6 = g0 * g1 * g2 * g3 * g4 * g5
     #! format:off
-    evenbas = [ g1*g0, g2*g0, g3*g0, g4*g0, -g5*g0, 
-                -g1*g2, -g1*g3, -g1*g4, g1*g5, 
-                -g2*g3, -g2*g4, g2*g5, 
-                -g3*g4, g3*g5, 
+    evenbas = [ g1*g0, g2*g0, g3*g0, g4*g0, -g5*g0,
+                -g1*g2, -g1*g3, -g1*g4, g1*g5,
+                -g2*g3, -g2*g4, g2*g5,
+                -g3*g4, g3*g5,
                 g4*g5,
-                -g1*g0*i6, -g2*g0*i6, -g3*g0*i6, -g4*g0*i6, g5*g0*i6, 
-                g1*g2*i6, g1*g3*i6, g1*g4*i6, -g1*g5*i6, 
-                g2*g3*i6, g2*g4*i6, -g2*g5*i6, 
-                g3*g4*i6, -g3*g5*i6, 
-                -g4*g5*i6, 
+                -g1*g0*i6, -g2*g0*i6, -g3*g0*i6, -g4*g0*i6, g5*g0*i6,
+                g1*g2*i6, g1*g3*i6, g1*g4*i6, -g1*g5*i6,
+                g2*g3*i6, g2*g4*i6, -g2*g5*i6,
+                g3*g4*i6, -g3*g5*i6,
+                -g4*g5*i6,
                 -i6]
     #! format:on
     vals = map(bs -> dot(a, bs), evenbas)
@@ -225,16 +222,16 @@ function embed(a::GA24.Even)
     (G0, G1, G2, G3, G4, G5) = (bas44[1], bas44[5], bas44[6], bas44[7], bas44[8], bas44[4])
     I6 = G0 * G1 * G2 * G3 * G4 * G5
     #! format:off
-    resbas = [  G1*G0, G2*G0, G3*G0, G4*G0, G5*G0, 
-                G1*G2, G1*G3, G1*G4, G1*G5, 
-                G2*G3, G2*G4, G2*G5, 
-                G3*G4, G3*G5, 
+    resbas = [  G1*G0, G2*G0, G3*G0, G4*G0, G5*G0,
+                G1*G2, G1*G3, G1*G4, G1*G5,
+                G2*G3, G2*G4, G2*G5,
+                G3*G4, G3*G5,
                 G4*G5,
-                G1*G0*I6, G2*G0*I6, G3*G0*I6, G4*G0*I6, G5*G0*I6, 
-                G1*G2*I6, G1*G3*I6, G1*G4*I6, G1*G5*I6, 
-                G2*G3*I6, G2*G4*I6, G2*G5*I6, 
-                G3*G4*I6, G3*G5*I6, 
-                G4*G5*I6, 
+                G1*G0*I6, G2*G0*I6, G3*G0*I6, G4*G0*I6, G5*G0*I6,
+                G1*G2*I6, G1*G3*I6, G1*G4*I6, G1*G5*I6,
+                G2*G3*I6, G2*G4*I6, G2*G5*I6,
+                G3*G4*I6, G3*G5*I6,
+                G4*G5*I6,
                 I6 ]
    #! format:on
     return tr(a) + inject(vals, resbas)
@@ -245,7 +242,7 @@ function embed(a::GA24.Odd)
     (g0, g1, g2, g3, g4, g5) = (bas24[1], bas24[2], bas24[3], bas24[4], bas24[5], bas24[6])
     i6 = g0 * g1 * g2 * g3 * g4 * g5
     #! format:off
-    oddbas = [  g0, -g1, -g2, -g3, -g4, g5, 
+    oddbas = [  g0, -g1, -g2, -g3, -g4, g5,
                 -g0*g1*g2, -g0*g1*g3, -g0*g1*g4, g0*g1*g5, -g0*g2*g3, -g0*g2*g4, g0*g2*g5, -g0*g3*g4, g0*g3*g5, g0*g4*g5,
                 -g0*g1*g2*i6, -g0*g1*g3*i6, -g0*g1*g4*i6, g0*g1*g5*i6, -g0*g2*g3*i6, -g0*g2*g4*i6, g0*g2*g5*i6, -g0*g3*g4*i6, g0*g3*g5*i6, g0*g4*g5*i6,
                 g0*i6, -g1*i6, -g2*i6, -g3*i6, -g4*i6, g5*i6 ]
@@ -255,7 +252,7 @@ function embed(a::GA24.Odd)
     (G0,G1,G2,G3,G4,G5) = (bas44[1], bas44[5], bas44[6], bas44[7], bas44[8], bas44[4])
     I6 = G0*G1*G2*G3*G4*G5
     #! format:off
-    resbas = [  G0, G1, G2, G3, G4, G5, 
+    resbas = [  G0, G1, G2, G3, G4, G5,
                 G0*G1*G2, G0*G1*G3, G0*G1*G4, G0*G1*G5, G0*G2*G3, G0*G2*G4, G0*G2*G5, G0*G3*G4, G0*G3*G5, G0*G4*G5,
                 G0*G1*G2*I6, G0*G1*G3*I6, G0*G1*G4*I6, G0*G1*G5*I6, G0*G2*G3*I6, G0*G2*G4*I6, G0*G2*G5*I6, G0*G3*G4*I6, G0*G3*G5*I6, G0*G4*G5*I6,
                 G0*I6, G1*I6, G2*I6, G3*I6, G4*I6, G5*I6 ]

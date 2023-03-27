@@ -1,5 +1,7 @@
 module GeometricAlgebra
 
+using LinearAlgebra
+
 # Prototype functions.
 #Definitions are provided in each of the submodules
 function project() end

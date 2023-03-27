@@ -8,10 +8,10 @@
 """
 module GA3232
 
+using GeometricAlgebra
 using LinearAlgebra
 
 include("core3232.jl")
-import Base.show
 
 #! format:off
 bldbas = [

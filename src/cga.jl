@@ -1,10 +1,13 @@
-module CGA
-
 #=
-Code for GA(4,1). 
+Code for GA(4,1).
 =#
 
+module CGA
+
+using GeometricAlgebra
 using LinearAlgebra
+
+using ..Quaternions
 
 include("corecga.jl")
 include("common.jl")

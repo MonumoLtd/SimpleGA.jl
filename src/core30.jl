@@ -4,9 +4,6 @@ Underlying representation is with quaternions, though in this case we do not use
 Instead we just use the hard-coded version of quaternions multiplication.
 =#
 
-import ..GeometricAlgebra: project
-import ..GeometricAlgebra: bivector_exp
-
 struct Even{T<:Real} <: Number
     w::T
     x::T
@@ -89,7 +86,7 @@ LinearAlgebra.adjoint(a::Even) = Even(a.w, -a.x, -a.y, -a.z)
 LinearAlgebra.adjoint(a::Odd) = Odd(-a.w, a.x, a.y, a.z)
 
 #Grade and projection
-function project(a::Even, n::Integer)
+function GeometricAlgebra.project(a::Even, n::Integer)
     if (n == 0)
         return Even(a.w, zero(a.w), zero(a.w), zero(a.w))
     elseif (n == 2)
@@ -99,7 +96,7 @@ function project(a::Even, n::Integer)
     end
 end
 
-function project(a::Odd, n::Integer)
+function GeometricAlgebra.project(a::Odd, n::Integer)
     if (n == 3)
         return Odd(a.w, zero(a.w), zero(a.w), zero(a.w))
     elseif (n == 1)
@@ -114,7 +111,7 @@ LinearAlgebra.dot(a::Even, b::Even) = a.w * b.w - a.x * b.x - a.y * b.y - a.z * 
 LinearAlgebra.dot(a::Odd, b::Odd) = -a.w * b.w + a.x * b.x + a.y * b.y + a.z * b.z
 
 #Exponentiation
-function bivector_exp(a::Even)
+function GeometricAlgebra.bivector_exp(a::Even)
     a = project(a, 2)
     nrm = sqrt(dot(a, -a))
     if iszero(nrm)

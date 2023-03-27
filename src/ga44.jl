@@ -7,7 +7,9 @@ Not as fast as smaller algebras, but useful for checks.
 
 module GA44
 
+using GeometricAlgebra
 using LinearAlgebra
+using SparseArrays
 
 include("core44.jl")
 

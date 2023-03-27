@@ -1,13 +1,9 @@
-#=
+"""
 Core code for the implementation of GA(4,0).
+
 Work using self-dual and anti-self-dual decomposition, so just use a pair of quaternions.
 Useful algebra for projective geometry.
-=#
-
-import ..GeometricAlgebra: project
-import ..GeometricAlgebra: bivector_exp
-
-using ..Quaternions
+"""
 
 struct Even{T<:Real} <: Number
     qp::Quaternion{T}
@@ -56,7 +52,7 @@ LinearAlgebra.adjoint(a::Even) = Even(conj(a.qp), conj(a.qm))
 LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.qm), conj(a.qp))
 
 #Grade and projection
-function project(a::Even, n::Integer)
+function GeometricAlgebra.project(a::Even, n::Integer)
     if (n == 0)
         return Even(Quaternion((a.qp.w + a.qm.w) / 2), Quaternion((a.qp.w + a.qm.w) / 2))
     elseif (n == 2)
@@ -68,7 +64,7 @@ function project(a::Even, n::Integer)
     end
 end
 
-function project(a::Odd, n::Integer)
+function GeometricAlgebra.project(a::Odd, n::Integer)
     if (n == 1)
         return Odd((a.qp + conj(a.qm)) / 2, (a.qm + conj(a.qp)) / 2)
     elseif (n == 3)
@@ -83,7 +79,7 @@ LinearAlgebra.dot(a::Even, b::Even) = (dot(a.qp, b.qp) + dot(a.qm, b.qm)) / 2
 LinearAlgebra.dot(a::Odd, b::Odd) = (dot(a.qp, b.qm) + dot(a.qm, b.qp)) / 2
 
 #Exponentiation
-function bivector_exp(a::Even)
+function GeometricAlgebra.bivector_exp(a::Even)
     return Even(bivector_exp(a.qp), bivector_exp(a.qm))
 end
 

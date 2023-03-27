@@ -1,11 +1,9 @@
-#=
+"""
 Core code for the implementation of GA(2,4).
+
 Base element is a 4x4 Complex matrix built on Static Arrays library.
 This is the conformal algebra for spacetime, also relevant to twistor geometry.
-=#
-
-import ..GeometricAlgebra: project
-import ..GeometricAlgebra: bivector_exp
+"""
 
 struct Even{T<:Real} <: Number
     m::SMatrix{4,4,Complex{T},16}
@@ -57,7 +55,7 @@ LinearAlgebra.adjoint(a::Even) = Even(-adj * (a.m)' * adj)
 LinearAlgebra.adjoint(a::Odd) = Odd(rev * transpose(a.m) * rev)
 
 #Grade and projection
-function project(a::Even, n::Integer)
+function GeometricAlgebra.project(a::Even, n::Integer)
     if (n == 0)
         scl = real((tr(a.m)) / 4)
         return Even(scl * id4)
@@ -75,7 +73,7 @@ function project(a::Even, n::Integer)
     end
 end
 
-function project(a::Odd, n::Integer)
+function GeometricAlgebra.project(a::Odd, n::Integer)
     if (n == 3)
         return (a - a') / 2
     elseif (n == 1)
@@ -99,7 +97,7 @@ function Base.exp(a::Even)
 end
 
 #TODO Any improvement here?
-function bivector_exp(a::Even)
+function GeometricAlgebra.bivector_exp(a::Even)
     a = project(a, 2)
     R = exp(a)
     delt = R * R' - 1

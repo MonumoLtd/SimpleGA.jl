@@ -4,9 +4,6 @@ Underlying representation is with 2x2 complex matrices, though no matrices are f
 Makes use of Julia's internal ComplexF64 format.
 =#
 
-import ..GeometricAlgebra: project
-import ..GeometricAlgebra: bivector_exp
-
 struct Even{T<:Real} <: Number
     c1::Complex{T}
     c2::Complex{T}
@@ -101,7 +98,7 @@ LinearAlgebra.adjoint(a::Even) = Even(a.c4, -a.c2, -a.c3, a.c1)
 LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.c1), conj(a.c3), conj(a.c2), conj(a.c4))
 
 #Grade and projection
-function project(a::Even, n::Integer)
+function GeometricAlgebra.project(a::Even, n::Integer)
     tra = (a.c1 + a.c4) / 2
     if (n == 0)
         return real(tra) * one(a)
@@ -114,7 +111,7 @@ function project(a::Even, n::Integer)
     end
 end
 
-function project(a::Odd, n::Integer)
+function GeometricAlgebra.project(a::Odd, n::Integer)
     if (n == 1)
         return (a + a') / 2
     elseif (n == 3)
@@ -135,7 +132,7 @@ function LinearAlgebra.dot(a::Odd, b::Odd)
 end
 
 #Exponentiation
-function bivector_exp(a::Even)
+function GeometricAlgebra.bivector_exp(a::Even)
     a = project(a, 2)
     aa = a * a
     fct = sqrt((aa.c1 + aa.c4) / 2)

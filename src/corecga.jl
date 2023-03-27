@@ -3,11 +3,6 @@ Core code for the implementation of GA(4,1).
 Representation is as a 2x2 matrix of quaternions.
 =#
 
-import ..GeometricAlgebra: project
-import ..GeometricAlgebra: bivector_exp
-
-using ..Quaternions
-
 struct Even{T<:Real} <: Number
     q1::Quaternion{T}
     q2::Quaternion{T}
@@ -101,7 +96,7 @@ LinearAlgebra.adjoint(a::Even) = Even(conj(a.q4), conj(a.q2), conj(a.q3), conj(a
 LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.q4), conj(a.q2), conj(a.q3), conj(a.q1))
 
 #Grade and projection
-function project(a::Even, n::Integer)
+function GeometricAlgebra.project(a::Even, n::Integer)
     if (n == 0)
         return Even(
             (a.q1.w + a.q4.w) / 2 * one(a.q1),
@@ -121,7 +116,7 @@ function project(a::Even, n::Integer)
     end
 end
 
-function project(a::Odd, n::Integer)
+function GeometricAlgebra.project(a::Odd, n::Integer)
     if (n == 5)
         return Odd(
             (a.q1.w + a.q4.w) / 2 * one(a.q1),
@@ -172,9 +167,9 @@ function Base.exp(a::Even)
     return res
 end
 
-#Remove non-bivector terms. 
+#Remove non-bivector terms.
 #TODO - investigate if closed form gives any performance benefits. Suspect all the if statements would slow this down.
-function bivector_exp(a::Even)
+function GeometricAlgebra.bivector_exp(a::Even)
     a = project(a, 2)
     R = exp(a)
     delt = R * R' - 1

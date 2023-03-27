@@ -1,9 +1,6 @@
-#= 
-Implementation of GA(32,32) in Julia using Uint64 bitwise operations. 
+#=
+Implementation of GA(32,32) in Julia using Uint64 bitwise operations.
 =#
-
-import ..GeometricAlgebra: project
-import ..GeometricAlgebra: bivector_exp
 
 #The Multivector type assumes that the blade list is unique and in order. But we want to avoid checking this at runtime.
 #Only use this constructor if you are certain the blade list is correct. If not, use construct64()
@@ -136,7 +133,7 @@ function LinearAlgebra.adjoint(mv::Multivector)
 end
 
 #Grade and projection
-function project(mv::Multivector, n::Int64)
+function GeometricAlgebra.project(mv::Multivector, n::Int64)
     rsbas = filter(x -> grd(x) == n, mv.bas)
     ln = length(rsbas)
     if ln == 0
@@ -189,7 +186,7 @@ function Base.exp(a::Multivector)
     return res
 end
 
-function bivector_exp(a::Multivector)
+function GeometricAlgebra.bivector_exp(a::Multivector)
     R = exp(project(a, 2))
     delt = R * R' - 1
     return (1 - 0.5 * delt + 0.375 * delt * delt) * R

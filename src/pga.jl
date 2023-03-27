@@ -7,7 +7,10 @@ Core representation is a quaternion pair.
 
 module PGA
 
+using GeometricAlgebra
 using LinearAlgebra
+
+using ..Quaternions
 
 include("corepga.jl")
 include("common.jl")

@@ -5,11 +5,6 @@ Even / odd map performed by I3
 Useful for performance if CGA is too slow.
 =#
 
-import ..GeometricAlgebra: project
-import ..GeometricAlgebra: bivector_exp
-
-using ..Quaternions
-
 struct Even{T<:Real} <: Number
     q::Quaternion{T}
     n::Quaternion{T}
@@ -57,7 +52,7 @@ LinearAlgebra.adjoint(a::Even) = Even(conj(a.q), conj(a.n))
 LinearAlgebra.adjoint(a::Odd) = Odd(-conj(a.q), conj(a.n))
 
 #Grade and projection
-function project(a::Even, n::Integer)
+function GeometricAlgebra.project(a::Even, n::Integer)
     if (n == 0)
         return Even(real_part(a.q), zero(a.q))
     elseif (n == 2)
@@ -69,7 +64,7 @@ function project(a::Even, n::Integer)
     end
 end
 
-function project(a::Odd, n::Integer)
+function GeometricAlgebra.project(a::Odd, n::Integer)
     if (n == 1)
         return Odd(imag_part(a.q), real_part(a.n))
     elseif (n == 3)
@@ -84,7 +79,7 @@ LinearAlgebra.dot(a::Even, b::Even) = dot(a.q, b.q)
 LinearAlgebra.dot(a::Odd, b::Odd) = -dot(a.q, b.q)
 
 #Exponentiation
-function bivector_exp(a::Even)
+function GeometricAlgebra.bivector_exp(a::Even)
     a = project(a, 2)
     aa = -a * a
     if iszero(tr(aa))

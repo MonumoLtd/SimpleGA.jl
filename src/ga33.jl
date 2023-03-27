@@ -1,12 +1,11 @@
 """
     GA33
 
-Module for GA(3,3). Base representation is a pair of 4x4 static arrays. 
-
+Module for GA(3,3). Base representation is a pair of 4x4 static arrays.
 """
-
 module GA33
 
+using GeometricAlgebra
 using LinearAlgebra
 using StaticArrays
 
@@ -47,14 +46,14 @@ function mv_to_text(a::Even)
     scl = tr(a)
     res = approxzero(scl) ? "" : " + " * string(scl)
     #! format:off
-    tpevenbas = [-e1*e2, -e1*e3, -e2*e3, -f1*f2, -f1*f3, -f2*f3, 
+    tpevenbas = [-e1*e2, -e1*e3, -e2*e3, -f1*f2, -f1*f3, -f2*f3,
                 e1*f1, e1*f2, e1*f3, e2*f1, e2*f2, e2*f3, e3*f1, e3*f2, e3*f3,
-                -e1*e2*E6, -e1*e3*E6, -e2*e3*E6, -f1*f2*E6, -f1*f3*E6, -f2*f3*E6, 
+                -e1*e2*E6, -e1*e3*E6, -e2*e3*E6, -f1*f2*E6, -f1*f3*E6, -f2*f3*E6,
                 e1*f1*E6, e1*f2*E6, e1*f3*E6,e2*f1*E6, e2*f2*E6, e2*f3*E6, e3*f1*E6, e3*f2*E6, e3*f3*E6,
                 E6]
-    tpevenstr = ["e1e2", "e1e3", "e2e3", "f1f2", "f1f3", "f2f3", 
+    tpevenstr = ["e1e2", "e1e3", "e2e3", "f1f2", "f1f3", "f2f3",
                 "e1f1", "e1f2", "e1f3", "e2f1", "e2f2", "e2f3", "e3f1", "e3f2", "e3f3",
-                "e1e2E6", "e1e3E6", "e2e3E6", "f1f2E6", "f1f3E6", "f2f3E6", 
+                "e1e2E6", "e1e3E6", "e2e3E6", "f1f2E6", "f1f3E6", "f2f3E6",
                 "e1f1E6", "e1f2E6", "e1f3E6", "e2f1E6", "e2f2E6", "e2f3E6", "e3f1E6", "e3f2E6", "e3f3E6",
                 "E6"]
     #! format:on
@@ -73,25 +72,25 @@ end
 
 function mv_to_text(a::Odd)
     #! format:off
-    tpoddbas = [e1, e2, e3, -f1, -f2, -f3, 
-                -e1*e2*e3, 
-                e1*e2*f1, e1*e3*f1, e2*e3*f1, 
-                e1*e2*f2, e1*e3*f2, e2*e3*f2, 
+    tpoddbas = [e1, e2, e3, -f1, -f2, -f3,
+                -e1*e2*e3,
+                e1*e2*f1, e1*e3*f1, e2*e3*f1,
+                e1*e2*f2, e1*e3*f2, e2*e3*f2,
                 e1*e2*f3, e1*e3*f3, e2*e3*f3,
-                -e1*f1*f2, - e1*f1*f3, -e1*f2*f3, 
-                -e2*f1*f2, - e2*f1*f3, -e2*f2*f3, 
+                -e1*f1*f2, - e1*f1*f3, -e1*f2*f3,
+                -e2*f1*f2, - e2*f1*f3, -e2*f2*f3,
                 -e3*f1*f2, - e3*f1*f3, -e3*f2*f3,
-                f1*f2*f3, 
+                f1*f2*f3,
                 -e1*E6, -e2*E6, -e3*E6, f1*E6, f2*E6, f3*E6]
-    tpoddstr = ["e1", "e2", "e3", "f1", "f2", "f3", 
-                "e1e2e3", 
-                "e1e2f1", "e1e3f1", "e2e3f1", 
-                "e1e2f2", "e1e3f2", "e2e3f2", 
+    tpoddstr = ["e1", "e2", "e3", "f1", "f2", "f3",
+                "e1e2e3",
+                "e1e2f1", "e1e3f1", "e2e3f1",
+                "e1e2f2", "e1e3f2", "e2e3f2",
                 "e1e2f3", "e1e3f3", "e2e3f3",
-                "e1f1f2", " e1f1f3", "e1f2f3", 
-                "e2f1f2", " e2f1f3", "e2f2f3", 
+                "e1f1f2", " e1f1f3", "e1f2f3",
+                "e2f1f2", " e2f1f3", "e2f2f3",
                 "e3f1f2", " e3f1f3", "e3f2f3",
-                "f1f2f3", 
+                "f1f2f3",
                 "e1E6", "e2E6", "e3E6", "f1E6", "f2E6", "f3E6"]
     #! format:on
     res = ""
