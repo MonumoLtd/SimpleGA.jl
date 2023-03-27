@@ -1,27 +1,24 @@
-using GADraft
+using GeometricAlgebra
 using Documenter
 
-DocMeta.setdocmeta!(GADraft, :DocTestSetup, :(using GADraft); recursive=true)
+DocMeta.setdocmeta!(
+    GeometricAlgebra, :DocTestSetup, :(using GeometricAlgebra); recursive=true
+)
 
 makedocs(;
-    modules=[GADraft],
-    authors="Tom Gillam <tpgillam@googlemail.com>",
-    repo="https://github.com/tpgillam/GADraft.jl/blob/{commit}{path}#{line}",
-    sitename="GADraft.jl",
+    modules=[GeometricAlgebra],
+    authors="Monumo Ltd.",
+    repo="https://github.com/MonumoLtd/GeometricAlgebra.jl/blob/{commit}{path}#{line}",
+    sitename="GeometricAlgebra.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://tpgillam.github.io/GADraft.jl",
+        canonical="https://monumoltd.github.io/GeometricAlgebra.jl",
         edit_link="main",
         assets=String[],
     ),
-    pages=[
-        "Home" => "index.md",
-    ],
+    pages=["Home" => "index.md"],
     checkdocs=:exports,
     strict=true,
 )
 
-deploydocs(;
-    repo="github.com/tpgillam/GADraft.jl",
-    devbranch="main",
-)
+deploydocs(; repo="github.com/MonumoLtd/GeometricAlgebra.jl", devbranch="main")

@@ -1,8 +1,13 @@
 ```@meta
-CurrentModule = GADraft
+CurrentModule = GeometricAlgebra
 ```
 
 # GeometricAlgebra.jl
+
+Documentation for [GeometricAlgebra](https://github.com/MonumoLtd/GeometricAlgebra.jl).
+
+```@index
+```
 
 _A Julia package implementing Geometric Algebra_. 
 
@@ -337,11 +342,6 @@ It is worth point out just how big G(32,32) actually is. This algebra contains 2
 
 
 
-Documentation for [GADraft](https://github.com/tpgillam/GADraft.jl).
-
-```@index
-```
-
 ```@autodocs
-Modules = [GADraft]
+Modules = [GeometricAlgebra]
 ```

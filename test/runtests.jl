@@ -1,4 +1,7 @@
 #Test suite for Geometric Algebra
+
+using GeometricAlgebra
+using LinearAlgebra
 using Test
 
 include("testfuncs.jl")
