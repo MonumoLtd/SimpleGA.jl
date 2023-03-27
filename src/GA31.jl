@@ -34,6 +34,7 @@ bar(a::Odd) = Odd(conj(a.c4), -conj(a.c3), -conj(a.c2), conj(a.c1))
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)
 
+#=
 function mv_to_text(a::Even)
     res = ""
     scl = tr(a)
@@ -103,5 +104,5 @@ function mv_to_text(a::Odd)
 end
 
 include("show.jl")
-
+=#
 end #Module
