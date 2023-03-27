@@ -5,6 +5,8 @@ Work using self-dual and anti-self-dual decomposition, so just use a pair of qua
 Useful algebra for projective geometry.
 """
 
+using ..Quaternions
+
 struct Even{T<:Real} <: Number
     qp::Quaternion{T}
     qm::Quaternion{T}
@@ -53,24 +55,24 @@ LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.qm), conj(a.qp))
 
 #Grade and projection
 function GeometricAlgebra.project(a::Even, n::Integer)
-    if (n == 0)
-        return Even(Quaternion((a.qp.w + a.qm.w) / 2), Quaternion((a.qp.w + a.qm.w) / 2))
+    return if (n == 0)
+        Even(Quaternion((a.qp.w + a.qm.w) / 2), Quaternion((a.qp.w + a.qm.w) / 2))
     elseif (n == 2)
-        return (a - a') / 2
+        (a - a') / 2
     elseif (n == 4)
-        return Even(Quaternion((a.qp.w - a.qm.w) / 2), Quaternion((-a.qp.w + a.qm.w) / 2))
+        Even(Quaternion((a.qp.w - a.qm.w) / 2), Quaternion((-a.qp.w + a.qm.w) / 2))
     else
-        return zero(a)
+        zero(a)
     end
 end
 
 function GeometricAlgebra.project(a::Odd, n::Integer)
-    if (n == 1)
-        return Odd((a.qp + conj(a.qm)) / 2, (a.qm + conj(a.qp)) / 2)
+    return if (n == 1)
+        Odd((a.qp + conj(a.qm)) / 2, (a.qm + conj(a.qp)) / 2)
     elseif (n == 3)
-        return Odd((a.qp - conj(a.qm)) / 2, (a.qm - conj(a.qp)) / 2)
+        Odd((a.qp - conj(a.qm)) / 2, (a.qm - conj(a.qp)) / 2)
     else
-        return zero(a)
+        zero(a)
     end
 end
 
@@ -79,13 +81,9 @@ LinearAlgebra.dot(a::Even, b::Even) = (dot(a.qp, b.qp) + dot(a.qm, b.qm)) / 2
 LinearAlgebra.dot(a::Odd, b::Odd) = (dot(a.qp, b.qm) + dot(a.qm, b.qp)) / 2
 
 #Exponentiation
-function GeometricAlgebra.bivector_exp(a::Even)
-    return Even(bivector_exp(a.qp), bivector_exp(a.qm))
-end
+GeometricAlgebra.bivector_exp(a::Even) = Even(bivector_exp(a.qp), bivector_exp(a.qm))
 
-function Base.exp(a::Even)
-    return Even(exp(a.qp), exp(a.qm))
-end
+Base.exp(a::Even) = Even(exp(a.qp), exp(a.qm))
 
 #Comparison
 Base.isapprox(a::Even, b::Even) = isapprox(a.qp, b.qp) && isapprox(a.qm, b.qm)

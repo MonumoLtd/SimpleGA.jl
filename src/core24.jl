@@ -56,34 +56,34 @@ LinearAlgebra.adjoint(a::Odd) = Odd(rev * transpose(a.m) * rev)
 
 #Grade and projection
 function GeometricAlgebra.project(a::Even, n::Integer)
-    if (n == 0)
+    return if (n == 0)
         scl = real((tr(a.m)) / 4)
-        return Even(scl * id4)
+        Even(scl * id4)
     elseif (n == 2)
         tmp = (a - a') / 2
-        return tmp - Even(tr(tmp.m) / 4 * id4)
+        tmp - Even(tr(tmp.m) / 4 * id4)
     elseif (n == 4)
         tmp = (a + a') / 2
-        return tmp - Even(tr(tmp.m) / 4 * id4)
+        tmp - Even(tr(tmp.m) / 4 * id4)
     elseif (n == 6)
         scl = im * imag((tr(a.m)) / 4)
-        return Even(scl * id4)
+        Even(scl * id4)
     else
-        return zero(a)
+        zero(a)
     end
 end
 
 function GeometricAlgebra.project(a::Odd, n::Integer)
-    if (n == 3)
-        return (a - a') / 2
+    return if (n == 3)
+        (a - a') / 2
     elseif (n == 1)
         tmp = (a + a') * g0 / 2
-        return (project(tmp, 0) + project(tmp, 2)) * g0
+        (project(tmp, 0) + project(tmp, 2)) * g0
     elseif (n == 5)
         tmp = (a + a') * g0 / 2
-        return (project(tmp, 4) + project(tmp, 6)) * g0
+        (project(tmp, 4) + project(tmp, 6)) * g0
     else
-        return zero(a)
+        zero(a)
     end
 end
 
@@ -92,9 +92,7 @@ LinearAlgebra.dot(a::Even, b::Even) = real(tr(a.m * b.m)) / 4
 LinearAlgebra.dot(a::Odd, b::Odd) = real(tr(a.m * g2.m * conj(b.m) * g2.m)) / 4
 
 #Exponentiation
-function Base.exp(a::Even)
-    return Even(exp(a.m))
-end
+Base.exp(a::Even) = Even(exp(a.m))
 
 #TODO Any improvement here?
 function GeometricAlgebra.bivector_exp(a::Even)

@@ -61,34 +61,34 @@ end
 
 #Grade and projection
 function GeometricAlgebra.project(a::Even, n::Integer)
-    if (n == 0)
+    return if (n == 0)
         scl = (tr(a.p) + tr(a.m)) / 8
-        return scl * one(a)
+        scl * one(a)
     elseif (n == 2)
         scl = (tr(a.p) - tr(a.m)) / 8
-        return (a - a') / 2 - scl * Even(one(a.p), -one(a.m))
+        (a - a') / 2 - scl * Even(one(a.p), -one(a.m))
     elseif (n == 4)
         scl = (tr(a.p) + tr(a.m)) / 8
-        return (a + a') / 2 - scl * one(a)
+        (a + a') / 2 - scl * one(a)
     elseif (n == 6)
         scl = (tr(a.p) - tr(a.m)) / 8
-        return scl * Even(one(a.p), -one(a.m))
+        scl * Even(one(a.p), -one(a.m))
     else
-        return zero(a)
+        zero(a)
     end
 end
 
 function GeometricAlgebra.project(a::Odd, n::Integer)
-    if (n == 3)
-        return (a - a') / 2
+    return if (n == 3)
+        (a - a') / 2
     elseif (n == 1)
         tmp = (a + a') * e3 / 2
-        return (project(tmp, 0) + project(tmp, 2)) * e3
+        (project(tmp, 0) + project(tmp, 2)) * e3
     elseif (n == 5)
         tmp = (a + a') * e3 / 2
-        return (project(tmp, 4) + project(tmp, 6)) * e3
+        (project(tmp, 4) + project(tmp, 6)) * e3
     else
-        return zero(a)
+        zero(a)
     end
 end
 
@@ -97,9 +97,7 @@ LinearAlgebra.dot(a::Even, b::Even) = (tr(a.p * b.p) + tr(a.m * b.m)) / 8
 LinearAlgebra.dot(a::Odd, b::Odd) = (tr(a.p * b.m) + tr(a.m * b.p)) / 8
 
 #Exponentiation
-function Base.exp(a::Even)
-    return Even(exp(a.p), exp(a.m))
-end
+Base.exp(a::Even) = Even(exp(a.p), exp(a.m))
 
 #TODO Any improvement here?
 function GeometricAlgebra.bivector_exp(a::Even)

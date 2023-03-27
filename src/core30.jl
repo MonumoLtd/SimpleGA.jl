@@ -87,22 +87,22 @@ LinearAlgebra.adjoint(a::Odd) = Odd(-a.w, a.x, a.y, a.z)
 
 #Grade and projection
 function GeometricAlgebra.project(a::Even, n::Integer)
-    if (n == 0)
-        return Even(a.w, zero(a.w), zero(a.w), zero(a.w))
+    return if (n == 0)
+        Even(a.w, zero(a.w), zero(a.w), zero(a.w))
     elseif (n == 2)
-        return Even(zero(a.w), a.x, a.y, a.z)
+        Even(zero(a.w), a.x, a.y, a.z)
     else
-        return zero(a)
+        zero(a)
     end
 end
 
 function GeometricAlgebra.project(a::Odd, n::Integer)
-    if (n == 3)
-        return Odd(a.w, zero(a.w), zero(a.w), zero(a.w))
+    return if (n == 3)
+        Odd(a.w, zero(a.w), zero(a.w), zero(a.w))
     elseif (n == 1)
-        return Odd(zero(a.w), a.x, a.y, a.z)
+        Odd(zero(a.w), a.x, a.y, a.z)
     else
-        return zero(a)
+        zero(a)
     end
 end
 
@@ -114,20 +114,16 @@ LinearAlgebra.dot(a::Odd, b::Odd) = -a.w * b.w + a.x * b.x + a.y * b.y + a.z * b
 function GeometricAlgebra.bivector_exp(a::Even)
     a = project(a, 2)
     nrm = sqrt(dot(a, -a))
-    if iszero(nrm)
-        return Even(one(a.w), zero(a.w), zero(a.w), zero(a.w))
+    return if iszero(nrm)
+        Even(one(a.w), zero(a.w), zero(a.w), zero(a.w))
     else
-        return cos(nrm) + sin(nrm) * a / nrm
+        cos(nrm) + sin(nrm) * a / nrm
     end
 end
 
 function Base.exp(a::Even)
     R = bivector_exp(a)
-    if iszero(a.w)
-        return R
-    else
-        return exp(a.w) * R
-    end
+    return iszero(a.w) ? R : exp(a.w) * R
 end
 
 #Comparison. Using default tolerances.

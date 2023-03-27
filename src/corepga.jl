@@ -53,24 +53,24 @@ LinearAlgebra.adjoint(a::Odd) = Odd(-conj(a.q), conj(a.n))
 
 #Grade and projection
 function GeometricAlgebra.project(a::Even, n::Integer)
-    if (n == 0)
-        return Even(real_part(a.q), zero(a.q))
+    return if (n == 0)
+        Even(real_part(a.q), zero(a.q))
     elseif (n == 2)
-        return Even(imag_part(a.q), imag_part(a.n))
+        Even(imag_part(a.q), imag_part(a.n))
     elseif (n == 4)
-        return Even(zero(a.q), real_part(a.n))
+        Even(zero(a.q), real_part(a.n))
     else
-        return zero(a)
+        zero(a)
     end
 end
 
 function GeometricAlgebra.project(a::Odd, n::Integer)
-    if (n == 1)
-        return Odd(imag_part(a.q), real_part(a.n))
+    return if (n == 1)
+        Odd(imag_part(a.q), real_part(a.n))
     elseif (n == 3)
-        return Odd(real_part(a.q), imag_part(a.n))
+        Odd(real_part(a.q), imag_part(a.n))
     else
-        return zero(a)
+        zero(a)
     end
 end
 
@@ -82,18 +82,16 @@ LinearAlgebra.dot(a::Odd, b::Odd) = -dot(a.q, b.q)
 function GeometricAlgebra.bivector_exp(a::Even)
     a = project(a, 2)
     aa = -a * a
-    if iszero(tr(aa))
-        return 1 + a
-    else
-        f0 = sqrt(tr(aa))
-        f1 = aa.n.w / 2 / f0
-        cf = Even(Quaternion(cos(f0), 0, 0, 0), Quaternion(-f1 * sin(f0), 0, 0, 0))
-        sncf = Even(
-            Quaternion(sin(f0) / f0, 0, 0, 0),
-            Quaternion(f1 / f0^2 * (f0 * cos(f0) - sin(f0)), 0, 0, 0),
-        )
-        return cf + sncf * a
-    end
+    iszero(tr(aa)) && return 1 + a
+
+    f0 = sqrt(tr(aa))
+    f1 = aa.n.w / 2 / f0
+    cf = Even(Quaternion(cos(f0), 0, 0, 0), Quaternion(-f1 * sin(f0), 0, 0, 0))
+    sncf = Even(
+        Quaternion(sin(f0) / f0, 0, 0, 0),
+        Quaternion(f1 / f0^2 * (f0 * cos(f0) - sin(f0)), 0, 0, 0),
+    )
+    return cf + sncf * a
 end
 
 function Base.exp(a::Even)

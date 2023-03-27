@@ -100,22 +100,22 @@ LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.c1), conj(a.c3), conj(a.c2), conj(a.c
 #Grade and projection
 function GeometricAlgebra.project(a::Even, n::Integer)
     tra = (a.c1 + a.c4) / 2
-    if (n == 0)
-        return real(tra) * one(a)
+    return if (n == 0)
+        real(tra) * one(a)
     elseif (n == 2)
-        return (a - a') / 2
+        (a - a') / 2
     elseif (n == 4)
-        return Even((tra - conj(tra)) / 2, zero(a.c1), zero(a.c1), (tra - conj(tra)) / 2)
+        Even((tra - conj(tra)) / 2, zero(a.c1), zero(a.c1), (tra - conj(tra)) / 2)
     else
-        return zero(a)
+        zero(a)
     end
 end
 
 function GeometricAlgebra.project(a::Odd, n::Integer)
-    if (n == 1)
-        return (a + a') / 2
+    return if (n == 1)
+        (a + a') / 2
     elseif (n == 3)
-        return (a - a') / 2
+        (a - a') / 2
     else
         return zero(a)
     end
@@ -136,20 +136,20 @@ function GeometricAlgebra.bivector_exp(a::Even)
     a = project(a, 2)
     aa = a * a
     fct = sqrt((aa.c1 + aa.c4) / 2)
-    if iszero(fct)
-        return 1 + a
+    return if iszero(fct)
+        1 + a
     else
-        return cosh(fct) + sinh(fct) / fct * a
+        cosh(fct) + sinh(fct) / fct * a
     end
 end
 
 function Base.exp(a::Even)
     R = bivector_exp(a)
     fct = (a.c1 + a.c4) / 2
-    if iszero(fct)
-        return R
+    return if iszero(fct)
+        R
     else
-        return exp(fct) * R
+        exp(fct) * R
     end
 end
 

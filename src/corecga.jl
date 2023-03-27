@@ -97,8 +97,8 @@ LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.q4), conj(a.q2), conj(a.q3), conj(a.q
 
 #Grade and projection
 function GeometricAlgebra.project(a::Even, n::Integer)
-    if (n == 0)
-        return Even(
+    return if (n == 0)
+        Even(
             (a.q1.w + a.q4.w) / 2 * one(a.q1),
             zero(a.q1),
             zero(a.q1),
@@ -107,18 +107,18 @@ function GeometricAlgebra.project(a::Even, n::Integer)
     elseif (n == 2)
         qtmp = imag_part((a.q1 + a.q4) / 2)
         stmp = (a.q1.w - a.q4.w) / 2
-        return Even(stmp + qtmp, imag_part(a.q2), imag_part(a.q3), -stmp + qtmp)
+        Even(stmp + qtmp, imag_part(a.q2), imag_part(a.q3), -stmp + qtmp)
     elseif (n == 4)
         qtmp = imag_part((a.q1 - a.q4) / 2)
-        return Even(qtmp, real_part(a.q2), real_part(a.q3), -qtmp)
+        Even(qtmp, real_part(a.q2), real_part(a.q3), -qtmp)
     else
-        return zero(a)
+        zero(a)
     end
 end
 
 function GeometricAlgebra.project(a::Odd, n::Integer)
-    if (n == 5)
-        return Odd(
+    return if (n == 5)
+        Odd(
             (a.q1.w + a.q4.w) / 2 * one(a.q1),
             zero(a.q1),
             zero(a.q1),
@@ -127,12 +127,12 @@ function GeometricAlgebra.project(a::Odd, n::Integer)
     elseif (n == 3)
         qtmp = imag_part((a.q1 + a.q4) / 2)
         stmp = (a.q1.w - a.q4.w) / 2
-        return Odd(stmp + qtmp, imag_part(a.q2), imag_part(a.q3), -stmp + qtmp)
+        Odd(stmp + qtmp, imag_part(a.q2), imag_part(a.q3), -stmp + qtmp)
     elseif (n == 1)
         qtmp = imag_part((a.q1 - a.q4) / 2)
-        return Odd(qtmp, real_part(a.q2), real_part(a.q3), -qtmp)
+        Odd(qtmp, real_part(a.q2), real_part(a.q3), -qtmp)
     else
-        return zero(a)
+        zero(a)
     end
 end
 

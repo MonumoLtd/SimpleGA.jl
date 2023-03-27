@@ -103,7 +103,7 @@ end
 function GeometricAlgebra.project(mv::Multivector, n::Int64)
     rsbas = filter(x -> grd(x) == n, mv.bas)
     ln = length(rsbas)
-    if ln == 0
+    if iszero(ln)
         return zero(mv)
     end
     rsval = zeros(typeof(mv.val[1]), ln)
@@ -114,13 +114,7 @@ function GeometricAlgebra.project(mv::Multivector, n::Int64)
     return Multivector(rsbas, rsval)
 end
 
-function LinearAlgebra.tr(mv::Multivector)
-    if mv.bas[1] == 0x00
-        return mv.val[1]
-    else
-        return 0.0
-    end
-end
+LinearAlgebra.tr(mv::Multivector) = iszero(mv.bas[1]) ? mv.val[1] : 0.0
 
 function LinearAlgebra.dot(mv1::Multivector, mv2::Multivector)
     rsbas = intersect(mv1.bas, mv2.bas)
