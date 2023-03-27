@@ -10,6 +10,7 @@ module STA
 
 using GeometricAlgebra
 using LinearAlgebra
+using StaticArrays
 
 include("coresta.jl")
 include("common.jl")
@@ -24,17 +25,12 @@ const g2 = s2 * g0
 const g3 = s3 * g0
 const I4 = g0 * g1 * g2 * g3
 
-const basis = [g0, g1, g2, g3]
+const basis = SA[g0, g1, g2, g3]
 export bar
 
 #Additional function for Pauli operations.Pre and post multiply by g0.
-function bar(a::Even)
-    return Even(conj(a.c4), -conj(a.c3), -conj(a.c2), conj(a.c1))
-end
-
-function bar(a::Odd)
-    return Odd(conj(a.c4), -conj(a.c3), -conj(a.c2), conj(a.c1))
-end
+bar(a::Even) = Even(conj(a.c4), -conj(a.c3), -conj(a.c2), conj(a.c1))
+bar(a::Odd) = Odd(conj(a.c4), -conj(a.c3), -conj(a.c2), conj(a.c1))
 
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)

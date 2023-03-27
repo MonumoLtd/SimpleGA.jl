@@ -37,7 +37,7 @@ const f3 = Odd(
 
 E6 = f1 * e1 * f2 * e2 * f3 * e3
 
-const basis = [e1, e2, e3, f1, f2, f3]
+const basis = SA[e1, e2, e3, f1, f2, f3]
 
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)

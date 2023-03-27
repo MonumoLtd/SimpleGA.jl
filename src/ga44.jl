@@ -10,6 +10,7 @@ module GA44
 using GeometricAlgebra
 using LinearAlgebra
 using SparseArrays
+using StaticArrays
 
 include("core44.jl")
 
@@ -23,7 +24,7 @@ const f2 = Multivector{Int8}([parse(UInt8, "00001011"; base=2)], [1.0])
 const f3 = Multivector{Int8}([parse(UInt8, "00101111"; base=2)], [1.0])
 const f4 = Multivector{Int8}([parse(UInt8, "10111111"; base=2)], [1.0])
 
-const basis = [e1, e2, e3, e4, f1, f2, f3, f4]
+const basis = SA[e1, e2, e3, e4, f1, f2, f3, f4]
 export construct44
 
 #Additional functions
@@ -35,12 +36,12 @@ struct Blade
 end
 
 function bldless(x::Blade, y::Blade)
-    if grd(x.bas) < grd(y.bas)
-        return true
+    return if grd(x.bas) < grd(y.bas)
+        true
     elseif grd(x.bas) > grd(y.bas)
-        return false
+        false
     else
-        return isless(x.bas, y.bas)
+        isless(x.bas, y.bas)
     end
 end
 
@@ -48,9 +49,8 @@ end
 #Used for pretty typing. Can be used (with care) to optimise.
 function mvtidy(mv::Multivector)
     ln = length(filter(x -> !isapprox(x, 0.0; atol=1e-12), mv.val))
-    if ln == 0
-        return Multivector([0x00], [0.0])
-    end
+    iszero(ln) && return Multivector([0x00], [0.0])
+
     rsbas = zeros(UInt8, ln)
     rsval = zeros(typeof(mv.val[1]), ln)
     j = 1

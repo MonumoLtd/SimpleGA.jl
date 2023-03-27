@@ -9,6 +9,7 @@ module GA20
 
 using GeometricAlgebra
 using LinearAlgebra
+using StaticArrays
 
 include("core20.jl")
 include("common.jl")
@@ -18,7 +19,7 @@ const e1 = Odd{Int8}(1)
 const e2 = Odd{Int8}(im)
 const I2 = Even{Int8}(im)
 
-const basis = [e1, e2]
+const basis = SA[e1, e2]
 
 #Extra functions on even elements
 Base.log(a::Even) = Even(log(a.c1))

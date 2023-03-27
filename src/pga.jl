@@ -9,6 +9,7 @@ module PGA
 
 using GeometricAlgebra
 using LinearAlgebra
+using StaticArrays
 
 using ..Quaternions
 
@@ -22,7 +23,7 @@ const e3 = Odd{Int8}(Quaternion(0, 0, 0, -1.0), Quaternion(0.0))
 const e0 = Odd{Int8}(Quaternion(0.0), Quaternion(1.0, 0, 0, 0))
 const I3 = e1 * e2 * e3
 
-basis = [e1, e2, e3, e0]
+basis = SA[e1, e2, e3, e0]
 export pdual
 
 #Additional Functions. Sign conventions agree with De Keninck et al.

@@ -25,7 +25,7 @@ const g5 = Odd(SMatrix{4,4,Complex{Int8},16}([0 0 1 0; 0 0 0 1; -1 0 0 0; 0 -1 0
 
 const I6 = g0 * g1 * g2 * g3 * g4 * g5
 
-const basis = [g0, g1, g2, g3, g4, g5]
+const basis = SA[g0, g1, g2, g3, g4, g5]
 
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)
