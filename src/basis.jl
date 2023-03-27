@@ -74,4 +74,5 @@ function basis()
     println("GA(3,3); GA33")
     println("GA(4,4); GA44")
     println("GA(32,32); GA3232")
+    return nothing
 end
