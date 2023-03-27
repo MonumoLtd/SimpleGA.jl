@@ -1,48 +1,55 @@
-struct Quaternion{T<:Real}
+"""
+    Quaternions
+
+Quaternion code. This is called by some of the later GA implementations. 
+The core mirrors much of the GA code structure.
+For completeness we have defined a division operation for quaternions as they are a division algebra.
+"""
+
+module Quaternions
+
+using LinearAlgebra
+
+import ..GeometricAlgebra: project
+import ..GeometricAlgebra: bivector_exp
+
+export real_part, imag_part, bivector_exp, Quaternion
+
+struct Quaternion{T<:Number}
     w::T
     x::T
     y::T
     z::T
 end
 
-function Base.zero(::Type{Quaternion{T}}) where {T}
-    return Quaternion{T}(zero(T), zero(T), zero(T), zero(T))
+Quaternion(w::Number) = Quaternion{typeof(w)}(w, zero(w), zero(w), zero(w))
+Quaternion{T}(w::Number) where {T<:Number} = Quaternion(convert(T, w))
+
+#Default creator is FP64.
+Quaternion(w, x, y, z) = Quaternion{Float64}(w, x, y, z)
+
+function Base.convert(::Type{Quaternion{T}}, a::Quaternion) where {T<:Real}
+    return Quaternion{T}(convert(T, a.w), convert(T, a.x), convert(T, a.y), convert(T, a.z))
 end
 
-# Comparison
-function Base.isapprox(a::Quaternion{T}, b::Quaternion{T}; kwargs...) where {T}
-    return (
-        isapprox(a.w, b.w; kwargs...) &&
-        isapprox(a.x, b.x; kwargs...) &&
-        isapprox(a.y, b.y; kwargs...) &&
-        isapprox(a.z, b.z; kwargs...)
-    )
-end
+Base.zero(a::Quaternion) = Quaternion(zero(a.w))
+Base.one(a::Quaternion) = Quaternion(one(a.w))
 
 Base.:(-)(a::Quaternion) = Quaternion(-a.w, -a.x, -a.y, -a.z)
-
-function Base.:(+)(a::Quaternion{T}, b::Quaternion{T}) where {T}
+function Base.:(+)(a::Quaternion, b::Quaternion)
     return Quaternion(a.w + b.w, a.x + b.x, a.y + b.y, a.z + b.z)
 end
-
-function Base.:(-)(a::Quaternion{T}, b::Quaternion{T}) where {T}
+function Base.:(-)(a::Quaternion, b::Quaternion)
     return Quaternion(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z)
 end
+Base.:(+)(x::Number, a::Quaternion) = Quaternion(x + a.w, a.x, a.y, a.z)
+Base.:(-)(x::Number, a::Quaternion) = Quaternion(x - a.w, -a.x, -a.y, -a.z)
+Base.:(+)(a::Quaternion, x::Number) = Quaternion(a.w + x, a.x, a.y, a.z)
+Base.:(-)(a::Quaternion, x::Number) = Quaternion(a.w - x, a.x, a.y, a.z)
 
-Base.:(+)(x::Real, a::Quaternion) = Quaternion(x + a.w, a.x, a.y, a.z)
-Base.:(-)(x::Real, a::Quaternion) = Quaternion(x - a.w, -a.x, -a.y, -a.z)
-Base.:(+)(a::Quaternion, x::Real) = Quaternion(a.w + x, a.x, a.y, a.z)
-Base.:(-)(a::Quaternion, x::Real) = Quaternion(a.w - x, a.x, a.y, a.z)
-
-function Base.:(*)(x::Real, a::Quaternion{T}) where {T}
-    x = convert(T, x)
-    return Quaternion(x * a.w, x * a.x, x * a.y, x * a.z)
-end
-
-function Base.:(*)(a::Quaternion{T}, x::Real) where {T}
-    x = convert(T, x)
-    return Quaternion(x * a.w, x * a.x, x * a.y, x * a.z)
-end
+#Multiplication
+Base.:(*)(x::Number, a::Quaternion) = Quaternion(x * a.w, x * a.x, x * a.y, x * a.z)
+Base.:(*)(a::Quaternion, x::Number) = x * a
 
 function Base.:(*)(a::Quaternion, b::Quaternion)
     return Quaternion(
@@ -53,28 +60,79 @@ function Base.:(*)(a::Quaternion, b::Quaternion)
     )
 end
 
-function Base.:(/)(a::Quaternion{T}, x::Real) where {T}
-    x = convert(T, inverse(x))
-    return Quaternion(x * a.w, x * a.x, x * a.y, x * a.z)
-end
+Base.:(/)(a::Quaternion, x::Number) = (1 / x) * a
+Base.:(/)(a::Quaternion, b::Quaternion) = a * conj(b) / dot(b, conj(b))
+LinearAlgebra.norm(a::Quaternion) = sqrt(a.w^2 + a.x^2 + a.y^2 + a.z^2)
 
-function Base.:(/)(a::Quaternion, b::Quaternion)
-    return a * reverse(b) / scalar(b, reverse(b))
-end
-
-Base.reverse(a::Quaternion) = Quaternion(a.w, -a.x, -a.y, -a.z)
+#Reverse
+Base.conj(a::Quaternion) = Quaternion(a.w, -a.x, -a.y, -a.z)
 
 #Projection operations
-GADraft.scalar(a::Quaternion) = a.w
+function LinearAlgebra.dot(a::Quaternion, b::Quaternion)
+    return a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z
+end
+Base.real(a::Quaternion) = a.w
+real_part(a::Quaternion) = Quaternion(a.w, zero(a.w), zero(a.w), zero(a.w))
+imag_part(a::Quaternion) = Quaternion(zero(a.w), a.x, a.y, a.z)
 
-GADraft.scalar(a::Quaternion, b::Quaternion) = a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z
-
-function GADraft.project(a::Quaternion{T}, grade::Integer) where {T}
-    return if (grade == 0)
-        Quaternion{T}(a.w, zero(T), zero(T), zero(T))
-    elseif (grade == 2)
-        Quaternion{T}(zero(T), a.x, a.y, a.z)
+#Exponentiation
+function bivector_exp(a::Quaternion)
+    a = imag_part(a)
+    nrm = norm(a)
+    return if iszero(nrm)
+        Quaternion(one(nrm), 0, 0, 0)
     else
-        zero(a)
+        cos(nrm) + sin(nrm) * a / nrm
     end
 end
+
+function Base.exp(a::Quaternion)
+    R = bivector_exp(a)
+    if iszero(a.w)
+        return R
+    else
+        return exp(a.w) * R
+    end
+end
+
+#Additional Functions
+function Base.isapprox(a::Quaternion, b::Quaternion)
+    return isapprox(a.w, b.w) &&
+           isapprox(a.x, b.x) &&
+           isapprox(a.y, b.y) &&
+           isapprox(a.z, b.z)
+end
+
+function Base.isapprox(a::Quaternion{T}, b::Quaternion{T}; kwargs...) where {T}
+    return (
+        isapprox(a.w, b.w; kwargs...) &&
+        isapprox(a.x, b.x; kwargs...) &&
+        isapprox(a.y, b.y; kwargs...) &&
+        isapprox(a.z, b.z; kwargs...)
+    )
+end
+
+function Base.show(io::IO, ::MIME"text/plain", a::Quaternion)
+    return print(
+        io,
+        "",
+        string(a.w) *
+        " + " *
+        string(a.x) *
+        "i + " *
+        string(a.y) *
+        "j + " *
+        string(a.z) *
+        "k",
+    )
+end
+
+function Base.show(io::IO, ::MIME"text/plain", mvs::Vector{Quaternion})
+    n = length(mvs)
+    println(io, n, "-element Vector{Quaternion}")
+    for i in eachindex(mvs)
+        println(io, " ", mvs[i])
+    end
+end
+
+end #Module
