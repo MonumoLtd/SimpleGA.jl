@@ -1,7 +1,7 @@
 #=
 Core code for the implementation of GA(3,1).
 Underlying representation is with 2x2 complex matrices, though no matrices are formally constructed. The multiplication rules are hard-coded for efficiency.
-Makes use of Julia's internal ComplexF64 format.
+Makes use of Julia's internal format.
 =#
 
 struct Even{T<:Real} <: Number
@@ -86,10 +86,10 @@ end
 
 function Base.:(*)(a::Odd, b::Odd)
     return Even(
-        a.c1 * conj(b.c4) - a.c2 * conj(b.c2),
-        -a.c1 * conj(b.c3) + a.c2 * conj(b.c1),
-        a.c3 * conj(b.c4) - a.c4 * conj(b.c2),
-        a.c4 * conj(b.c1) - a.c3 * conj(b.c3),
+        -a.c1 * conj(b.c4) + a.c2 * conj(b.c2),
+        a.c1 * conj(b.c3) - a.c2 * conj(b.c1),
+       - a.c3 * conj(b.c4) + a.c4 * conj(b.c2),
+        -a.c4 * conj(b.c1) + a.c3 * conj(b.c3),
     )
 end
 
@@ -127,7 +127,7 @@ function LinearAlgebra.dot(a::Even, b::Even)
 end
 function LinearAlgebra.dot(a::Odd, b::Odd)
     return real(
-        a.c1 * conj(b.c4) - a.c2 * conj(b.c2) + a.c4 * conj(b.c1) - a.c3 * conj(b.c3)
+        -a.c1 * conj(b.c4) + a.c2 * conj(b.c2) - a.c4 * conj(b.c1) + a.c3 * conj(b.c3)
     ) / 2
 end
 

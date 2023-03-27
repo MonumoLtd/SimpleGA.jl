@@ -18,7 +18,7 @@ include("common.jl")
 const s1 = Even{Int8}(0, 1, 1, 0)
 const s2 = Even{Int8}(0, -im, im, 0)
 const s3 = Even{Int8}(1, 0, 0, -1)
-const f3 = Odd{Int8}(im, 0, 0, im)
+const f3 = Odd{Int8}(1, 0, 0, 1)
 const e1 = s1 * f3
 const e2 = s2 * f3
 const e3 = s3 * f3
