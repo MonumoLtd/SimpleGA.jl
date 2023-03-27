@@ -7,7 +7,9 @@ Underlying rep is quaternions, but not used explicitly here to keep this code se
 
 module GA30
 
+using GeometricAlgebra
 using LinearAlgebra
+using StaticArrays
 
 include("core30.jl")
 include("common.jl")
@@ -18,7 +20,7 @@ const e2 = Odd{Int8}(0, 0, 1, 0)
 const e3 = Odd{Int8}(0, 0, 0, 1)
 const I3 = Odd{Int8}(1, 0, 0, 0)
 
-const basis = [e1, e2, e3]
+const basis = SA[e1, e2, e3]
 
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)

@@ -1,6 +1,6 @@
-using LinearAlgebra
-
 module GeometricAlgebra
+
+using LinearAlgebra
 
 # Prototype functions.
 #Definitions are provided in each of the submodules
@@ -61,11 +61,11 @@ include("ga3232.jl")
 using .GA3232
 export construct64, GA3232
 
-#The main basis function.
+# The main basis function.
 include("basis.jl")
 export basis, testbas
 
-#Maps into GA(4,4). Primarily for testing.
+# Maps into GA(4,4). Primarily for testing.
 include("embed.jl")
 export embed
 

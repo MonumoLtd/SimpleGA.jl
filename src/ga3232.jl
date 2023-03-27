@@ -8,13 +8,14 @@
 """
 module GA3232
 
+using GeometricAlgebra
 using LinearAlgebra
+using StaticArrays
 
 include("core3232.jl")
-import Base.show
 
 #! format:off
-bldbas = [
+const bldbas = SA[
 0x0000000000000001,0x0000000000000002,0x0000000000000007,0x000000000000000b,
 0x000000000000001f,0x000000000000002f,0x000000000000007f,0x00000000000000bf,
 0x00000000000001ff,0x00000000000002ff,0x00000000000007ff,0x0000000000000bff,
@@ -43,12 +44,12 @@ struct Blade
 end
 
 function Base.isless(x::Blade, y::Blade)
-    if grd(x.bas) < grd(y.bas)
-        return true
+    return if grd(x.bas) < grd(y.bas)
+        true
     elseif grd(x.bas) > grd(y.bas)
-        return false
+        false
     else
-        return isless(x.bas, y.bas)
+        isless(x.bas, y.bas)
     end
 end
 
@@ -63,7 +64,7 @@ function mvtoblds(mvin::Multivector)
 end
 
 function vece(n::Int)
-    if n == 0
+    if iszero(n)
         return Multivector([0x0000000000000000], [1.0])
     end
     #Keep in range 1..32
@@ -71,12 +72,10 @@ function vece(n::Int)
     return Multivector([bldlut[2 * n - 1]], [1.0])
 end
 
-function vece(n::Int, val::Float64)
-    return val * vece(n)
-end
+vece(n::Int, val::Float64) = val * vece(n)
 
 function vecf(n::Int)
-    if n == 0
+    if iszero(n)
         return Multivector([0x0000000000000000], [1.0])
     end
     #Keep in range 1..32
@@ -84,9 +83,7 @@ function vecf(n::Int)
     return Multivector([bldlut[2 * n]], [1.0])
 end
 
-function vecf(n::Int, val::Float64)
-    return val * vecf(n)
-end
+vecf(n::Int, val::Float64) = val * vecf(n)
 
 function bdptype(nn::UInt64)
     bldn = bldconvert(nn)

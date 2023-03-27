@@ -1,13 +1,8 @@
-#= 
+#=
 Core code for the implementation of GA(4,4).
-Uses a Uint8 representation of basis blades and bitwise operations. 
+Uses a Uint8 representation of basis blades and bitwise operations.
 Used for checking other algebras.
 =#
-
-import ..GeometricAlgebra: project
-import ..GeometricAlgebra: bivector_exp
-
-using SparseArrays
 
 #This avoids rounding error bloating multivectors. Assumes using FP64. Set to zero if unsure
 const mvtol = 1e-14
@@ -105,10 +100,10 @@ function LinearAlgebra.adjoint(mv::Multivector)
 end
 
 #Grade and projection
-function project(mv::Multivector, n::Int64)
+function GeometricAlgebra.project(mv::Multivector, n::Int64)
     rsbas = filter(x -> grd(x) == n, mv.bas)
     ln = length(rsbas)
-    if ln == 0
+    if iszero(ln)
         return zero(mv)
     end
     rsval = zeros(typeof(mv.val[1]), ln)
@@ -119,13 +114,7 @@ function project(mv::Multivector, n::Int64)
     return Multivector(rsbas, rsval)
 end
 
-function LinearAlgebra.tr(mv::Multivector)
-    if mv.bas[1] == 0x00
-        return mv.val[1]
-    else
-        return 0.0
-    end
-end
+LinearAlgebra.tr(mv::Multivector) = iszero(mv.bas[1]) ? mv.val[1] : 0.0
 
 function LinearAlgebra.dot(mv1::Multivector, mv2::Multivector)
     rsbas = intersect(mv1.bas, mv2.bas)
@@ -158,7 +147,7 @@ function Base.exp(a::Multivector)
     return res
 end
 
-function bivector_exp(a::Multivector)
+function GeometricAlgebra.bivector_exp(a::Multivector)
     R = exp(project(a, 2))
     delt = R * R' - 1
     return (1 - 0.5 * delt + 0.375 * delt * delt) * R

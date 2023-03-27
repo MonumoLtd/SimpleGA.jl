@@ -1,9 +1,6 @@
-#= 
-Implementation of GA(32,32) in Julia using Uint64 bitwise operations. 
+#=
+Implementation of GA(32,32) in Julia using Uint64 bitwise operations.
 =#
-
-import ..GeometricAlgebra: project
-import ..GeometricAlgebra: bivector_exp
 
 #The Multivector type assumes that the blade list is unique and in order. But we want to avoid checking this at runtime.
 #Only use this constructor if you are certain the blade list is correct. If not, use construct64()
@@ -15,10 +12,10 @@ end
 function construct64(bs, vs)
     if length(bs) != length(unique(bs))
         error("List of blades must be unique")
-    else
-        p = sortperm(bs)
-        return Multivector(sort(bs), vs[p])
     end
+
+    p = sortperm(bs)
+    return Multivector(bs[p], vs[p])
 end
 
 basscl = 0x0000000000000000
@@ -30,9 +27,8 @@ const mvtol = 1e-14
 
 function mvtidy(mv::Multivector)
     ln = length(filter(x -> !isapprox(x, 0.0; atol=mvtol), mv.val))
-    if ln == 0
-        return zero(mv)
-    end
+    iszero(ln) && return zero(mv)
+
     rsbas = zeros(UInt64, ln)
     rsval = zeros(typeof(mv.val[1]), ln)
     j = 1
@@ -119,9 +115,7 @@ function bldconvert(xin::UInt64)
     return res
 end
 
-function grd(xin::UInt64)
-    return count_ones(bldconvert(xin))
-end
+grd(xin::UInt64) = count_ones(bldconvert(xin))
 
 function LinearAlgebra.adjoint(mv::Multivector)
     rsval = similar(mv.val)
@@ -136,12 +130,11 @@ function LinearAlgebra.adjoint(mv::Multivector)
 end
 
 #Grade and projection
-function project(mv::Multivector, n::Int64)
+function GeometricAlgebra.project(mv::Multivector, n::Int64)
     rsbas = filter(x -> grd(x) == n, mv.bas)
     ln = length(rsbas)
-    if ln == 0
-        return zero(mv)
-    end
+    iszero(ln) && return zero(mv)
+
     rsval = zeros(typeof(mv.val[1]), ln)
     for i in 1:ln
         j = findfirst(isequal(rsbas[i]), mv.bas)
@@ -150,13 +143,7 @@ function project(mv::Multivector, n::Int64)
     return Multivector(rsbas, rsval)
 end
 
-function LinearAlgebra.tr(mv::Multivector)
-    if mv.bas[1] == basscl
-        return mv.val[1]
-    else
-        return 0.0
-    end
-end
+LinearAlgebra.tr(mv::Multivector) = mv.bas[1] == basscl ? mv.val[1] : 0.0
 
 function LinearAlgebra.dot(mv1::Multivector, mv2::Multivector)
     rsbas = intersect(mv1.bas, mv2.bas)
@@ -189,7 +176,7 @@ function Base.exp(a::Multivector)
     return res
 end
 
-function bivector_exp(a::Multivector)
+function GeometricAlgebra.bivector_exp(a::Multivector)
     R = exp(project(a, 2))
     delt = R * R' - 1
     return (1 - 0.5 * delt + 0.375 * delt * delt) * R

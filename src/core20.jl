@@ -1,11 +1,9 @@
-
-#=
+"""
 Core code for the implementation of GA(2,0)
-Underlying representation is with complex numbers, so essentially a wrapper for Julia's internal ComplexF{T} formats.
-=#
 
-import ..GeometricAlgebra: project
-import ..GeometricAlgebra: bivector_exp
+Underlying representation is with complex numbers, so essentially a wrapper for Julia's
+internal ComplexF{T} formats.
+"""
 
 struct Even{T<:Real} <: Number
     c1::Complex{T}
@@ -50,23 +48,17 @@ LinearAlgebra.adjoint(a::Even) = Even(conj(a.c1))
 LinearAlgebra.adjoint(a::Odd) = a
 
 #Grade and projection
-function project(a::Even, n::Integer)
-    if (n == 0)
-        return Even((a.c1 + conj(a.c1)) / 2)
+function GeometricAlgebra.project(a::Even, n::Integer)
+    return if (n == 0)
+        Even((a.c1 + conj(a.c1)) / 2)
     elseif (n == 2)
-        return Even((a.c1 - conj(a.c1)) / 2)
+        Even((a.c1 - conj(a.c1)) / 2)
     else
-        return zero(a)
+        zero(a)
     end
 end
 
-function project(a::Odd, n::Integer)
-    if (n == 1)
-        return a
-    else
-        return zero(a)
-    end
-end
+GeometricAlgebra.project(a::Odd, n::Integer) = n == 1 ? a : zero(a)
 
 LinearAlgebra.tr(a::Even) = real(a.c1)
 LinearAlgebra.dot(a::Even, b::Even) = real(a.c1 * b.c1)
@@ -75,9 +67,7 @@ LinearAlgebra.dot(a::Odd, b::Odd) = real(conj(a.c1) * b.c1)
 #Exponentiation
 Base.exp(a::Even) = Even(exp(a.c1))
 
-function bivector_exp(a::Even)
-    return Even(exp(im * a.c1.im))
-end
+GeometricAlgebra.bivector_exp(a::Even) = Even(exp(im * a.c1.im))
 
 #Comparison, using default tolerances.
 Base.isapprox(a::Even, b::Even) = isapprox(a.c1, b.c1)

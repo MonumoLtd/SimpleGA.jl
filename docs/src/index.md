@@ -344,5 +344,5 @@ It is worth point out just how big G(32,32) actually is. This algebra contains 2
 ```
 
 ```@autodocs
-Modules = [GeometricAlgebra, GA20, GA3232]
+Modules = [GeometricAlgebra, GA20, GA30, GA40, STA, PGA, CGA, GA24, GA33, GA44, GA3232]
 ```

@@ -1,19 +1,17 @@
 """
     Quaternions
 
-Quaternion code. This is called by some of the later GA implementations. 
+Quaternion code. This is called by some of the later GA implementations.
 The core mirrors much of the GA code structure.
 For completeness we have defined a division operation for quaternions as they are a division algebra.
 """
 
 module Quaternions
 
+using GeometricAlgebra
 using LinearAlgebra
 
-import ..GeometricAlgebra: project
-import ..GeometricAlgebra: bivector_exp
-
-export real_part, imag_part, bivector_exp, Quaternion
+export real_part, imag_part, Quaternion
 
 struct Quaternion{T<:Number}
     w::T
@@ -76,7 +74,7 @@ real_part(a::Quaternion) = Quaternion(a.w, zero(a.w), zero(a.w), zero(a.w))
 imag_part(a::Quaternion) = Quaternion(zero(a.w), a.x, a.y, a.z)
 
 #Exponentiation
-function bivector_exp(a::Quaternion)
+function GeometricAlgebra.bivector_exp(a::Quaternion)
     a = imag_part(a)
     nrm = norm(a)
     return if iszero(nrm)
@@ -87,12 +85,8 @@ function bivector_exp(a::Quaternion)
 end
 
 function Base.exp(a::Quaternion)
-    R = bivector_exp(a)
-    if iszero(a.w)
-        return R
-    else
-        return exp(a.w) * R
-    end
+    R = GeometricAlgebra.bivector_exp(a)
+    return iszero(a.w) ? R : exp(a.w) * R
 end
 
 #Additional Functions

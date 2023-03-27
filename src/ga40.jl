@@ -2,12 +2,14 @@
     GA40
 
 Code for GA(4,0). Even and odd elements are stored as quaternion pairs.
-
 """
-
 module GA40
 
+using GeometricAlgebra
 using LinearAlgebra
+using StaticArrays
+
+using ..Quaternions
 
 include("core40.jl")
 include("common.jl")
@@ -19,7 +21,7 @@ const e3 = Odd{Int8}(Quaternion(0, 0, 0, 1), Quaternion(0, 0, 0, -1))
 const e4 = Odd{Int8}(Quaternion(1, 0, 0, 0), Quaternion(1, 0, 0, 0))
 const E4 = e1 * e2 * e3 * e4
 
-const basis = [e1, e2, e3, e4]
+const basis = SA[e1, e2, e3, e4]
 
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)

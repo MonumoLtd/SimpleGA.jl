@@ -1,10 +1,14 @@
-module CGA
-
 #=
-Code for GA(4,1). 
+Code for GA(4,1).
 =#
 
+module CGA
+
+using GeometricAlgebra
 using LinearAlgebra
+using StaticArrays
+
+using ..Quaternions
 
 include("corecga.jl")
 include("common.jl")
@@ -27,7 +31,7 @@ const f4 = Odd{Int8}(
 )
 
 const I5 = e1 * e2 * e3 * e4 * f4
-const basis = [e1, e2, e3, e4, f4]
+const basis = SA[e1, e2, e3, e4, f4]
 
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)

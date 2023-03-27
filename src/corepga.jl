@@ -5,11 +5,6 @@ Even / odd map performed by I3
 Useful for performance if CGA is too slow.
 =#
 
-import ..GeometricAlgebra: project
-import ..GeometricAlgebra: bivector_exp
-
-using ..Quaternions
-
 struct Even{T<:Real} <: Number
     q::Quaternion{T}
     n::Quaternion{T}
@@ -57,25 +52,25 @@ LinearAlgebra.adjoint(a::Even) = Even(conj(a.q), conj(a.n))
 LinearAlgebra.adjoint(a::Odd) = Odd(-conj(a.q), conj(a.n))
 
 #Grade and projection
-function project(a::Even, n::Integer)
-    if (n == 0)
-        return Even(real_part(a.q), zero(a.q))
+function GeometricAlgebra.project(a::Even, n::Integer)
+    return if (n == 0)
+        Even(real_part(a.q), zero(a.q))
     elseif (n == 2)
-        return Even(imag_part(a.q), imag_part(a.n))
+        Even(imag_part(a.q), imag_part(a.n))
     elseif (n == 4)
-        return Even(zero(a.q), real_part(a.n))
+        Even(zero(a.q), real_part(a.n))
     else
-        return zero(a)
+        zero(a)
     end
 end
 
-function project(a::Odd, n::Integer)
-    if (n == 1)
-        return Odd(imag_part(a.q), real_part(a.n))
+function GeometricAlgebra.project(a::Odd, n::Integer)
+    return if (n == 1)
+        Odd(imag_part(a.q), real_part(a.n))
     elseif (n == 3)
-        return Odd(real_part(a.q), imag_part(a.n))
+        Odd(real_part(a.q), imag_part(a.n))
     else
-        return zero(a)
+        zero(a)
     end
 end
 
@@ -84,21 +79,19 @@ LinearAlgebra.dot(a::Even, b::Even) = dot(a.q, b.q)
 LinearAlgebra.dot(a::Odd, b::Odd) = -dot(a.q, b.q)
 
 #Exponentiation
-function bivector_exp(a::Even)
+function GeometricAlgebra.bivector_exp(a::Even)
     a = project(a, 2)
     aa = -a * a
-    if iszero(tr(aa))
-        return 1 + a
-    else
-        f0 = sqrt(tr(aa))
-        f1 = aa.n.w / 2 / f0
-        cf = Even(Quaternion(cos(f0), 0, 0, 0), Quaternion(-f1 * sin(f0), 0, 0, 0))
-        sncf = Even(
-            Quaternion(sin(f0) / f0, 0, 0, 0),
-            Quaternion(f1 / f0^2 * (f0 * cos(f0) - sin(f0)), 0, 0, 0),
-        )
-        return cf + sncf * a
-    end
+    iszero(tr(aa)) && return 1 + a
+
+    f0 = sqrt(tr(aa))
+    f1 = aa.n.w / 2 / f0
+    cf = Even(Quaternion(cos(f0), 0, 0, 0), Quaternion(-f1 * sin(f0), 0, 0, 0))
+    sncf = Even(
+        Quaternion(sin(f0) / f0, 0, 0, 0),
+        Quaternion(f1 / f0^2 * (f0 * cos(f0) - sin(f0)), 0, 0, 0),
+    )
+    return cf + sncf * a
 end
 
 function Base.exp(a::Even)
