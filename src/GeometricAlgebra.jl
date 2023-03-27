@@ -2,7 +2,7 @@ using LinearAlgebra
 
 module GeometricAlgebra
 
-# Prototype functions. 
+# Prototype functions.
 #Definitions are provided in each of the submodules
 function project() end
 function bivector_exp() end
@@ -25,7 +25,7 @@ include("ga20.jl")
 using .GA20
 export GA20
 
-include("GA30.jl")
+include("ga30.jl")
 using .GA30
 export GA30
 
@@ -41,23 +41,23 @@ include("ga40.jl")
 using .GA40
 export GA40
 
-include("PGA.jl")
+include("pga.jl")
 using .PGA
 export pdual, PGA
 
-include("CGA.jl")
+include("cga.jl")
 using .CGA
 export CGA
 
-include("GA33.jl")
+include("ga33.jl")
 using .GA33
 export GA33
 
-include("GA24.jl")
+include("ga24.jl")
 using .GA24
 export GA24
 
-include("GA3232.jl")
+include("ga3232.jl")
 using .GA3232
 export construct64, GA3232
 
