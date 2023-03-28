@@ -16,7 +16,7 @@ makedocs(;
         edit_link="main",
         assets=String[],
     ),
-    pages=["Home" => "index.md"],
+    pages=["Home" => "index.md", "Reference" => "reference.md"],
     checkdocs=:exports,
     strict=true,
 )

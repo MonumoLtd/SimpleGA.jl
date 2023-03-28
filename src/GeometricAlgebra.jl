@@ -3,9 +3,19 @@ module GeometricAlgebra
 using LinearAlgebra
 
 # Prototype functions.
-#Definitions are provided in each of the submodules
-function project() end
-function bivector_exp() end
+
+"""
+    project(multivector::T, n::Integer) -> T
+
+Project a given `multivector` of type `T` so that only the component of grade `n` is kept.
+
+The function will always return a multivector of the same type as that passed in. If `n` is
+such that `multivector` does not contain this grade (e.g. because `n` is odd, and the
+multivector is an even type), then we will return a zero multivector.
+"""
+function project end
+
+function bivector_exp end
 
 export project, bivector_exp, inject
 
@@ -18,7 +28,7 @@ end
 
 #Each algebra is in a separate sub-module.
 
-include("quaternion.jl")
+include("quaternions.jl")
 using .Quaternions
 
 include("ga20.jl")

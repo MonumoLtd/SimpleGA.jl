@@ -4,7 +4,6 @@
 Uses a list-based approach to multivector storage.
 Not as fast as smaller algebras, but useful for checks.
 """
-
 module GA44
 
 using GeometricAlgebra

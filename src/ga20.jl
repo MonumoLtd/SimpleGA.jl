@@ -3,7 +3,6 @@
 
 Module representing the `GA(2, 0)` geometric algebra.
 Even and odd elements are stored as complex numbers.
-
 """
 module GA20
 

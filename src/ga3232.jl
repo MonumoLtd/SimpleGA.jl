@@ -1,10 +1,10 @@
 """
     GA3232
 
-    Code for GA(32,32).
-    Not optimised in any way, but useful for some experimentation.
-    Use with caution. GA(32,32) is very BIG!
+Module representing the GA(32,32) geometric algebra.
 
+Not optimised in any way, but useful for some experimentation.
+Use with caution. GA(32,32) is very BIG!
 """
 module GA3232
 
