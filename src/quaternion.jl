@@ -2,10 +2,11 @@
     Quaternions
 
 Quaternion code. This is called by some of the later GA implementations.
-The core mirrors much of the GA code structure.
-For completeness we have defined a division operation for quaternions as they are a division algebra.
-"""
 
+The core mirrors much of the GA code structure.
+For completeness we have defined a division operation for quaternions as they are a division
+algebra.
+"""
 module Quaternions
 
 using GeometricAlgebra

@@ -4,7 +4,6 @@
 Module representing the GA(3, 0) geometric algebra.
 Underlying rep is quaternions, but not used explicitly here to keep this code self-contained.
 """
-
 module GA30
 
 using GeometricAlgebra

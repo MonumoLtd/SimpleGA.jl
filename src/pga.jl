@@ -4,7 +4,6 @@
 Code for GA(3,0,1). The Euclidean group algebra. C
 Core representation is a quaternion pair.
 """
-
 module PGA
 
 using GeometricAlgebra
