@@ -18,7 +18,7 @@ end
 
 #Each algebra is in a separate sub-module.
 
-include("quaternion.jl")
+include("quaternions.jl")
 using .Quaternions
 
 include("ga20.jl")
