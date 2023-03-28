@@ -4,7 +4,7 @@ Implementation of GA(32,32) in Julia using Uint64 bitwise operations.
 
 #The Multivector type assumes that the blade list is unique and in order. But we want to avoid checking this at runtime.
 #Only use this constructor if you are certain the blade list is correct. If not, use construct64()
-struct Multivector{T<:Number}
+struct Multivector{T<:Number} <: Number
     bas::Vector{UInt64}
     val::Vector{T}
 end

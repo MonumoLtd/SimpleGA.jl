@@ -62,6 +62,48 @@ function embed(a::STA.Odd)
     return inject(oddlist, bas)
 end
 
+function embed(a::GA31.Even)
+    bas31 = GA31.basis
+    (e1, e2, e3, f3) = (bas31[1], bas31[2], bas31[3], bas31[4])
+    bas44 = GA44.basis
+    (E1, E2, E3, F3) = (bas44[1], bas44[2], bas44[3], bas44[8])
+    i4 = e1 * e2 * e3 * f3
+    I4 = E1 * E2 * E3 * F3
+    evenlist = [
+        tr(a),
+        - dot(a, e1 * e2),
+        - dot(a, e1 * e3),
+        - dot(a, e2 * e3),
+        dot(a, e1 * f3),
+        dot(a, e2 * f3),
+        dot(a, e3 * f3),
+        -dot(a, i4),
+    ]
+    bas = [1, E1*E2,  E1*E3,  E2*E3, E1*F3 , E2*F3, E3*F3, I4]
+    return inject(evenlist, bas)
+end
+
+function embed(a::GA31.Odd)
+    bas31 = GA31.basis
+    (e1, e2, e3, f3) = (bas31[1], bas31[2], bas31[3], bas31[4])
+    bas44 = GA44.basis
+    (E1, E2, E3, F3) = (bas44[1], bas44[2], bas44[3], bas44[8])
+    i4 = e1 * e2 * e3 * f3
+    I4 = E1 * E2 * E3 * F3
+    oddlist = [
+        dot(a, e1),
+        dot(a, e2),
+        dot(a, e3),
+        - dot(a, f3),
+        dot(a, i4 * e1),
+        dot(a, i4 * e2),
+        dot(a, i4 * e3),
+        - dot(a, i4 * f3),
+    ]
+    bas = [E1, E2, E3, F3, I4*E1, I4*E2, I4*E3, I4*F3]
+    return inject(oddlist, bas)
+end
+
 function embed(a::GA40.Even)
     bas40 = GA40.basis
     (e1, e2, e3, e4) = (bas40[1], bas40[2], bas40[3], bas40[4])

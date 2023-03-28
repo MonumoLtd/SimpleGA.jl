@@ -12,6 +12,7 @@ include("testfuncs.jl")
     @testset "GA(3, 0)" begin include("test30.jl") end
     @testset "STA" begin include("testSTA.jl") end
     @testset "GA(4, 0)" begin include("test40.jl") end
+    @testset "GA(3, 1)" begin include("test31.jl") end
     @testset "PGA" begin include("testPGA.jl") end
     @testset "CGA" begin include("testCGA.jl") end
     @testset "GA(3, 3)" begin include("test33.jl") end

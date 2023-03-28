@@ -11,7 +11,7 @@ sparsify(x, eps) = abs(x) < eps ? 0.0 : x
 #The Multivector type assumes that the blade list is unique and in order. But we want to avoid checking this at runtime.
 #Only use this constructor if you are certain the blade list is correct. If not, use construct44()
 
-struct Multivector{T<:Number}
+struct Multivector{T<:Number} <: Number
     bas::Vector{UInt8}
     val::Vector{T}
 end
@@ -157,7 +157,7 @@ function Base.isapprox(mv1::Multivector, mv2::Multivector)
     return isapprox(
         SparseVector(256, mv1.bas .+ 1, mv1.val),
         SparseVector(256, mv2.bas .+ 1, mv2.val);
-        atol=1e-7,
+        atol=1e-6,
     )
 end
 

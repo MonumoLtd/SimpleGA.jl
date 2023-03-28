@@ -103,7 +103,7 @@ function GeometricAlgebra.project(a::Even, n::Integer)
     return if (n == 0)
         real(tra) * one(a)
     elseif (n == 2)
-        (a - a') / 2
+        convert(typeof(a),(a - a') / 2)
     elseif (n == 4)
         Even((tra - conj(tra)) / 2, zero(a.c1), zero(a.c1), (tra - conj(tra)) / 2)
     else
@@ -113,15 +113,16 @@ end
 
 function GeometricAlgebra.project(a::Odd, n::Integer)
     return if (n == 1)
-        (a + a') / 2
+        convert(typeof(a),(a + a') / 2)
     elseif (n == 3)
-        (a - a') / 2
+        convert(typeof(a),(a - a') / 2)
     else
         return zero(a)
     end
 end
 
 LinearAlgebra.tr(a::Even) = (real(a.c1 + a.c4)) / 2
+
 function LinearAlgebra.dot(a::Even, b::Even)
     return real(a.c1 * b.c1 + a.c2 * b.c3 + a.c4 * b.c4 + a.c3 * b.c2) / 2
 end

@@ -25,42 +25,24 @@ const e3 = s3 * f3
 const I4 = e1 * e2 * e3 * f3
 
 const basis = SA[e1, e2, e3, f3]
-export bar
-
-#Additional function for Pauli operations.Pre and post multiply by g0.
-bar(a::Even) = Even(conj(a.c4), -conj(a.c3), -conj(a.c2), conj(a.c1))
-bar(a::Odd) = Odd(conj(a.c4), -conj(a.c3), -conj(a.c2), conj(a.c1))
 
 #Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)
 
-#=
 function mv_to_text(a::Even)
-    res = ""
     scl = tr(a)
-    tp = approxzero(scl) ? "" : " + " * string(scl)
-    res *= tp
-    scl = dot(a, s1)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "σ1"
-    res *= tp
-    scl = dot(a, s2)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "σ2"
-    res *= tp
-    scl = dot(a, s3)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "σ3"
-    res *= tp
-    scl = dot(a, -I4 * s1)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "Iσ1"
-    res *= tp
-    scl = dot(a, -I4 * s2)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "Iσ2"
-    res *= tp
-    scl = dot(a, -I4 * s3)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "Iσ3"
-    res *= tp
-    scl = dot(a, -I4)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "I"
-    res *= tp
+    res = approxzero(scl) ? "" : " + " * string(scl)
+     #! format:off
+    tpevenbas = [-e1*e2, -e1*e3, -e2*e3, e1*f3 , e2*f3, e3*f3,
+                -I4]
+    tpevenstr = ["e1e2", "e1e3", "e2e3", "e1f3" , "e2f3", "e3f3",
+                    "I4"]
+    #! format:on
+    for i in 1:7
+        scl = dot(a, tpevenbas[i])
+        tp = approxzero(scl) ? "" : " + " * string(scl) * tpevenstr[i]
+        res *= tp
+    end
     if (length(res) == 0)
         res = "0.0"
     else
@@ -70,31 +52,18 @@ function mv_to_text(a::Even)
 end
 
 function mv_to_text(a::Odd)
+    #! format:off
+    tpoddbas = [e1, e2, e3, -f3,
+                I4*e1, I4*e2, I4*e3, -I4*f3]
+    tpoddstr = ["e1", "e2", "e3", "f3", 
+                "I4e1", "I4e2", "I4e3", "I4f3"]
+    #! format:on
     res = ""
-    scl = dot(a, g0)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "γ0"
-    res *= tp
-    scl = dot(a, -g1)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "γ1"
-    res *= tp
-    scl = dot(a, -g2)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "γ2"
-    res *= tp
-    scl = dot(a, -g3)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "γ3"
-    res *= tp
-    scl = dot(a, I4 * g0)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "Iγ0"
-    res *= tp
-    scl = dot(a, -I4 * g1)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "Iγ1"
-    res *= tp
-    scl = dot(a, -I4 * g2)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "Iγ2"
-    res *= tp
-    scl = dot(a, -I4 * g3)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "Iγ3"
-    res *= tp
+    for i in 1:8
+        scl = dot(a, tpoddbas[i])
+        tp = approxzero(scl) ? "" : " + " * string(scl) * tpoddstr[i]
+        res *= tp
+    end
     if (length(res) == 0)
         res = "0.0"
     else
@@ -104,5 +73,5 @@ function mv_to_text(a::Odd)
 end
 
 include("show.jl")
-=#
+
 end #Module
