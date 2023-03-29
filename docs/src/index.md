@@ -81,7 +81,13 @@ Each of these algebras is described in more detail below, including listing the 
 
 ## Arithmetic Functions
 
-Most of the functionality is provided by overloading the Base Julia functions, so +,-,* all behave as expected, as does division by a real. The library also builds on LinearAlebra and overloads three functions from there:
+Most of the functionality is provided by overloading the Base Julia functions, so +,-,* all behave as expected, as does division by a real. Note that division by a real effectivel performs
+```
+A/x = (1/x) * A # Multivector A and real x
+````
+This is optimal for most purposes, but take care if you are working in something other than Float64 precision (for example, using Float32 on the GPU). You may need some explicit type defintions to avoid Julia defaulting to Float64.
+
+The library also builds on ```LinearAlgebra``` and overloads three functions from there:
 
 ```julia
 tr(A)  # The scalar part of A
