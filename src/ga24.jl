@@ -63,7 +63,7 @@ function mv_to_text(a::Even)
         res *= tp
     end
     if (length(res) == 0)
-        res = "0.0"
+        res = string(zero(scl))
     else
         res = chop(res; head=3, tail=0)
     end
@@ -88,7 +88,7 @@ function mv_to_text(a::Odd)
         res *= tp
     end
     if (length(res) == 0)
-        res = "0.0"
+        res = string(zero(real(a.m[1,1])))
     else
         res = chop(res; head=3, tail=0)
     end

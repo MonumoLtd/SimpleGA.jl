@@ -36,7 +36,7 @@ function mv_to_text(a::Even)
     tp = approxzero(a.z) ? "" : " + " * string(-a.z) * "e1e2"
     res *= tp
     if (length(res) == 0)
-        res = "0.0"
+        res = string(zero(a.w))
     else
         res = chop(res; head=3, tail=0)
     end
@@ -54,7 +54,7 @@ function mv_to_text(a::Odd)
     tp = approxzero(a.w) ? "" : " + " * string(a.w) * "e123"
     res *= tp
     if (length(res) == 0)
-        res = "0.0"
+        res = string(zero(a.w))
     else
         res = chop(res; head=3, tail=0)
     end

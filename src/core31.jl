@@ -99,13 +99,14 @@ LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.c1), conj(a.c3), conj(a.c2), conj(a.c
 
 #Grade and projection
 function GeometricAlgebra.project(a::Even, n::Integer)
-    tra = (a.c1 + a.c4) / 2
+    tmp = (a.c1 + a.c4)
+    tra = convert(typeof(tmp), tmp / 2)
     return if (n == 0)
         real(tra) * one(a)
     elseif (n == 2)
         convert(typeof(a),(a - a') / 2)
     elseif (n == 4)
-        Even((tra - conj(tra)) / 2, zero(a.c1), zero(a.c1), (tra - conj(tra)) / 2)
+        Even(imag(tra) * im, zero(a.c1), zero(a.c1), imag(tra) * im)
     else
         zero(a)
     end
@@ -121,15 +122,18 @@ function GeometricAlgebra.project(a::Odd, n::Integer)
     end
 end
 
-LinearAlgebra.tr(a::Even) = (real(a.c1 + a.c4)) / 2
+function LinearAlgebra.tr(a::Even) 
+    tmp = (real(a.c1 + a.c4))
+    return convert(typeof(tmp), tmp / 2)
+end
 
 function LinearAlgebra.dot(a::Even, b::Even)
-    return real(a.c1 * b.c1 + a.c2 * b.c3 + a.c4 * b.c4 + a.c3 * b.c2) / 2
+    tmp = real(a.c1 * b.c1 + a.c2 * b.c3 + a.c4 * b.c4 + a.c3 * b.c2)
+    return convert(typeof(tmp), tmp / 2)
 end
 function LinearAlgebra.dot(a::Odd, b::Odd)
-    return real(
-        -a.c1 * conj(b.c4) + a.c2 * conj(b.c2) - a.c4 * conj(b.c1) + a.c3 * conj(b.c3)
-    ) / 2
+    tmp = real(-a.c1 * conj(b.c4) + a.c2 * conj(b.c2) - a.c4 * conj(b.c1) + a.c3 * conj(b.c3))
+    return convert(typeof(tmp), tmp / 2)
 end
 
 #Exponentiation

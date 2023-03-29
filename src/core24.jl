@@ -21,7 +21,7 @@ function Base.convert(::Type{Even{T}}, a::Even) where {T<:Real}
     return Even{T}(convert(SMatrix{4,4,Complex{T},16}, (a.m)))
 end
 
-function Base.convert(::Type{Odd{T}}, a::Even) where {T<:Real}
+function Base.convert(::Type{Odd{T}}, a::Odd) where {T<:Real}
     return Odd{T}(convert(SMatrix{4,4,Complex{T},16}, a.m))
 end
 
@@ -58,16 +58,16 @@ LinearAlgebra.adjoint(a::Odd) = Odd(rev * transpose(a.m) * rev)
 function GeometricAlgebra.project(a::Even, n::Integer)
     return if (n == 0)
         scl = real((tr(a.m)) / 4)
-        Even(scl * id4)
+        convert(typeof(a),Even(scl * id4))
     elseif (n == 2)
         tmp = (a - a') / 2
-        tmp - Even(tr(tmp.m) / 4 * id4)
+        convert(typeof(a),tmp - Even(tr(tmp.m) / 4 * id4))
     elseif (n == 4)
         tmp = (a + a') / 2
-        tmp - Even(tr(tmp.m) / 4 * id4)
+        convert(typeof(a),tmp - Even(tr(tmp.m) / 4 * id4))
     elseif (n == 6)
         scl = im * imag((tr(a.m)) / 4)
-        Even(scl * id4)
+        convert(typeof(a),Even(scl * id4))
     else
         zero(a)
     end
@@ -75,21 +75,29 @@ end
 
 function GeometricAlgebra.project(a::Odd, n::Integer)
     return if (n == 3)
-        (a - a') / 2
+        convert(typeof(a),(a - a') / 2)
     elseif (n == 1)
-        tmp = (a + a') * g0 / 2
+        tmp = convert(typeof(a), (a + a') / 2 )* g0 
         (project(tmp, 0) + project(tmp, 2)) * g0
     elseif (n == 5)
-        tmp = (a + a') * g0 / 2
+        tmp = convert(typeof(a),(a + a') / 2) * g0
         (project(tmp, 4) + project(tmp, 6)) * g0
     else
         zero(a)
     end
 end
 
-LinearAlgebra.tr(a::Even) = real(tr(a.m)) / 4
-LinearAlgebra.dot(a::Even, b::Even) = real(tr(a.m * b.m)) / 4
-LinearAlgebra.dot(a::Odd, b::Odd) = real(tr(a.m * g2.m * conj(b.m) * g2.m)) / 4
+LinearAlgebra.tr(a::Even{T}) where T  = real(convert(T, tr(a.m)/ 4))
+
+function LinearAlgebra.dot(a::Even, b::Even) 
+    tmp = real(tr(a.m * b.m))
+    return convert(typeof(tmp), tmp/4)
+end
+
+function LinearAlgebra.dot(a::Odd, b::Odd) 
+    tmp = real(tr(a.m * g2.m * conj(b.m) * g2.m))
+    return convert(typeof(tmp), tmp/4)
+end
 
 #Exponentiation
 Base.exp(a::Even) = Even(exp(a.m))
