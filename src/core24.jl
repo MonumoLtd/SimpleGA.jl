@@ -87,7 +87,10 @@ function GeometricAlgebra.project(a::Odd, n::Integer)
     end
 end
 
-LinearAlgebra.tr(a::Even{T}) where T  = real(convert(T, tr(a.m)/ 4))
+function LinearAlgebra.tr(a::Even) 
+    tmp = real(tr(a.m))
+    return convert(typeof(tmp), tmp/4)
+end
 
 function LinearAlgebra.dot(a::Even, b::Even) 
     tmp = real(tr(a.m * b.m))

@@ -56,11 +56,15 @@ LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.qm), conj(a.qp))
 #Grade and projection
 function GeometricAlgebra.project(a::Even, n::Integer)
     return if (n == 0)
-        Even(Quaternion((a.qp.w + a.qm.w) / 2), Quaternion((a.qp.w + a.qm.w) / 2))
+        tmp = a.qp.w + a.qm.w
+        scl = convert(typeof(tmp), tmp / 2)
+        scl*one(a)
     elseif (n == 2)
-        (a - a') / 2
+        convert(typeof(a),(a - a') / 2)
     elseif (n == 4)
-        Even(Quaternion((a.qp.w - a.qm.w) / 2), Quaternion((-a.qp.w + a.qm.w) / 2))
+        tmp = a.qp.w - a.qm.w
+        scl = convert(typeof(tmp), tmp / 2)
+        Even(Quaternion(scl), Quaternion(-scl))
     else
         zero(a)
     end
@@ -68,17 +72,28 @@ end
 
 function GeometricAlgebra.project(a::Odd, n::Integer)
     return if (n == 1)
-        Odd((a.qp + conj(a.qm)) / 2, (a.qm + conj(a.qp)) / 2)
+        convert(typeof(a), (a + a') / 2)
     elseif (n == 3)
-        Odd((a.qp - conj(a.qm)) / 2, (a.qm - conj(a.qp)) / 2)
+        convert(typeof(a), (a - a') / 2)
     else
         zero(a)
     end
 end
 
-LinearAlgebra.tr(a::Even) = (a.qp.w + a.qm.w) / 2
-LinearAlgebra.dot(a::Even, b::Even) = (dot(a.qp, b.qp) + dot(a.qm, b.qm)) / 2
-LinearAlgebra.dot(a::Odd, b::Odd) = (dot(a.qp, b.qm) + dot(a.qm, b.qp)) / 2
+function LinearAlgebra.tr(a::Even) 
+    tmp = a.qp.w + a.qm.w
+    return convert(typeof(tmp), tmp /2 )
+end
+
+function LinearAlgebra.dot(a::Even, b::Even) 
+    tmp = dot(a.qp, b.qp) + dot(a.qm, b.qm)
+    return convert(typeof(tmp), tmp /2 )
+end
+
+function LinearAlgebra.dot(a::Odd, b::Odd) 
+    tmp = dot(a.qp, b.qm) + dot(a.qm, b.qp) 
+    return convert(typeof(tmp), tmp /2 )
+end
 
 #Exponentiation
 GeometricAlgebra.bivector_exp(a::Even) = Even(bivector_exp(a.qp), bivector_exp(a.qm))

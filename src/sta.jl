@@ -62,7 +62,7 @@ function mv_to_text(a::Even)
     tp = approxzero(scl) ? "" : " + " * string(scl) * "I"
     res *= tp
     if (length(res) == 0)
-        res = "0.0"
+        res = string(zero(scl))
     else
         res = chop(res; head=3, tail=0)
     end
@@ -96,7 +96,7 @@ function mv_to_text(a::Odd)
     tp = approxzero(scl) ? "" : " + " * string(scl) * "Iγ3"
     res *= tp
     if (length(res) == 0)
-        res = "0.0"
+        res = string(zero(scl))
     else
         res = chop(res; head=3, tail=0)
     end
