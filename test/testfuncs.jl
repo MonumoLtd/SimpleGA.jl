@@ -62,3 +62,21 @@ function run_common_tests(me1, me2, me3, mo1, mo2, mo3, v1, v2)
     @test isapprox((mo1 + mo1') / 2, project(mo1, 1) + project(mo1, 5))
     @test isapprox((mo1 - mo1') / 2, project(mo1, 3))
 end
+
+"""Tests conversion to Float32"""
+function run_conversion_tests(me1,me2, mo1, mo2, E, O)
+    @test isapprox(convert(E, me1 * me2), convert(E, me1) * convert(E, me2))
+    @test isapprox(convert(E, mo1 * mo2), convert(O, mo1) * convert(O, mo2))
+    @test isapprox(convert(O, me1 * mo2), convert(E, me1) * convert(O, mo2))
+    @test typeof(convert(E, me1) * convert(E, me2)) == E
+    @test typeof(convert(O, mo1) * convert(O, mo2)) == E
+    @test typeof(convert(E, me1) * convert(O, mo2)) == O
+    cme = convert(E,me1)
+    cme32 = project(cme, 0) + project(cme, 2) + project(cme, 4) + project(cme, 6) + project(cme, 8)
+    @test typeof(cme32) == E
+    cmo = convert(O,mo1)
+    cmo32 = project(cmo, 1) + project(cmo, 3) + project(cmo, 5) + project(cmo, 7)
+    @test typeof(cmo32) == O
+    @test typeof(cme) == typeof(cme')
+    @test typeof(cmo) == typeof(cmo')
+end

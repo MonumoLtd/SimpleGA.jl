@@ -66,7 +66,7 @@ function GeometricAlgebra.project(a::Even, n::Integer)
         convert(typeof(a),scl * one(a))
     elseif (n == 2)
         scl = (tr(a.p) - tr(a.m)) / 8
-        (a - a') / 2 - scl * Even(one(a.p), -one(a.m))
+        convert(typeof(a), (a - a') / 2 - scl * Even(one(a.p), -one(a.m)))
     elseif (n == 4)
         scl = (tr(a.p) + tr(a.m)) / 8
         convert(typeof(a), (a + a') / 2 - scl * one(a))
