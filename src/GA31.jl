@@ -4,7 +4,7 @@
 Code for GA(3,1). Even and odd elements are stored as complex structs.
 2x2 matrix products are unwrapped.
 """
- 
+
 module GA31
 
 using GeometricAlgebra

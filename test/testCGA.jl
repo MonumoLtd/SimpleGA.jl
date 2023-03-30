@@ -55,4 +55,4 @@ V5 = inject(arr5, [E1, E2, E3, E4, F4])
 run_common_tests(me1, me2, me3, mo1, mo2, mo3, v1, v2)
 
 # Conversion
-run_conversion_tests(me1,me2, mo1, mo2, CGA.Even{Float32}, CGA.Odd{Float32})
+run_conversion_tests(me1, me2, mo1, mo2, CGA.Even{Float32}, CGA.Odd{Float32})

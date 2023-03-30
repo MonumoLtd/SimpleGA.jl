@@ -58,9 +58,9 @@ function GeometricAlgebra.project(a::Even, n::Integer)
     return if (n == 0)
         tmp = a.qp.w + a.qm.w
         scl = convert(typeof(tmp), tmp / 2)
-        scl*one(a)
+        scl * one(a)
     elseif (n == 2)
-        convert(typeof(a),(a - a') / 2)
+        convert(typeof(a), (a - a') / 2)
     elseif (n == 4)
         tmp = a.qp.w - a.qm.w
         scl = convert(typeof(tmp), tmp / 2)
@@ -80,19 +80,19 @@ function GeometricAlgebra.project(a::Odd, n::Integer)
     end
 end
 
-function LinearAlgebra.tr(a::Even) 
+function LinearAlgebra.tr(a::Even)
     tmp = a.qp.w + a.qm.w
-    return convert(typeof(tmp), tmp /2 )
+    return convert(typeof(tmp), tmp / 2)
 end
 
-function LinearAlgebra.dot(a::Even, b::Even) 
+function LinearAlgebra.dot(a::Even, b::Even)
     tmp = dot(a.qp, b.qp) + dot(a.qm, b.qm)
-    return convert(typeof(tmp), tmp /2 )
+    return convert(typeof(tmp), tmp / 2)
 end
 
-function LinearAlgebra.dot(a::Odd, b::Odd) 
-    tmp = dot(a.qp, b.qm) + dot(a.qm, b.qp) 
-    return convert(typeof(tmp), tmp /2 )
+function LinearAlgebra.dot(a::Odd, b::Odd)
+    tmp = dot(a.qp, b.qm) + dot(a.qm, b.qp)
+    return convert(typeof(tmp), tmp / 2)
 end
 
 #Exponentiation

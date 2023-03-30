@@ -46,4 +46,4 @@ V4 = inject(arr4, [E1, E2, E3, E0])
 run_common_tests(me1, me2, me3, mo1, mo2, mo3, v1, v2)
 
 # Conversion
-run_conversion_tests(me1,me2, mo1, mo2, PGA.Even{Float32}, PGA.Odd{Float32})
+run_conversion_tests(me1, me2, mo1, mo2, PGA.Even{Float32}, PGA.Odd{Float32})

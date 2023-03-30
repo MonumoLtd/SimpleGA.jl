@@ -50,9 +50,9 @@ LinearAlgebra.adjoint(a::Odd) = a
 #Grade and projection
 function GeometricAlgebra.project(a::Even, n::Integer)
     return if (n == 0)
-        real(a.c1)*one(a)
+        real(a.c1) * one(a)
     elseif (n == 2)
-        Even(imag(a.c1)* im)
+        Even(imag(a.c1) * im)
     else
         zero(a)
     end

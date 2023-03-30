@@ -58,16 +58,16 @@ LinearAlgebra.adjoint(a::Odd) = Odd(rev * transpose(a.m) * rev)
 function GeometricAlgebra.project(a::Even, n::Integer)
     return if (n == 0)
         scl = real((tr(a.m)) / 4)
-        convert(typeof(a),Even(scl * id4))
+        convert(typeof(a), Even(scl * id4))
     elseif (n == 2)
         tmp = (a - a') / 2
-        convert(typeof(a),tmp - Even(tr(tmp.m) / 4 * id4))
+        convert(typeof(a), tmp - Even(tr(tmp.m) / 4 * id4))
     elseif (n == 4)
         tmp = (a + a') / 2
-        convert(typeof(a),tmp - Even(tr(tmp.m) / 4 * id4))
+        convert(typeof(a), tmp - Even(tr(tmp.m) / 4 * id4))
     elseif (n == 6)
         scl = im * imag((tr(a.m)) / 4)
-        convert(typeof(a),Even(scl * id4))
+        convert(typeof(a), Even(scl * id4))
     else
         zero(a)
     end
@@ -75,31 +75,31 @@ end
 
 function GeometricAlgebra.project(a::Odd, n::Integer)
     return if (n == 3)
-        convert(typeof(a),(a - a') / 2)
+        convert(typeof(a), (a - a') / 2)
     elseif (n == 1)
-        tmp = convert(typeof(a), (a + a') / 2 )* g0 
+        tmp = convert(typeof(a), (a + a') / 2) * g0
         (project(tmp, 0) + project(tmp, 2)) * g0
     elseif (n == 5)
-        tmp = convert(typeof(a),(a + a') / 2) * g0
+        tmp = convert(typeof(a), (a + a') / 2) * g0
         (project(tmp, 4) + project(tmp, 6)) * g0
     else
         zero(a)
     end
 end
 
-function LinearAlgebra.tr(a::Even) 
+function LinearAlgebra.tr(a::Even)
     tmp = real(tr(a.m))
-    return convert(typeof(tmp), tmp/4)
+    return convert(typeof(tmp), tmp / 4)
 end
 
-function LinearAlgebra.dot(a::Even, b::Even) 
+function LinearAlgebra.dot(a::Even, b::Even)
     tmp = real(tr(a.m * b.m))
-    return convert(typeof(tmp), tmp/4)
+    return convert(typeof(tmp), tmp / 4)
 end
 
-function LinearAlgebra.dot(a::Odd, b::Odd) 
+function LinearAlgebra.dot(a::Odd, b::Odd)
     tmp = real(tr(a.m * g2.m * conj(b.m) * g2.m))
-    return convert(typeof(tmp), tmp/4)
+    return convert(typeof(tmp), tmp / 4)
 end
 
 #Exponentiation

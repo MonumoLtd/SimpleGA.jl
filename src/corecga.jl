@@ -104,7 +104,7 @@ function GeometricAlgebra.project(a::Even, n::Integer)
     elseif (n == 2)
         convert(typeof(a), (a - a') / 2)
     elseif (n == 4)
-        qtmp = convert(typeof(a.q1),imag_part((a.q1 - a.q4) / 2))
+        qtmp = convert(typeof(a.q1), imag_part((a.q1 - a.q4) / 2))
         Even(qtmp, real_part(a.q2), real_part(a.q3), -qtmp)
     else
         zero(a)
@@ -119,7 +119,7 @@ function GeometricAlgebra.project(a::Odd, n::Integer)
     elseif (n == 3)
         convert(typeof(a), (a - a') / 2)
     elseif (n == 1)
-        qtmp = convert(typeof(a.q1),imag_part((a.q1 - a.q4) / 2))
+        qtmp = convert(typeof(a.q1), imag_part((a.q1 - a.q4) / 2))
         Odd(qtmp, real_part(a.q2), real_part(a.q3), -qtmp)
     else
         zero(a)
@@ -132,7 +132,7 @@ function LinearAlgebra.tr(a::Even)
 end
 
 function LinearAlgebra.dot(a::Even, b::Even)
-    tmp =  dot(a.q1, b.q1) - dot(a.q2, b.q3) + dot(a.q4, b.q4) - dot(a.q3, b.q2)
+    tmp = dot(a.q1, b.q1) - dot(a.q2, b.q3) + dot(a.q4, b.q4) - dot(a.q3, b.q2)
     return convert(typeof(tmp), tmp / 2)
 end
 

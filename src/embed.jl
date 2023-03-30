@@ -71,15 +71,15 @@ function embed(a::GA31.Even)
     I4 = E1 * E2 * E3 * F3
     evenlist = [
         tr(a),
-        - dot(a, e1 * e2),
-        - dot(a, e1 * e3),
-        - dot(a, e2 * e3),
+        -dot(a, e1 * e2),
+        -dot(a, e1 * e3),
+        -dot(a, e2 * e3),
         dot(a, e1 * f3),
         dot(a, e2 * f3),
         dot(a, e3 * f3),
         -dot(a, i4),
     ]
-    bas = [1, E1*E2,  E1*E3,  E2*E3, E1*F3 , E2*F3, E3*F3, I4]
+    bas = [1, E1 * E2, E1 * E3, E2 * E3, E1 * F3, E2 * F3, E3 * F3, I4]
     return inject(evenlist, bas)
 end
 
@@ -94,13 +94,13 @@ function embed(a::GA31.Odd)
         dot(a, e1),
         dot(a, e2),
         dot(a, e3),
-        - dot(a, f3),
+        -dot(a, f3),
         dot(a, i4 * e1),
         dot(a, i4 * e2),
         dot(a, i4 * e3),
-        - dot(a, i4 * f3),
+        -dot(a, i4 * f3),
     ]
-    bas = [E1, E2, E3, F3, I4*E1, I4*E2, I4*E3, I4*F3]
+    bas = [E1, E2, E3, F3, I4 * E1, I4 * E2, I4 * E3, I4 * F3]
     return inject(oddlist, bas)
 end
 

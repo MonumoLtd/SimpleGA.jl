@@ -88,7 +88,7 @@ function Base.:(*)(a::Odd, b::Odd)
     return Even(
         -a.c1 * conj(b.c4) + a.c2 * conj(b.c2),
         a.c1 * conj(b.c3) - a.c2 * conj(b.c1),
-       - a.c3 * conj(b.c4) + a.c4 * conj(b.c2),
+        -a.c3 * conj(b.c4) + a.c4 * conj(b.c2),
         -a.c4 * conj(b.c1) + a.c3 * conj(b.c3),
     )
 end
@@ -104,7 +104,7 @@ function GeometricAlgebra.project(a::Even, n::Integer)
     return if (n == 0)
         real(tra) * one(a)
     elseif (n == 2)
-        convert(typeof(a),(a - a') / 2)
+        convert(typeof(a), (a - a') / 2)
     elseif (n == 4)
         Even(imag(tra) * im, zero(a.c1), zero(a.c1), imag(tra) * im)
     else
@@ -114,15 +114,15 @@ end
 
 function GeometricAlgebra.project(a::Odd, n::Integer)
     return if (n == 1)
-        convert(typeof(a),(a + a') / 2)
+        convert(typeof(a), (a + a') / 2)
     elseif (n == 3)
-        convert(typeof(a),(a - a') / 2)
+        convert(typeof(a), (a - a') / 2)
     else
         return zero(a)
     end
 end
 
-function LinearAlgebra.tr(a::Even) 
+function LinearAlgebra.tr(a::Even)
     tmp = (real(a.c1 + a.c4))
     return convert(typeof(tmp), tmp / 2)
 end
@@ -132,7 +132,9 @@ function LinearAlgebra.dot(a::Even, b::Even)
     return convert(typeof(tmp), tmp / 2)
 end
 function LinearAlgebra.dot(a::Odd, b::Odd)
-    tmp = real(-a.c1 * conj(b.c4) + a.c2 * conj(b.c2) - a.c4 * conj(b.c1) + a.c3 * conj(b.c3))
+    tmp = real(
+        -a.c1 * conj(b.c4) + a.c2 * conj(b.c2) - a.c4 * conj(b.c1) + a.c3 * conj(b.c3)
+    )
     return convert(typeof(tmp), tmp / 2)
 end
 

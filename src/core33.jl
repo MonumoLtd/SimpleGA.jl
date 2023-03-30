@@ -63,7 +63,7 @@ end
 function GeometricAlgebra.project(a::Even, n::Integer)
     return if (n == 0)
         scl = (tr(a.p) + tr(a.m)) / 8
-        convert(typeof(a),scl * one(a))
+        convert(typeof(a), scl * one(a))
     elseif (n == 2)
         scl = (tr(a.p) - tr(a.m)) / 8
         convert(typeof(a), (a - a') / 2 - scl * Even(one(a.p), -one(a.m)))
@@ -94,17 +94,17 @@ end
 
 function LinearAlgebra.tr(a::Even)
     tmp = tr(a.p) + tr(a.m)
-    return convert(typeof(tmp), tmp/8)
+    return convert(typeof(tmp), tmp / 8)
 end
 
-function LinearAlgebra.dot(a::Even, b::Even) 
+function LinearAlgebra.dot(a::Even, b::Even)
     tmp = tr(a.p * b.p) + tr(a.m * b.m)
-    return convert(typeof(tmp), tmp/8)
+    return convert(typeof(tmp), tmp / 8)
 end
 
-function LinearAlgebra.dot(a::Odd, b::Odd) 
+function LinearAlgebra.dot(a::Odd, b::Odd)
     tmp = tr(a.p * b.m) + tr(a.m * b.p)
-    return convert(typeof(tmp), tmp/8)
+    return convert(typeof(tmp), tmp / 8)
 end
 
 #Exponentiation

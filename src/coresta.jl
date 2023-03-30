@@ -102,9 +102,9 @@ function GeometricAlgebra.project(a::Even, n::Integer)
     tra = (a.c1 + a.c4) / 2
     return if (n == 0)
         tmp = real(a.c1 + a.c4)
-        convert(typeof(tmp), tmp / 2)* one(a)
+        convert(typeof(tmp), tmp / 2) * one(a)
     elseif (n == 2)
-        convert(typeof(a),(a - a') / 2)
+        convert(typeof(a), (a - a') / 2)
     elseif (n == 4)
         tmp = imag(a.c1 + a.c4)
         fct = convert(typeof(tmp), tmp / 2) * im
@@ -124,7 +124,7 @@ function GeometricAlgebra.project(a::Odd, n::Integer)
     end
 end
 
-function LinearAlgebra.tr(a::Even) 
+function LinearAlgebra.tr(a::Even)
     tmp = real(a.c1 + a.c4)
     return convert(typeof(tmp), tmp / 2)
 end
@@ -134,7 +134,9 @@ function LinearAlgebra.dot(a::Even, b::Even)
     return convert(typeof(tmp), tmp / 2)
 end
 function LinearAlgebra.dot(a::Odd, b::Odd)
-    tmp =  real(a.c1 * conj(b.c4) - a.c2 * conj(b.c2) + a.c4 * conj(b.c1) - a.c3 * conj(b.c3))
+    tmp = real(
+        a.c1 * conj(b.c4) - a.c2 * conj(b.c2) + a.c4 * conj(b.c1) - a.c3 * conj(b.c3)
+    )
     return convert(typeof(tmp), tmp / 2)
 end
 
