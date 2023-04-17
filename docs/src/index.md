@@ -18,7 +18,10 @@ All algebras are defined over the reals and follow Julia's internal promotion ru
 ## Installation
 ```
 pkg> add GeometricAlgebra
+julia> using LinearAlgebra
+julia> using GeometricAlgebra
 ```
+The ```GeometricAlgebra``` package overloads some commands from ```LinearAlgebra``` so it is necessary to be using both packages.
 
 ## First Example
 ```julia
@@ -57,6 +60,7 @@ The following algebras are currently implemented, together with their name for `
 * G(3,0), name: "GA30", basis: `GA30.basis`
 * G(4,0), name: "GA40", basis: `GA40.basis`
 * G(1,3), name: "STA", basis: `STA.basis`
+* G(3,1), name: "GA31", basis: `GA31.basis`
 * G(3,0,1), name: "PGA", basis: `PGA.basis`
 * G(4,1), name: "CGA", basis: `CGA.basis`
 * G(2,4), name: "GA24", basis: `GA24.basis`
@@ -77,13 +81,20 @@ Each of these algebras is described in more detail below, including listing the 
 
 ## Arithmetic Functions
 
-Most of the functionality is provided by overloading the Base Julia functions, so +,-,* all behave as expected, as does division by a real. The library also builds on LinearAlebra and overloads three functions from there:
+Most of the functionality is provided by overloading the Base Julia functions, so +,-,* all behave as expected, as does division by a real. Note that division by a real effectivel performs
+```
+A/x = (1/x) * A # Multivector A and real x
+````
+This is optimal for most purposes, but take care if you are working in something other than Float64 precision (for example, using Float32 on the GPU). You may need some explicit type defintions to avoid Julia defaulting to Float64.
+
+The library also builds on ```LinearAlgebra``` and overloads three functions from there:
 
 ```julia
 tr(A)  # The scalar part of A
 dot(A,B)  # The scalar part of the product AB, usually written <AB>.
 A' = adjoint(A)  # The reverse of A. 
 ```
+For this to work it is essential that you are ```using LinearAlgebra``` as well as ```using GeometricAlgebra```.
 
 `tr(A)` and `dot(A,B)` both return Reals, so take us out of whatever type is being employed for the arguments. These are key functions for extracting values at the end of geometric algebra calculation. Note that `tr(A*B)` and `dot(A,B)` return the same value, the scalar part of the geometric product `AB`. However, `dot(A,B)` contains optimisations to only calculate the relevant products and should be used in practice. 
 
@@ -210,6 +221,16 @@ M -> M * g0  # Map from odd to even.
 Our implementation of the STA takes advantage of Julia's support for non-Ascii variables to pretty-type each `g` as a `γ`, and each `s` as a `σ`. This is in keeping with the conventions in the literature. But note that this is only a feature of the print command. In the code the elements are referred to as `g0`, `s1` etc. 
 
 Note that the STA is also perfect for the conformal model of 2D Euclidean space, albeit with an overall sign flip in the signature. This is why currently there is no explicit algebra for G(3,1).
+
+## G(3,1) and 2D conformal geometry
+* Name: `GA31`
+* Basis: `GA31.basis`
+* Basis vectors: `[GA31.e1, GA31.e2, GA31.e3. GA31.f3]`
+* Other basis elements: `GA31.I4 = e1 * e2 * e3 * f3`
+
+The algebra G(3,1) is the close relative of the STA, just with signatures flipped. Under the hood the implementation is almost identical, based on 2X2 complex matrices. Only a handful of signs are changed.
+
+The main reason for including G(3,1) as a separate algebra is its use as the conformal algebra for the 2D plane. It is more convenient for 2D work to have an algebra where the 2D basis vectors have positive norm. As this is the main use case, we have not copied the STA convention of displaying the basis vectors with Greek letters. Instead we have adopted the standard convention of ```e1, e2, e3```s have positive square and ```f3``` having negative square.
 
 
 ## G(3,0,1), the PGA

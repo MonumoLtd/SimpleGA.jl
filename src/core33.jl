@@ -21,7 +21,7 @@ function Base.convert(::Type{Even{T}}, a::Even) where {T<:Real}
     return Even{T}(convert(SMatrix{4,4,T,16}, a.p), convert(SMatrix{4,4,T,16}, a.m))
 end
 
-function Base.convert(::Type{Odd{T}}, a::Even) where {T<:Real}
+function Base.convert(::Type{Odd{T}}, a::Odd) where {T<:Real}
     return Odd{T}(convert(SMatrix{4,4,T,16}, a.p), convert(SMatrix{4,4,T,16}, a.m))
 end
 
@@ -63,16 +63,16 @@ end
 function GeometricAlgebra.project(a::Even, n::Integer)
     return if (n == 0)
         scl = (tr(a.p) + tr(a.m)) / 8
-        scl * one(a)
+        convert(typeof(a), scl * one(a))
     elseif (n == 2)
         scl = (tr(a.p) - tr(a.m)) / 8
-        (a - a') / 2 - scl * Even(one(a.p), -one(a.m))
+        convert(typeof(a), (a - a') / 2 - scl * Even(one(a.p), -one(a.m)))
     elseif (n == 4)
         scl = (tr(a.p) + tr(a.m)) / 8
-        (a + a') / 2 - scl * one(a)
+        convert(typeof(a), (a + a') / 2 - scl * one(a))
     elseif (n == 6)
         scl = (tr(a.p) - tr(a.m)) / 8
-        scl * Even(one(a.p), -one(a.m))
+        convert(typeof(a), scl * Even(one(a.p), -one(a.m)))
     else
         zero(a)
     end
@@ -80,21 +80,32 @@ end
 
 function GeometricAlgebra.project(a::Odd, n::Integer)
     return if (n == 3)
-        (a - a') / 2
+        convert(typeof(a), (a - a') / 2)
     elseif (n == 1)
         tmp = (a + a') * e3 / 2
-        (project(tmp, 0) + project(tmp, 2)) * e3
+        convert(typeof(a), (project(tmp, 0) + project(tmp, 2)) * e3)
     elseif (n == 5)
         tmp = (a + a') * e3 / 2
-        (project(tmp, 4) + project(tmp, 6)) * e3
+        convert(typeof(a), (project(tmp, 4) + project(tmp, 6)) * e3)
     else
         zero(a)
     end
 end
 
-LinearAlgebra.tr(a::Even) = (tr(a.p) + tr(a.m)) / 8
-LinearAlgebra.dot(a::Even, b::Even) = (tr(a.p * b.p) + tr(a.m * b.m)) / 8
-LinearAlgebra.dot(a::Odd, b::Odd) = (tr(a.p * b.m) + tr(a.m * b.p)) / 8
+function LinearAlgebra.tr(a::Even)
+    tmp = tr(a.p) + tr(a.m)
+    return convert(typeof(tmp), tmp / 8)
+end
+
+function LinearAlgebra.dot(a::Even, b::Even)
+    tmp = tr(a.p * b.p) + tr(a.m * b.m)
+    return convert(typeof(tmp), tmp / 8)
+end
+
+function LinearAlgebra.dot(a::Odd, b::Odd)
+    tmp = tr(a.p * b.m) + tr(a.m * b.p)
+    return convert(typeof(tmp), tmp / 8)
+end
 
 #Exponentiation
 Base.exp(a::Even) = Even(exp(a.p), exp(a.m))

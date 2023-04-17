@@ -55,6 +55,10 @@ include("pga.jl")
 using .PGA
 export pdual, PGA
 
+include("ga31.jl")
+using .GA31
+export GA31
+
 include("cga.jl")
 using .CGA
 export CGA

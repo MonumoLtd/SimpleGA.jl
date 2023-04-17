@@ -35,7 +35,7 @@ function mv_to_text(a::Even)
     tp = approxzero(imag(a.c1)) ? "" : " + " * string(imag(a.c1)) * "I2"
     res *= tp
     if (length(res) == 0)
-        res = "0.0"
+        res = string(zero(real(a.c1)))
     else
         res = chop(res; head=3, tail=0)
     end
@@ -49,7 +49,7 @@ function mv_to_text(a::Odd)
     tp = approxzero(imag(a.c1)) ? "" : " + " * string(imag(a.c1)) * "e2"
     res *= tp
     if (length(res) == 0)
-        res = "0.0"
+        res = string(zero(real(a.c1)))
     else
         res = chop(res; head=3, tail=0)
     end

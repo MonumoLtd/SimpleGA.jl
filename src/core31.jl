@@ -1,7 +1,7 @@
 #=
-Core code for the implementation of GA(1,3).
+Core code for the implementation of GA(3,1).
 Underlying representation is with 2x2 complex matrices, though no matrices are formally constructed. The multiplication rules are hard-coded for efficiency.
-Makes use of Julia's internal ComplexF64 format.
+Makes use of Julia's internal format.
 =#
 
 struct Even{T<:Real} <: Number
@@ -86,10 +86,10 @@ end
 
 function Base.:(*)(a::Odd, b::Odd)
     return Even(
-        a.c1 * conj(b.c4) - a.c2 * conj(b.c2),
-        -a.c1 * conj(b.c3) + a.c2 * conj(b.c1),
-        a.c3 * conj(b.c4) - a.c4 * conj(b.c2),
-        a.c4 * conj(b.c1) - a.c3 * conj(b.c3),
+        -a.c1 * conj(b.c4) + a.c2 * conj(b.c2),
+        a.c1 * conj(b.c3) - a.c2 * conj(b.c1),
+        -a.c3 * conj(b.c4) + a.c4 * conj(b.c2),
+        -a.c4 * conj(b.c1) + a.c3 * conj(b.c3),
     )
 end
 
@@ -99,16 +99,14 @@ LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.c1), conj(a.c3), conj(a.c2), conj(a.c
 
 #Grade and projection
 function GeometricAlgebra.project(a::Even, n::Integer)
-    tra = (a.c1 + a.c4) / 2
+    tmp = (a.c1 + a.c4)
+    tra = convert(typeof(tmp), tmp / 2)
     return if (n == 0)
-        tmp = real(a.c1 + a.c4)
-        convert(typeof(tmp), tmp / 2) * one(a)
+        real(tra) * one(a)
     elseif (n == 2)
         convert(typeof(a), (a - a') / 2)
     elseif (n == 4)
-        tmp = imag(a.c1 + a.c4)
-        fct = convert(typeof(tmp), tmp / 2) * im
-        Even(fct, zero(a.c1), zero(a.c1), fct)
+        Even(imag(tra) * im, zero(a.c1), zero(a.c1), imag(tra) * im)
     else
         zero(a)
     end
@@ -125,7 +123,7 @@ function GeometricAlgebra.project(a::Odd, n::Integer)
 end
 
 function LinearAlgebra.tr(a::Even)
-    tmp = real(a.c1 + a.c4)
+    tmp = (real(a.c1 + a.c4))
     return convert(typeof(tmp), tmp / 2)
 end
 
@@ -135,7 +133,7 @@ function LinearAlgebra.dot(a::Even, b::Even)
 end
 function LinearAlgebra.dot(a::Odd, b::Odd)
     tmp = real(
-        a.c1 * conj(b.c4) - a.c2 * conj(b.c2) + a.c4 * conj(b.c1) - a.c3 * conj(b.c3)
+        -a.c1 * conj(b.c4) + a.c2 * conj(b.c2) - a.c4 * conj(b.c1) + a.c3 * conj(b.c3)
     )
     return convert(typeof(tmp), tmp / 2)
 end
