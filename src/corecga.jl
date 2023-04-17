@@ -98,18 +98,13 @@ LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.q4), conj(a.q2), conj(a.q3), conj(a.q
 #Grade and projection
 function GeometricAlgebra.project(a::Even, n::Integer)
     return if (n == 0)
-        Even(
-            (a.q1.w + a.q4.w) / 2 * one(a.q1),
-            zero(a.q1),
-            zero(a.q1),
-            (a.q1.w + a.q4.w) / 2 * one(a.q1),
-        )
+        tmp = a.q1.w + a.q4.w
+        scl = convert(typeof(tmp), tmp / 2)
+        scl * one(a)
     elseif (n == 2)
-        qtmp = imag_part((a.q1 + a.q4) / 2)
-        stmp = (a.q1.w - a.q4.w) / 2
-        Even(stmp + qtmp, imag_part(a.q2), imag_part(a.q3), -stmp + qtmp)
+        convert(typeof(a), (a - a') / 2)
     elseif (n == 4)
-        qtmp = imag_part((a.q1 - a.q4) / 2)
+        qtmp = convert(typeof(a.q1), imag_part((a.q1 - a.q4) / 2))
         Even(qtmp, real_part(a.q2), real_part(a.q3), -qtmp)
     else
         zero(a)
@@ -118,30 +113,32 @@ end
 
 function GeometricAlgebra.project(a::Odd, n::Integer)
     return if (n == 5)
-        Odd(
-            (a.q1.w + a.q4.w) / 2 * one(a.q1),
-            zero(a.q1),
-            zero(a.q1),
-            (a.q1.w + a.q4.w) / 2 * one(a.q1),
-        )
+        tmp = a.q1.w + a.q4.w
+        scl = convert(typeof(tmp), tmp / 2)
+        Odd(scl * one(a.q1), zero(a.q1), zero(a.q1), scl * one(a.q1))
     elseif (n == 3)
-        qtmp = imag_part((a.q1 + a.q4) / 2)
-        stmp = (a.q1.w - a.q4.w) / 2
-        Odd(stmp + qtmp, imag_part(a.q2), imag_part(a.q3), -stmp + qtmp)
+        convert(typeof(a), (a - a') / 2)
     elseif (n == 1)
-        qtmp = imag_part((a.q1 - a.q4) / 2)
+        qtmp = convert(typeof(a.q1), imag_part((a.q1 - a.q4) / 2))
         Odd(qtmp, real_part(a.q2), real_part(a.q3), -qtmp)
     else
         zero(a)
     end
 end
 
-LinearAlgebra.tr(a::Even) = (a.q1.w + a.q4.w) / 2
-function LinearAlgebra.dot(a::Even, b::Even)
-    return (dot(a.q1, b.q1) - dot(a.q2, b.q3) + dot(a.q4, b.q4) - dot(a.q3, b.q2)) / 2
+function LinearAlgebra.tr(a::Even)
+    tmp = (a.q1.w + a.q4.w)
+    return convert(typeof(tmp), tmp / 2)
 end
+
+function LinearAlgebra.dot(a::Even, b::Even)
+    tmp = dot(a.q1, b.q1) - dot(a.q2, b.q3) + dot(a.q4, b.q4) - dot(a.q3, b.q2)
+    return convert(typeof(tmp), tmp / 2)
+end
+
 function LinearAlgebra.dot(a::Odd, b::Odd)
-    return -(dot(a.q1, b.q1) - dot(a.q2, b.q3) + dot(a.q4, b.q4) - dot(a.q3, b.q2)) / 2
+    tmp = -(dot(a.q1, b.q1) - dot(a.q2, b.q3) + dot(a.q4, b.q4) - dot(a.q3, b.q2))
+    return convert(typeof(tmp), tmp / 2)
 end
 
 #Exponentiation

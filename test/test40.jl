@@ -42,3 +42,6 @@ V4 = inject(arr4, [E1, E2, E3, E4])
 @test isapprox(embed(bivector_exp(v1 * v2)), bivector_exp(V1 * V2))
 
 run_common_tests(me1, me2, me3, mo1, mo2, mo3, v1, v2)
+
+# Conversion
+run_conversion_tests(me1, me2, mo1, mo2, GA40.Even{Float32}, GA40.Odd{Float32})

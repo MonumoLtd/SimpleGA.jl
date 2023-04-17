@@ -1,5 +1,5 @@
-#Test suite for GA 20.
-#Test stand-alone results and compares with GA(4,4)
+# Test suite for GA 20.
+# Test stand-alone results and compares with GA(4,4)
 
 bas20 = GA20.basis
 e1 = bas20[1]
@@ -15,7 +15,7 @@ mo1 = rand() * e1 + rand() * e2
 mo2 = rand() * e1 + rand() * e2
 mo3 = rand() * e1 + rand() * e2
 
-#Comparison with GA(4,4)
+# Comparison with GA(4,4)
 bas44 = GA44.basis
 (E1, E2) = (bas44[1], bas44[2])
 arr1 = rand(2)
@@ -34,3 +34,6 @@ V3 = inject(arr3, [E1, E2])
 @test isapprox(embed(bivector_exp(v1 * v2)), bivector_exp(V1 * V2))
 
 run_common_tests(me1, me2, me3, mo1, mo2, mo3, v1, v2)
+
+# Conversion
+run_conversion_tests(me1, me2, mo1, mo2, GA20.Even{Float32}, GA20.Odd{Float32})
