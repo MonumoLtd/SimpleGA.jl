@@ -37,7 +37,7 @@ Base.:(-)(a::Odd, b::Odd) = Odd(a.q - b.q, a.n - b.n)
 
 #Scalar addition / subtraction. Other cases are in GAcommon
 Base.:(+)(num::Number, a::Even) = Even(a.q + num, a.n)
-Base.:(-)(num::Number, a::Even) = Even(-a.q + num, -a.qm + num)
+Base.:(-)(num::Number, a::Even) = Even(-a.q + num, -a.n)
 
 #Multiplication
 Base.:(*)(num::Number, a::Even) = Even(num * a.q, num * a.n)
