@@ -18,6 +18,9 @@ struct Odd{T<:Real} <: Number
     z::T
 end
 
+Even(w::Real, x::Real, y::Real, z::Real) = Even(promote(w, x, y, z)...)
+Odd(w::Real, x::Real, y::Real, z::Real) = Odd(promote(w, x, y, z)...)
+
 function Base.convert(::Type{Even{T}}, a::Even) where {T<:Real}
     return Even{T}(convert(T, a.w), convert(T, a.x), convert(T, a.y), convert(T, a.z))
 end
@@ -26,7 +29,7 @@ function Base.convert(::Type{Odd{T}}, a::Odd) where {T<:Real}
 end
 Base.zero(a::Even) = Even(zero(a.w), zero(a.x), zero(a.y), zero(a.z))
 Base.zero(a::Odd) = Odd(zero(a.w), zero(a.x), zero(a.y), zero(a.z))
-Base.one(a::Even) = Even(one(a.w), one(a.x), one(a.y), one(a.z))
+Base.one(a::Even) = Even(one(a.w), zero(a.x), zero(a.y), zero(a.z))
 
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a.w, -a.x, -a.y, -a.z)

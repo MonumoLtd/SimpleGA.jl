@@ -8,6 +8,8 @@ E4 = e1 * e2 * e3 * e4
 @test map(x -> dot(x, x), bas40) == [1, 1, 1, 1]
 @test testbas(bas40)
 
+run_test_positive_norm(e1, e2)
+
 #! format:off
 me1 = rand() + rand()*e1*e2 + e1*e3*rand() + e3*rand()*e2 - rand()*e1*e4 + rand()*e2*e4 + rand()*e3*e4 + rand()*E4
 me2 = rand() + rand()*e1*e2 + e1*e3*rand() + e3*rand()*e2 - rand()*e1*e4 + rand()*e2*e4 + rand()*e3*e4 + rand()*E4

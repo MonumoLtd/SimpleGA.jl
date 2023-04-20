@@ -20,8 +20,8 @@ Base.zero(a::Odd) = Odd(zero(a.c1))
 Base.one(a::Even) = Even(one(a.c1))
 
 #Addition / subtraction
-Base.:(-)(a::Even) = Even(-a)
-Base.:(-)(a::Odd) = Odd(-a)
+Base.:(-)(a::Even) = Even(-a.c1)
+Base.:(-)(a::Odd) = Odd(-a.c1)
 Base.:(+)(a::Even, b::Even) = Even(a.c1 + b.c1)
 Base.:(+)(a::Odd, b::Odd) = Odd(a.c1 + b.c1)
 Base.:(-)(a::Even, b::Even) = Even(a.c1 - b.c1)

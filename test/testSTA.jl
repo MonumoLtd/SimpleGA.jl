@@ -8,6 +8,8 @@ I4 = g0 * g1 * g2 * g3
 @test map(x -> dot(x, x), basSTA) == [1, -1, -1, -1]
 @test testbas(basSTA)
 
+run_test_mixed_norm(g0, g1)
+
 #! format:off
 me1 = rand() + rand()*g1*g2 + g1*g3*rand() + g3*rand()*g2 - rand()*g1*g0 + g2*g0/rand() + rand()*g3*g0 + rand()*I4
 me2 = rand() + rand()*g1*g2 + g1*g3*rand() + g3*rand()*g2 - rand()*g1*g0 + g2*g0/rand() + rand()*g3*g0 + rand()*I4

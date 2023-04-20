@@ -12,6 +12,23 @@ function testbas(bas)
     return res
 end
 
+"""Tests that unit vector generators behave correctly over integers"""
+function run_test_positive_norm(e1, e2)
+    @test e1 * e1 == one(e1 * e2)
+    @test e2 * e2 == one(e2 * e1)
+    @test 1 + e1 * e2 == e1 * e2 + 1
+    @test 1 - e1 * e2 ==  - e1 * e2 + 1
+    @test (1 + e1 * e2)*(1 + e1 * e2) == 2 * e1 * e2 
+end
+
+function run_test_mixed_norm(e1, f1)
+    @test e1 * e1 == one(e1 * f1)
+    @test f1 * f1 == -one(f1 * e1)
+    @test 1 + e1 * f1 == e1 * f1 + 1
+    @test 1 - e1 * f1 == - e1 * f1 + 1
+    @test iszero((1 + e1 * f1)*(1 - e1 * f1)) 
+end
+
 """Test common features of all algebras."""
 function run_common_tests(me1, me2, me3, mo1, mo2, mo3, v1, v2)
     # Addition

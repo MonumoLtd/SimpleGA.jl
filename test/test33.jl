@@ -7,6 +7,9 @@ bas33 = GA33.basis
 @test map(x -> dot(x, x), bas33) == [1, 1, 1, -1, -1, -1]
 @test testbas(bas33)
 
+run_test_positive_norm(e1, e2)
+run_test_mixed_norm(e3, f3)
+
 #! format:off
 me1 = rand() + rand()*e1*e2 + e1*f1*rand() + e1*rand()*f2 - rand()*f1*e2 + e2*f2/rand() + rand()*f1*f2 + rand()*e1*e2*f1*f2 +
     e3*(rand()*e1 + rand()*e2 + f1*rand() + f2*rand() + e1*e2*f1*f2*(rand()*e1 + rand()*e2 + f1*rand() + f2*rand() ) ) +

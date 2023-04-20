@@ -15,6 +15,9 @@ struct Odd{T<:Real} <: Number
     n::Quaternion{T}
 end
 
+Even(q,n) = Even(promote(q,n)...)
+Odd(q,n) = Odd(promote(q,n)...)
+
 function Base.convert(::Type{Even{T}}, a::Even) where {T<:Real}
     return Even{T}(convert(Quaternion{T}, a.q), convert(Quaternion{T}, a.n))
 end

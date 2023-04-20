@@ -8,6 +8,9 @@ I4 = e1 * e2 * e3 * f3
 @test map(x -> dot(x, x), basGA31) == [1, 1, 1, -1]
 @test testbas(basGA31)
 
+run_test_positive_norm(e1, e2)
+run_test_mixed_norm(e3, f3)
+
 #! format:off
 me1 = rand() + rand()*e1*e2 + e1*e3*rand() + e3*rand()*e2 + f3*(rand()*e1 - rand()*e2 +rand()*e3) + I4*rand()
 me2 = rand() + rand()*e1*e2 + e1*e3*rand() + e3*rand()*e2 + f3*(rand()*e1 - rand()*e2 +rand()*e3) + I4*rand()

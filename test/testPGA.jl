@@ -6,6 +6,8 @@ basPGA = PGA.basis
 @test map(x -> dot(x, x), basPGA) == [1, 1, 1, 0]
 @test testbas(basPGA)
 
+run_test_positive_norm(e1, e2)
+
 I3 = e1 * e2 * e3
 #! format:off
 me1 = rand() + rand()*e1*e2 + e1*e3*rand() + e3*rand()*e2 - rand()*e1*e0 + rand()*e2*e0 + rand()*e3*e0 + rand()*I3*e0
