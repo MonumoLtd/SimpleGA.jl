@@ -357,3 +357,13 @@ GA3232.basis[64] = e64
 ```
 
 It is worth point out just how big G(32,32) actually is. This algebra contains 2^64 different basis elements. Just storing one element takes us into the exabyte regime! In practice working in this algebra probably means manipulating a few low-grade objects, typically just vectors and bivectors. For these the algebra will perform well.
+
+
+# API docs
+
+```@index
+```
+
+```@autodocs
+Modules = [GeometricAlgebra, GA20, GA30, GA40, STA, PGA, GA31, CGA, GA24, GA33, GA44, GA3232]
+```
