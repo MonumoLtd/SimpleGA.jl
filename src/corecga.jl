@@ -17,6 +17,9 @@ struct Odd{T<:Real} <: Number
     q4::Quaternion{T}
 end
 
+Even(q1, q2, q3, q4) = Even(promote(q1, q2, q3, q4)...)
+Odd(q1, q2, q3, q4) = Odd(promote(q1, q2, q3, q4)...)
+
 Base.zero(a::Even) = Even(zero(a.q1), zero(a.q1), zero(a.q1), zero(a.q1))
 Base.zero(a::Odd) = Odd(zero(a.q1), zero(a.q1), zero(a.q1), zero(a.q1))
 Base.one(a::Even) = Even(one(a.q1), zero(a.q1), zero(a.q1), one(a.q1))
