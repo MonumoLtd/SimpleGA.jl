@@ -21,7 +21,7 @@ pkg> add GeometricAlgebra
 julia> using LinearAlgebra
 julia> using GeometricAlgebra
 ```
-The ```GeometricAlgebra``` package overloads some commands from ```LinearAlgebra``` so it is necessary to be using both packages.
+The `GeometricAlgebra` package overloads some commands from `LinearAlgebra` so it is necessary to be using both packages.
 
 ## First Example
 ```julia
@@ -81,23 +81,25 @@ Each of these algebras is described in more detail below, including listing the 
 
 ## Arithmetic Functions
 
-Most of the functionality is provided by overloading the Base Julia functions, so +,-,* all behave as expected, as does division by a real. Note that division by a real effectivel performs
-```
+Most of the functionality is provided by overloading the Base Julia functions, so +,-,* all behave as expected, as does division by a real. Note that division by a real performs
+
+```julia
 A/x = (1/x) * A # Multivector A and real x
-````
+```
 This is optimal for most purposes, but take care if you are working in something other than Float64 precision (for example, using Float32 on the GPU). You may need some explicit type defintions to avoid Julia defaulting to Float64.
 
-The library also builds on ```LinearAlgebra``` and overloads three functions from there:
+The library also builds on `LinearAlgebra` and overloads three functions from there:
 
 ```julia
 tr(A)  # The scalar part of A
 dot(A,B)  # The scalar part of the product AB, usually written <AB>.
 A' = adjoint(A)  # The reverse of A. 
 ```
-For this to work it is essential that you are ```using LinearAlgebra``` as well as ```using GeometricAlgebra```.
+For this to work it is essential that you are `using LinearAlgebra` as well as `using GeometricAlgebra`.
 
 `tr(A)` and `dot(A,B)` both return Reals, so take us out of whatever type is being employed for the arguments. These are key functions for extracting values at the end of geometric algebra calculation. Note that `tr(A*B)` and `dot(A,B)` return the same value, the scalar part of the geometric product `AB`. However, `dot(A,B)` contains optimisations to only calculate the relevant products and should be used in practice. 
 
+NB `dot(A,B)` returns a scalar. This should not be confused with the inner product `A.B`. 
 
 ### Projection
 Projection onto a single grade is performed with the project operator
@@ -122,6 +124,8 @@ If the argument is a bivector both `exp(A)` and and `bivector_exp(A)` will writt
 ```julia
 inject(xs,ys) = reduce(+,map((x,y)->x*y,xs,ys))
 ```
+The same result can be achieved using the `dot()` function, though that could be seen as a slightly esoteric use of the term `dot`. 
+
 
 ## Outer and Inner products
 This library does not provide explicit enstantiations of the inner and outer products. The main reason for this is that we treat the geometric product as the primary operation in the algebra. Inner and outer products simply project the results onto specific grades. So, for example, the outer product of 2 vectors is simply
