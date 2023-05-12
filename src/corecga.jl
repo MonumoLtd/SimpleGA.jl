@@ -96,7 +96,7 @@ LinearAlgebra.adjoint(a::Even) = Even(conj(a.q4), conj(a.q2), conj(a.q3), conj(a
 LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.q4), conj(a.q2), conj(a.q3), conj(a.q1))
 
 #Grade and projection
-function GeometricAlgebra.project(a::Even, n::Integer)
+function SimpleGA.project(a::Even, n::Integer)
     return if (n == 0)
         tmp = a.q1.w + a.q4.w
         scl = convert(typeof(tmp), tmp / 2)
@@ -111,7 +111,7 @@ function GeometricAlgebra.project(a::Even, n::Integer)
     end
 end
 
-function GeometricAlgebra.project(a::Odd, n::Integer)
+function SimpleGA.project(a::Odd, n::Integer)
     return if (n == 5)
         tmp = a.q1.w + a.q4.w
         scl = convert(typeof(tmp), tmp / 2)
@@ -166,7 +166,7 @@ end
 
 #Remove non-bivector terms.
 #TODO - investigate if closed form gives any performance benefits. Suspect all the if statements would slow this down.
-function GeometricAlgebra.bivector_exp(a::Even)
+function SimpleGA.bivector_exp(a::Even)
     a = project(a, 2)
     R = exp(a)
     delt = R * R' - 1

@@ -1,6 +1,6 @@
 #Test suite for Geometric Algebra
 
-using GeometricAlgebra
+using SimpleGA
 using LinearAlgebra
 using Test
 

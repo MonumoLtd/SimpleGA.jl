@@ -5,7 +5,7 @@ Module for GA(3,3). Base representation is a pair of 4x4 static arrays.
 """
 module GA33
 
-using GeometricAlgebra
+using SimpleGA
 using LinearAlgebra
 using StaticArrays
 

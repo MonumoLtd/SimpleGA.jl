@@ -48,7 +48,7 @@ LinearAlgebra.adjoint(a::Even) = Even(conj(a.c1))
 LinearAlgebra.adjoint(a::Odd) = a
 
 #Grade and projection
-function GeometricAlgebra.project(a::Even, n::Integer)
+function SimpleGA.project(a::Even, n::Integer)
     return if (n == 0)
         real(a.c1) * one(a)
     elseif (n == 2)
@@ -58,7 +58,7 @@ function GeometricAlgebra.project(a::Even, n::Integer)
     end
 end
 
-GeometricAlgebra.project(a::Odd, n::Integer) = n == 1 ? a : zero(a)
+SimpleGA.project(a::Odd, n::Integer) = n == 1 ? a : zero(a)
 
 LinearAlgebra.tr(a::Even) = real(a.c1)
 LinearAlgebra.dot(a::Even, b::Even) = real(a.c1 * b.c1)
@@ -67,7 +67,7 @@ LinearAlgebra.dot(a::Odd, b::Odd) = real(conj(a.c1) * b.c1)
 #Exponentiation
 Base.exp(a::Even) = Even(exp(a.c1))
 
-GeometricAlgebra.bivector_exp(a::Even) = Even(exp(im * a.c1.im))
+SimpleGA.bivector_exp(a::Even) = Even(exp(im * a.c1.im))
 
 #Comparison, using default tolerances.
 Base.isapprox(a::Even, b::Even) = isapprox(a.c1, b.c1)

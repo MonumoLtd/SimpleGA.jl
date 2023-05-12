@@ -1,14 +1,14 @@
 ```@meta
-CurrentModule = GeometricAlgebra
+CurrentModule = SimpleGA
 ```
 
-# GeometricAlgebra.jl
+# SimpleGA.jl
 
-Documentation for [GeometricAlgebra](https://github.com/MonumoLtd/GeometricAlgebra.jl).
+Documentation for [SimpleGA](https://github.com/MonumoLtd/SimpleGA.jl).
 
 _A Julia package implementing Geometric Algebra_. 
 
-GeometricAlgebra provides implementations of various low-dimensional geometric algebras that are designed to be lightweight and fast. Each has its own unique representation and namespace, and it is possible to have multiple geometric algebras insantiated simultaneously. This allows the programmer to operate in whichever algebra is most efficient for a given task.
+SimpleGA provides implementations of various low-dimensional geometric algebras that are designed to be lightweight and fast. Each has its own unique representation and namespace, and it is possible to have multiple geometric algebras insantiated simultaneously. This allows the programmer to operate in whichever algebra is most efficient for a given task.
 
 Two further algebras are also supported: GA(4,4) and GA(32,32). These are less optimised, and are provided more for investigation.
 
@@ -17,15 +17,15 @@ All algebras are defined over the reals and follow Julia's internal promotion ru
 
 ## Installation
 ```
-pkg> add GeometricAlgebra
+pkg> add SimpleGA
 julia> using LinearAlgebra
-julia> using GeometricAlgebra
+julia> using SimpleGA
 ```
-The ```GeometricAlgebra``` package overloads some commands from ```LinearAlgebra``` so it is necessary to be using both packages.
+The ```SimpleGA``` package overloads some commands from ```LinearAlgebra``` so it is necessary to be using both packages.
 
 ## First Example
 ```julia
-using GeometricAlgebra
+using SimpleGA
 e = GA20.basis  # Creates a 2D basis, named 'e'.
 a = e[1] + e[2]
 b = 2.0*e[1] + 3*e[2] 
@@ -68,7 +68,7 @@ The following algebras are currently implemented, together with their name for `
 
 Within each algebra you can also call the individual basis vectors by name, for example `GA20.e1` is a basis vector for G(2,0). 
 
-Note that the constructors for each type are not exposed directly. They are all of the form `GeometricAlgebra.GA20.Even()`, for example. You should fine working directly with the basis vectors is the simplest way to create multivector objects.
+Note that the constructors for each type are not exposed directly. They are all of the form `SimpleGA.GA20.Even()`, for example. You should fine working directly with the basis vectors is the simplest way to create multivector objects.
 
 In addition, two further algebras are provided with a separate implementation. For these there is no distinction between even and odd elements; everything is a single `Multivector` type. Some optimisations have been applied to these algebras, but they are not nearly as fast as the ones listed above.
 
@@ -94,7 +94,7 @@ tr(A)  # The scalar part of A
 dot(A,B)  # The scalar part of the product AB, usually written <AB>.
 A' = adjoint(A)  # The reverse of A. 
 ```
-For this to work it is essential that you are ```using LinearAlgebra``` as well as ```using GeometricAlgebra```.
+For this to work it is essential that you are ```using LinearAlgebra``` as well as ```using SimpleGA```.
 
 `tr(A)` and `dot(A,B)` both return Reals, so take us out of whatever type is being employed for the arguments. These are key functions for extracting values at the end of geometric algebra calculation. Note that `tr(A*B)` and `dot(A,B)` return the same value, the scalar part of the geometric product `AB`. However, `dot(A,B)` contains optimisations to only calculate the relevant products and should be used in practice. 
 

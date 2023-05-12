@@ -29,8 +29,8 @@ STA
 ## Quaternions
 
 !!! note
-    This submodule is considered an implementation detail for `GeometricAlgebra`.
+    This submodule is considered an implementation detail for `SimpleGA`.
 
 ```@autodocs
-Modules = [GeometricAlgebra.Quaternions]
+Modules = [SimpleGA.Quaternions]
 ```

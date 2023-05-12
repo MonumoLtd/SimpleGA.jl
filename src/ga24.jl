@@ -9,7 +9,7 @@ Even and odd elements are stored as complex Static Arrays.
 """
 module GA24
 
-using GeometricAlgebra
+using SimpleGA
 using LinearAlgebra
 using StaticArrays
 

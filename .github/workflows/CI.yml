@@ -18,8 +18,8 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - '1.5'
-          - '1.8'
+          - '1.6'
+          - '1.9'
           - 'nightly'
         os:
           - ubuntu-latest
@@ -55,6 +55,6 @@ jobs:
       - run: |
           julia --project=docs -e '
             using Documenter: DocMeta, doctest
-            using GeometricAlgebra
-            DocMeta.setdocmeta!(GeometricAlgebra, :DocTestSetup, :(using GeometricAlgebra); recursive=true)
-            doctest(GeometricAlgebra)'
+            using SimpleGA
+            DocMeta.setdocmeta!(SimpleGA, :DocTestSetup, :(using SimpleGA); recursive=true)
+            doctest(SimpleGA)'

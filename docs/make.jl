@@ -1,18 +1,16 @@
-using GeometricAlgebra
+using SimpleGA
 using Documenter
 
-DocMeta.setdocmeta!(
-    GeometricAlgebra, :DocTestSetup, :(using GeometricAlgebra); recursive=true
-)
+DocMeta.setdocmeta!(SimpleGA, :DocTestSetup, :(using SimpleGA); recursive=true)
 
 makedocs(;
-    modules=[GeometricAlgebra],
+    modules=[SimpleGA],
     authors="Monumo Ltd.",
-    repo="https://github.com/MonumoLtd/GeometricAlgebra.jl/blob/{commit}{path}#{line}",
-    sitename="GeometricAlgebra.jl",
+    repo="https://github.com/MonumoLtd/SimpleGA.jl/blob/{commit}{path}#{line}",
+    sitename="SimpleGA.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://monumoltd.github.io/GeometricAlgebra.jl",
+        canonical="https://monumoltd.github.io/SimpleGA.jl",
         edit_link="main",
         assets=String[],
     ),
@@ -21,4 +19,4 @@ makedocs(;
     strict=true,
 )
 
-deploydocs(; repo="github.com/MonumoLtd/GeometricAlgebra.jl", devbranch="main")
+deploydocs(; repo="github.com/MonumoLtd/SimpleGA.jl", devbranch="main")

@@ -5,7 +5,7 @@ Code for GA(4,0). Even and odd elements are stored as quaternion pairs.
 """
 module GA40
 
-using GeometricAlgebra
+using SimpleGA
 using LinearAlgebra
 using StaticArrays
 

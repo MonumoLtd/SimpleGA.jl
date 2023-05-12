@@ -7,7 +7,7 @@ Gamma and sigma used for pretty typing.
 """
 module STA
 
-using GeometricAlgebra
+using SimpleGA
 using LinearAlgebra
 using StaticArrays
 

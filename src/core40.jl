@@ -54,7 +54,7 @@ LinearAlgebra.adjoint(a::Even) = Even(conj(a.qp), conj(a.qm))
 LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.qm), conj(a.qp))
 
 #Grade and projection
-function GeometricAlgebra.project(a::Even, n::Integer)
+function SimpleGA.project(a::Even, n::Integer)
     return if (n == 0)
         tmp = a.qp.w + a.qm.w
         scl = convert(typeof(tmp), tmp / 2)
@@ -70,7 +70,7 @@ function GeometricAlgebra.project(a::Even, n::Integer)
     end
 end
 
-function GeometricAlgebra.project(a::Odd, n::Integer)
+function SimpleGA.project(a::Odd, n::Integer)
     return if (n == 1)
         convert(typeof(a), (a + a') / 2)
     elseif (n == 3)
@@ -96,7 +96,7 @@ function LinearAlgebra.dot(a::Odd, b::Odd)
 end
 
 #Exponentiation
-GeometricAlgebra.bivector_exp(a::Even) = Even(bivector_exp(a.qp), bivector_exp(a.qm))
+SimpleGA.bivector_exp(a::Even) = Even(bivector_exp(a.qp), bivector_exp(a.qm))
 
 Base.exp(a::Even) = Even(exp(a.qp), exp(a.qm))
 

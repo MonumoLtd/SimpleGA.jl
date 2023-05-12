@@ -6,7 +6,7 @@ Not as fast as smaller algebras, but useful for checks.
 """
 module GA44
 
-using GeometricAlgebra
+using SimpleGA
 using LinearAlgebra
 using SparseArrays
 using StaticArrays

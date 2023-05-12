@@ -100,7 +100,7 @@ function LinearAlgebra.adjoint(mv::Multivector)
 end
 
 #Grade and projection
-function GeometricAlgebra.project(mv::Multivector, n::Int64)
+function SimpleGA.project(mv::Multivector, n::Int64)
     rsbas = filter(x -> grd(x) == n, mv.bas)
     ln = length(rsbas)
     if iszero(ln)
@@ -147,7 +147,7 @@ function Base.exp(a::Multivector)
     return res
 end
 
-function GeometricAlgebra.bivector_exp(a::Multivector)
+function SimpleGA.bivector_exp(a::Multivector)
     R = exp(project(a, 2))
     delt = R * R' - 1
     return (1 - 0.5 * delt + 0.375 * delt * delt) * R
