@@ -98,7 +98,7 @@ LinearAlgebra.adjoint(a::Even) = Even(a.c4, -a.c2, -a.c3, a.c1)
 LinearAlgebra.adjoint(a::Odd) = Odd(conj(a.c1), conj(a.c3), conj(a.c2), conj(a.c4))
 
 #Grade and projection
-function GeometricAlgebra.project(a::Even, n::Integer)
+function SimpleGA.project(a::Even, n::Integer)
     tra = (a.c1 + a.c4) / 2
     return if (n == 0)
         tmp = real(a.c1 + a.c4)
@@ -114,7 +114,7 @@ function GeometricAlgebra.project(a::Even, n::Integer)
     end
 end
 
-function GeometricAlgebra.project(a::Odd, n::Integer)
+function SimpleGA.project(a::Odd, n::Integer)
     return if (n == 1)
         convert(typeof(a), (a + a') / 2)
     elseif (n == 3)
@@ -141,7 +141,7 @@ function LinearAlgebra.dot(a::Odd, b::Odd)
 end
 
 #Exponentiation
-function GeometricAlgebra.bivector_exp(a::Even)
+function SimpleGA.bivector_exp(a::Even)
     a = project(a, 2)
     aa = a * a
     fct = sqrt((aa.c1 + aa.c4) / 2)

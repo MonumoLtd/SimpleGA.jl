@@ -55,7 +55,7 @@ LinearAlgebra.adjoint(a::Even) = Even(-adj * (a.m)' * adj)
 LinearAlgebra.adjoint(a::Odd) = Odd(rev * transpose(a.m) * rev)
 
 #Grade and projection
-function GeometricAlgebra.project(a::Even, n::Integer)
+function SimpleGA.project(a::Even, n::Integer)
     return if (n == 0)
         scl = real((tr(a.m)) / 4)
         convert(typeof(a), Even(scl * id4))
@@ -73,7 +73,7 @@ function GeometricAlgebra.project(a::Even, n::Integer)
     end
 end
 
-function GeometricAlgebra.project(a::Odd, n::Integer)
+function SimpleGA.project(a::Odd, n::Integer)
     return if (n == 3)
         convert(typeof(a), (a - a') / 2)
     elseif (n == 1)
@@ -106,7 +106,7 @@ end
 Base.exp(a::Even) = Even(exp(a.m))
 
 #TODO Any improvement here?
-function GeometricAlgebra.bivector_exp(a::Even)
+function SimpleGA.bivector_exp(a::Even)
     a = project(a, 2)
     R = exp(a)
     delt = R * R' - 1

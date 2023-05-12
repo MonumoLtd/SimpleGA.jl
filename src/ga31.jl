@@ -7,7 +7,7 @@ Code for GA(3,1). Even and odd elements are stored as complex structs.
 
 module GA31
 
-using GeometricAlgebra
+using SimpleGA
 using LinearAlgebra
 using StaticArrays
 
@@ -55,7 +55,7 @@ function mv_to_text(a::Odd)
     #! format:off
     tpoddbas = [e1, e2, e3, -f3,
                 I4*e1, I4*e2, I4*e3, -I4*f3]
-    tpoddstr = ["e1", "e2", "e3", "f3", 
+    tpoddstr = ["e1", "e2", "e3", "f3",
                 "I4e1", "I4e2", "I4e3", "I4f3"]
     #! format:on
     res = ""

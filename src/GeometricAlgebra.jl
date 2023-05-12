@@ -1,4 +1,4 @@
-module GeometricAlgebra
+module SimpleGA
 
 using LinearAlgebra
 

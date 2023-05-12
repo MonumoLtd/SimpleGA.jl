@@ -6,7 +6,7 @@ Core representation is a quaternion pair.
 """
 module PGA
 
-using GeometricAlgebra
+using SimpleGA
 using LinearAlgebra
 using StaticArrays
 

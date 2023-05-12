@@ -8,7 +8,7 @@ Use with caution. GA(32,32) is very BIG!
 """
 module GA3232
 
-using GeometricAlgebra
+using SimpleGA
 using LinearAlgebra
 using StaticArrays
 

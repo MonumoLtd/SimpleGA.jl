@@ -6,7 +6,7 @@ Underlying rep is quaternions, but not used explicitly here to keep this code se
 """
 module GA30
 
-using GeometricAlgebra
+using SimpleGA
 using LinearAlgebra
 using StaticArrays
 

@@ -4,7 +4,7 @@ Code for GA(4,1).
 
 module CGA
 
-using GeometricAlgebra
+using SimpleGA
 using LinearAlgebra
 using StaticArrays
 

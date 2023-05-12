@@ -9,7 +9,7 @@ algebra.
 """
 module Quaternions
 
-using GeometricAlgebra
+using SimpleGA
 using LinearAlgebra
 
 export real_part, imag_part, Quaternion
@@ -75,7 +75,7 @@ real_part(a::Quaternion) = Quaternion(a.w, zero(a.w), zero(a.w), zero(a.w))
 imag_part(a::Quaternion) = Quaternion(zero(a.w), a.x, a.y, a.z)
 
 #Exponentiation
-function GeometricAlgebra.bivector_exp(a::Quaternion)
+function SimpleGA.bivector_exp(a::Quaternion)
     a = imag_part(a)
     nrm = norm(a)
     return if iszero(nrm)
@@ -86,7 +86,7 @@ function GeometricAlgebra.bivector_exp(a::Quaternion)
 end
 
 function Base.exp(a::Quaternion)
-    R = GeometricAlgebra.bivector_exp(a)
+    R = SimpleGA.bivector_exp(a)
     return iszero(a.w) ? R : exp(a.w) * R
 end
 

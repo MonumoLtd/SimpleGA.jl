@@ -6,7 +6,7 @@ Even and odd elements are stored as complex numbers.
 """
 module GA20
 
-using GeometricAlgebra
+using SimpleGA
 using LinearAlgebra
 using StaticArrays
 
