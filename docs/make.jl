@@ -1,9 +1,7 @@
 using SimpleGA
 using Documenter
 
-DocMeta.setdocmeta!(
-    SimpleGA, :DocTestSetup, :(using SimpleGA); recursive=true
-)
+DocMeta.setdocmeta!(SimpleGA, :DocTestSetup, :(using SimpleGA); recursive=true)
 
 makedocs(;
     modules=[SimpleGA],
