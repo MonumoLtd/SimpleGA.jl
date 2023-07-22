@@ -81,7 +81,7 @@ Each of these algebras is described in more detail below, including listing the 
 
 ## Arithmetic Functions
 
-Most of the functionality is provided by overloading the Base Julia functions, so +,-,* all behave as expected, as does division by a real. Note that division by a real effectivel performs
+Most of the functionality is provided by overloading the Base Julia functions, so +,-,* all behave as expected, as does division by a real. Note that division by a real effectively performs
 ```
 A/x = (1/x) * A # Multivector A and real x
 ```
