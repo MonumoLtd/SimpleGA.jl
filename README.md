@@ -32,7 +32,7 @@ using SimpleGA
 
 Check out the documentation for more examples [check out the documentation.](https://monumoltd.github.io/SimpleGA.jl/dev/)
 
-```
+```julia
 e = GA20.basis  # Creates a 2D basis, named 'e'.
 a = e[1] + e[2]
 b = 2.0*e[1] + 3*e[2] 
