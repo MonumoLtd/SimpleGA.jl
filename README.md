@@ -12,7 +12,7 @@ A simple, fast implementation of Geometric Algebra in Julia. The emphasis is on 
 [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle)
 [![ColPrac: Contributor's Guide on Collaborative Practices for Community Packages](https://img.shields.io/badge/ColPrac-Contributor's%20Guide-blueviolet)](https://github.com/SciML/ColPrac)
 
-##Installation
+## Installation
 
 Install:
 
@@ -28,7 +28,7 @@ using LinearAlgebra
 using SimpleGA
 ```
 
-##Example
+## Example
 
 Check out the documentation for more examples [check out the documentation.](https://monumoltd.github.io/SimpleGA.jl/dev/)
 
