@@ -27,7 +27,7 @@ export pdual
 
 #Additional Functions. Sign conventions agree with De Keninck et al.
 function pdual(a::Even)
-    return Even(-reverse(a.n), -reverse(a.q))
+    return Even(-a.n', -a.q')
 end
 
 function pdual(a::Odd)

@@ -18,6 +18,9 @@ struct Odd{T<:Real} <: Number
     c4::Complex{T}
 end
 
+Even(c1::Complex, c2::Complex, c3::Complex, c4::Complex) = Even(promote(c1,c2,c3,c4)...)
+Odd(c1::Complex, c2::Complex, c3::Complex, c4::Complex) = Odd(promote(c1,c2,c3,c4)...)
+
 function Base.convert(::Type{Even{T}}, a::Even) where {T<:Real}
     return Even{T}(
         convert(Complex{T}, a.c1),
@@ -51,7 +54,7 @@ Base.:(-)(a::Odd, b::Odd) = Odd(a.c1 - b.c1, a.c2 - b.c2, a.c3 - b.c3, a.c4 - b.
 #Scalar addition / subtraction. Other cases are in GAcommon
 #Relies on Julia's promotion rules to do the sensible thing.
 Base.:(+)(num::Number, a::Even) = Even(a.c1 + num, a.c2, a.c3, a.c4 + num)
-Base.:(-)(num::Number, a::Even) = (-a.c1 + num, -a.c2, -a.c3, -a.c4 + num)
+Base.:(-)(num::Number, a::Even) = Even(-a.c1 + num, -a.c2, -a.c3, -a.c4 + num)
 
 #Multiplication
 Base.:(*)(num::Number, a::Even) = Even(num * a.c1, num * a.c2, num * a.c3, num * a.c4)

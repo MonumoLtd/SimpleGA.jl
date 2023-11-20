@@ -8,6 +8,9 @@ I5 = e1 * e2 * e3 * e4 * f4
 @test map(x -> dot(x, x), basCGA) == [1, 1, 1, 1, -1]
 @test testbas(basCGA)
 
+run_test_positive_norm(e1, e2)
+run_test_mixed_norm(e4, f4)
+
 #! format:off
 me1 = rand() + rand()*e1*e2 + e1*e3*rand() + e3*rand()*e2 - rand()*e1*e4 + rand()*e2*e4 + e3*e4/rand() +
 f4*(rand()*e1 + rand()*e2 +rand()*e3 +rand()*e4) + I5*(rand()*e1 + rand()*e2 +rand()*e3 +rand()*e4 + rand()*f4)

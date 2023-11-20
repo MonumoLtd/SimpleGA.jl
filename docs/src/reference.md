@@ -15,9 +15,11 @@ There is one submodule for each algebra we support.
 These are listed below:
 
 ```@docs
+CGA
 GA20
 GA24
 GA30
+GA31
 GA33
 GA40
 GA44

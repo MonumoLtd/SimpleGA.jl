@@ -1,7 +1,9 @@
-#=
-Code for GA(4,1).
-=#
+"""
 
+    GA41
+
+Code for GA(4,1). implementation is via 2x2 quaternion matrices.
+"""
 module CGA
 
 using SimpleGA
