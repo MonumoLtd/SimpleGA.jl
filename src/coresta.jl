@@ -18,8 +18,8 @@ struct Odd{T<:Real} <: Number
     c4::Complex{T}
 end
 
-Even(c1::Complex, c2::Complex, c3::Complex, c4::Complex) = Even(promote(c1,c2,c3,c4)...)
-Odd(c1::Complex, c2::Complex, c3::Complex, c4::Complex) = Odd(promote(c1,c2,c3,c4)...)
+Even(c1::Complex, c2::Complex, c3::Complex, c4::Complex) = Even(promote(c1, c2, c3, c4)...)
+Odd(c1::Complex, c2::Complex, c3::Complex, c4::Complex) = Odd(promote(c1, c2, c3, c4)...)
 
 function Base.convert(::Type{Even{T}}, a::Even) where {T<:Real}
     return Even{T}(

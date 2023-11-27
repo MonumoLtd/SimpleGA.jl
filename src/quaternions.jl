@@ -25,8 +25,14 @@ Quaternion{T}(w::Real) where {T<:Real} = Quaternion(convert(T, w))
 Quaternion(w::Real) = Quaternion(w, zero(w), zero(w), zero(w))
 Quaternion(w::Real, x::Real, y::Real, z::Real) = Quaternion(promote(w, x, y, z)...)
 
-Base.promote_rule(::Type{Quaternion{T}}, ::Type{S}) where {T <: Real, S <: Real} = Quaternion{promote_type(T, S)}
-Base.promote_rule(::Type{Quaternion{T}}, ::Type{Quaternion{S}}) where {T <: Real, S <: Real} = Quaternion{promote_type(T, S)}
+function Base.promote_rule(::Type{Quaternion{T}}, ::Type{S}) where {T<:Real,S<:Real}
+    return Quaternion{promote_type(T, S)}
+end
+function Base.promote_rule(
+    ::Type{Quaternion{T}}, ::Type{Quaternion{S}}
+) where {T<:Real,S<:Real}
+    return Quaternion{promote_type(T, S)}
+end
 
 function Base.convert(::Type{Quaternion{T}}, a::Quaternion) where {T<:Real}
     return Quaternion{T}(convert(T, a.w), convert(T, a.x), convert(T, a.y), convert(T, a.z))
