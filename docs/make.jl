@@ -16,7 +16,6 @@ makedocs(;
     ),
     pages=["Home" => "index.md", "Reference" => "reference.md"],
     checkdocs=:exports,
-    strict=true,
 )
 
 deploydocs(; repo="github.com/MonumoLtd/SimpleGA.jl", devbranch="main")
