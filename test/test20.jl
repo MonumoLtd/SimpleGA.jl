@@ -8,6 +8,8 @@ e2 = bas20[2]
 @test map(x -> dot(x, x), bas20) == [1, 1]
 @test testbas(bas20)
 
+run_test_positive_norm(e1, e2)
+
 me1 = rand() + rand() * e1 * e2
 me2 = rand() + rand() * e1 * e2
 me3 = rand() + rand() * e1 * e2

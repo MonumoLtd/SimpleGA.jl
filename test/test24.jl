@@ -7,6 +7,9 @@ bas24 = GA24.basis
 @test map(x -> dot(x, x), bas24) == [1, -1, -1, -1, -1, 1]
 @test testbas(bas24)
 
+run_test_positive_norm(g0, g5)
+run_test_mixed_norm(g0, g1)
+
 #! format:off
 me1 = rand() + rand()*g0*g1 + g0*g3*rand() + g0*rand()*g4 - rand()*g3*g1 + g1*g4/rand() + rand()*g3*g4 + rand()*g0*g1*g3*g4 +
     g2*(rand()*g0 + rand()*g1 + g3*rand() + g4*rand() + g0*g1*g3*g4*(rand()*g0 + rand()*g1 + g3*rand() + g4*rand() ) ) +

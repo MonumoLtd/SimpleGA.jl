@@ -14,18 +14,25 @@ using LinearAlgebra
 
 export real_part, imag_part, Quaternion
 
-struct Quaternion{T<:Number}
+struct Quaternion{T<:Real} <: Number
     w::T
     x::T
     y::T
     z::T
 end
 
-Quaternion(w::Number) = Quaternion{typeof(w)}(w, zero(w), zero(w), zero(w))
-Quaternion{T}(w::Number) where {T<:Number} = Quaternion(convert(T, w))
+Quaternion{T}(w::Real) where {T<:Real} = Quaternion(convert(T, w))
+Quaternion(w::Real) = Quaternion(w, zero(w), zero(w), zero(w))
+Quaternion(w::Real, x::Real, y::Real, z::Real) = Quaternion(promote(w, x, y, z)...)
 
-#Default creator is FP64.
-Quaternion(w, x, y, z) = Quaternion{Float64}(w, x, y, z)
+function Base.promote_rule(::Type{Quaternion{T}}, ::Type{S}) where {T<:Real,S<:Real}
+    return Quaternion{promote_type(T, S)}
+end
+function Base.promote_rule(
+    ::Type{Quaternion{T}}, ::Type{Quaternion{S}}
+) where {T<:Real,S<:Real}
+    return Quaternion{promote_type(T, S)}
+end
 
 function Base.convert(::Type{Quaternion{T}}, a::Quaternion) where {T<:Real}
     return Quaternion{T}(convert(T, a.w), convert(T, a.x), convert(T, a.y), convert(T, a.z))
