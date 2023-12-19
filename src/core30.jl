@@ -31,7 +31,7 @@ Base.zero(a::Even) = Even(zero(a.w), zero(a.x), zero(a.y), zero(a.z))
 Base.zero(a::Odd) = Odd(zero(a.w), zero(a.x), zero(a.y), zero(a.z))
 Base.one(a::Even) = Even(one(a.w), zero(a.x), zero(a.y), zero(a.z))
 
-#Addition / subtraction
+# Addition / subtraction
 Base.:(-)(a::Even) = Even(-a.w, -a.x, -a.y, -a.z)
 Base.:(-)(a::Odd) = Odd(-a.w, -a.x, -a.y, -a.z)
 Base.:(+)(a::Even, b::Even) = Even(a.w + b.w, a.x + b.x, a.y + b.y, a.z + b.z)
@@ -39,12 +39,12 @@ Base.:(+)(a::Odd, b::Odd) = Odd(a.w + b.w, a.x + b.x, a.y + b.y, a.z + b.z)
 Base.:(-)(a::Even, b::Even) = Even(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z)
 Base.:(-)(a::Odd, b::Odd) = Odd(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z)
 
-#Scalar addition / subtraction. Other cases are in GAcommon
-#Relies on Julia's promotion rules to do the sensible thing.
+# Scalar addition / subtraction. Other cases are in GAcommon
+# Relies on Julia's promotion rules to do the sensible thing.
 Base.:(+)(num::Number, a::Even) = Even(a.w + num, a.x, a.y, a.z)
 Base.:(-)(num::Number, a::Even) = Even(-a.w + num, -a.x, -a.y, -a.z)
 
-#Multiplication
+# Multiplication
 Base.:(*)(num::Number, a::Even) = Even(num * a.w, num * a.x, num * a.y, num * a.z)
 Base.:(*)(num::Number, a::Odd) = Odd(num * a.w, num * a.x, num * a.y, num * a.z)
 
@@ -84,11 +84,11 @@ function Base.:(*)(a::Odd, b::Odd)
     )
 end
 
-#Reverse
+# Reverse
 LinearAlgebra.adjoint(a::Even) = Even(a.w, -a.x, -a.y, -a.z)
 LinearAlgebra.adjoint(a::Odd) = Odd(-a.w, a.x, a.y, a.z)
 
-#Grade and projection
+# Grade and projection
 function SimpleGA.project(a::Even, n::Integer)
     return if (n == 0)
         Even(a.w, zero(a.w), zero(a.w), zero(a.w))
@@ -113,7 +113,7 @@ LinearAlgebra.tr(a::Even) = a.w
 LinearAlgebra.dot(a::Even, b::Even) = a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z
 LinearAlgebra.dot(a::Odd, b::Odd) = -a.w * b.w + a.x * b.x + a.y * b.y + a.z * b.z
 
-#Exponentiation
+# Exponentiation
 function SimpleGA.bivector_exp(a::Even)
     a = project(a, 2)
     nrm = sqrt(dot(a, -a))
@@ -129,18 +129,18 @@ function Base.exp(a::Even)
     return iszero(a.w) ? R : exp(a.w) * R
 end
 
-#Comparison. Using default tolerances.
-function Base.isapprox(a::Even, b::Even)
-    return isapprox(a.w, b.w) &&
-           isapprox(a.x, b.x) &&
-           isapprox(a.y, b.y) &&
-           isapprox(a.z, b.z)
+# Comparison.
+function Base.isapprox(a::Even, b::Even; kwargs...)
+    return isapprox(a.w, b.w; kwargs...) &&
+           isapprox(a.x, b.x; kwargs...) &&
+           isapprox(a.y, b.y; kwargs...) &&
+           isapprox(a.z, b.z; kwargs...)
 end
-function Base.isapprox(a::Odd, b::Odd)
-    return isapprox(a.w, b.w) &&
-           isapprox(a.x, b.x) &&
-           isapprox(a.y, b.y) &&
-           isapprox(a.z, b.z)
+function Base.isapprox(a::Odd, b::Odd; kwargs...)
+    return isapprox(a.w, b.w; kwargs...) &&
+           isapprox(a.x, b.x; kwargs...) &&
+           isapprox(a.y, b.y; kwargs...) &&
+           isapprox(a.z, b.z; kwargs...)
 end
 function Base.isequal(a::Even, b::Even)
     return isequal(a.w, b.w) && isequal(a.x, b.x) && isequal(a.y, b.y) && isequal(a.z, b.z)

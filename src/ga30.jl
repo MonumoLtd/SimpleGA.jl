@@ -13,7 +13,7 @@ using StaticArrays
 include("core30.jl")
 include("common.jl")
 
-#Basis
+# Basis
 const e1 = Odd{Int8}(0, 1, 0, 0)
 const e2 = Odd{Int8}(0, 0, 1, 0)
 const e3 = Odd{Int8}(0, 0, 0, 1)
@@ -21,7 +21,7 @@ const I3 = Odd{Int8}(1, 0, 0, 0)
 
 const basis = SA[e1, e2, e3]
 
-#Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
+# Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
 approxzero(x::Real) = isapprox(1 + x, 1.0)
 
 function mv_to_text(a::Even)
