@@ -7,13 +7,20 @@ jobs:
   format:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: julia-actions/setup-julia@latest
         with:
           version: 1
-      - run: |
-          julia  -e 'using Pkg; Pkg.add("JuliaFormatter")'
-          julia  -e 'using JuliaFormatter; format("."; verbose=true)'
+      - name: Install & run JuliaFormatter
+        shell: julia --color=yes {0}
+        run: |
+          using Pkg
+          Pkg.add("JuliaFormatter")
+          using JuliaFormatter
+          # HACK: as-of 2023-12-18, it seems that _two_ formatting passes are sometimes
+          #   required to ensure subsequent formattings have no effect.
+          format("."; verbose=true)
+          format("."; verbose=true)
       - uses: reviewdog/action-suggester@v1
         with:
           tool_name: JuliaFormatter
