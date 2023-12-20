@@ -102,7 +102,7 @@ function Base.exp(a::Even)
     return exp(a.q.w) * (1 + project(a, 4)) * R
 end
 
-#Comparison. Uses default tolerances.
+# Comparison.
 function Base.isapprox(a::Even, b::Even; kwargs...)
     return isapprox(a.q, b.q; kwargs...) && isapprox(a.n, b.n; kwargs...)
 end

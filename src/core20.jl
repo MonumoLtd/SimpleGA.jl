@@ -69,7 +69,7 @@ Base.exp(a::Even) = Even(exp(a.c1))
 
 SimpleGA.bivector_exp(a::Even) = Even(exp(im * a.c1.im))
 
-#Comparison, using default tolerances.
+# Comparison
 Base.isapprox(a::Even, b::Even; kwargs...) = isapprox(a.c1, b.c1; kwargs...)
 Base.isapprox(a::Odd, b::Odd; kwargs...) = isapprox(a.c1, b.c1; kwargs...)
 Base.isequal(a::Even, b::Even) = isequal(a.c1, b.c1)

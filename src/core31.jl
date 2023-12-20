@@ -163,7 +163,7 @@ function Base.exp(a::Even)
     end
 end
 
-#Comparison. Uses default tolerances
+# Comparison.
 function Base.isapprox(a::Even, b::Even; kwargs...)
     return isapprox(a.c1, b.c1; kwargs...) &&
            isapprox(a.c2, b.c2; kwargs...) &&
