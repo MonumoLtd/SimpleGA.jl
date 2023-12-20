@@ -31,6 +31,31 @@ end
 
 """Test common features of all algebras."""
 function run_common_tests(me1, me2, me3, mo1, mo2, mo3, v1, v2)
+    # isapprox kwargs. Tests for
+    #   https://github.com/MonumoLtd/SimpleGA.jl/issues/20
+    @test isapprox(me1, me1)
+    @test isapprox(me1, me1; rtol=1e-5)
+    @test !isapprox(me1, me2)
+    @test !isapprox(me1, me2; rtol=1e-5)
+
+    # Test that we can compare arrays of multivectors
+    @test isapprox([me1], [me1])
+    @test isapprox([me1], [me1]; rtol=1e-5)
+    @test !isapprox([me1], [me2])
+    @test !isapprox([me1], [me2]; rtol=1e-5)
+    @test isapprox([me1;;], [me1;;])
+    @test isapprox([me1;;], [me1;;]; rtol=1e-5)
+    @test !isapprox([me1;;], [me2;;])
+    @test !isapprox([me1;;], [me2;;]; rtol=1e-5)
+
+    # Test that isapprox is false for comparisons between odd and even elements
+    @test !isapprox(me1, mo1)
+    @test !isapprox(me1, mo1; rtol=1e-5)
+    @test !isapprox([me1], [mo1])
+    @test !isapprox([me1;;], [mo1;;])
+    @test !isapprox([me1], [mo1]; rtol=1e-5)
+    @test !isapprox([me1;;], [mo1;;]; rtol=1e-5)
+
     # Addition
     @test isapprox(1.0 + me1, me1 + 1.0)
     @test isapprox(-1.0 + me1, me1 - 1.0)

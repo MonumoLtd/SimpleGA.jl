@@ -153,11 +153,14 @@ function SimpleGA.bivector_exp(a::Multivector)
     return (1 - 0.5 * delt + 0.375 * delt * delt) * R
 end
 
-function Base.isapprox(mv1::Multivector, mv2::Multivector)
+# XXX: Presumably the default for `atol` here is required due to how we are
+#   representing the multivector?
+function Base.isapprox(mv1::Multivector, mv2::Multivector; atol=1e-6, kwargs...)
     return isapprox(
         SparseVector(256, mv1.bas .+ 1, mv1.val),
         SparseVector(256, mv2.bas .+ 1, mv2.val);
-        atol=1e-6,
+        atol,
+        kwargs...,
     )
 end
 

@@ -120,7 +120,11 @@ end
 
 #Comparison
 #StaticArrays does seem to lose some accuracy.
-Base.isapprox(a::Even, b::Even) = isapprox(a.p, b.p) && isapprox(a.m, b.m)
-Base.isapprox(a::Odd, b::Odd) = isapprox(a.p, b.p) && isapprox(a.m, b.m)
+function Base.isapprox(a::Even, b::Even; kwargs...)
+    return isapprox(a.p, b.p; kwargs...) && isapprox(a.m, b.m; kwargs...)
+end
+function Base.isapprox(a::Odd, b::Odd; kwargs...)
+    return isapprox(a.p, b.p; kwargs...) && isapprox(a.m, b.m; kwargs...)
+end
 Base.isequal(a::Even, b::Even) = isequal(a.p, b.p) && isequal(a.m, b.m)
 Base.isequal(a::Odd, b::Odd) = isequal(a.p, b.p) && isequal(a.m, b.m)

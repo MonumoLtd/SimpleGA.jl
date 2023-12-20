@@ -101,7 +101,11 @@ SimpleGA.bivector_exp(a::Even) = Even(bivector_exp(a.qp), bivector_exp(a.qm))
 Base.exp(a::Even) = Even(exp(a.qp), exp(a.qm))
 
 #Comparison
-Base.isapprox(a::Even, b::Even) = isapprox(a.qp, b.qp) && isapprox(a.qm, b.qm)
-Base.isapprox(a::Odd, b::Odd) = isapprox(a.qp, b.qp) && isapprox(a.qm, b.qm)
+function Base.isapprox(a::Even, b::Even; kwargs...)
+    return isapprox(a.qp, b.qp; kwargs...) && isapprox(a.qm, b.qm; kwargs...)
+end
+function Base.isapprox(a::Odd, b::Odd; kwargs...)
+    return isapprox(a.qp, b.qp; kwargs...) && isapprox(a.qm, b.qm; kwargs...)
+end
 Base.isequal(a::Even, b::Even) = isequal(a.qp, b.qp) && isequal(a.qm, b.qm)
 Base.isequal(a::Odd, b::Odd) = isequal(a.qp, b.qp) && isequal(a.qm, b.qm)

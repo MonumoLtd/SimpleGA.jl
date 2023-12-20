@@ -177,17 +177,17 @@ function SimpleGA.bivector_exp(a::Even)
 end
 
 #Comparison
-function Base.isapprox(a::Even, b::Even)
-    return isapprox(a.q1, b.q1) &&
-           isapprox(a.q2, b.q2) &&
-           isapprox(a.q3, b.q3) &&
-           isapprox(a.q4, b.q4)
+function Base.isapprox(a::Even, b::Even; kwargs...)
+    return isapprox(a.q1, b.q1; kwargs...) &&
+           isapprox(a.q2, b.q2; kwargs...) &&
+           isapprox(a.q3, b.q3; kwargs...) &&
+           isapprox(a.q4, b.q4; kwargs...)
 end
-function Base.isapprox(a::Odd, b::Odd)
-    return isapprox(a.q1, b.q1) &&
-           isapprox(a.q2, b.q2) &&
-           isapprox(a.q3, b.q3) &&
-           isapprox(a.q4, b.q4)
+function Base.isapprox(a::Odd, b::Odd; kwargs...)
+    return isapprox(a.q1, b.q1; kwargs...) &&
+           isapprox(a.q2, b.q2; kwargs...) &&
+           isapprox(a.q3, b.q3; kwargs...) &&
+           isapprox(a.q4, b.q4; kwargs...)
 end
 function Base.isequal(a::Even, b::Even)
     return isequal(a.q1, b.q1) &&
