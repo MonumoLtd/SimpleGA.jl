@@ -1,7 +1,7 @@
 # Common functions used in testing.
 
-"""Test that off-diagonal basis elements all vanish."""
-function testbas(bas)
+"""Return true iff off-diagonal basis elements all vanish."""
+function _do_off_diagonal_elements_vanish(bas)
     res = true
     n = length(bas)
     for i in 1:(n - 1)
@@ -10,6 +10,18 @@ function testbas(bas)
         end
     end
     return res
+end
+
+"""Run common tests given a basis."""
+function run_basis_tests(basis)
+    @test _do_off_diagonal_elements_vanish(basis)
+
+    @testset "promotion" begin
+        # Tests for https://github.com/MonumoLtd/SimpleGA.jl/issues/18
+        for e in basis
+            @test 1.0 * e == e
+        end
+    end
 end
 
 """Tests that unit vector generators behave correctly over integers"""

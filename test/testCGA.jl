@@ -6,7 +6,7 @@ basCGA = CGA.basis
 I5 = e1 * e2 * e3 * e4 * f4
 
 @test map(x -> dot(x, x), basCGA) == [1, 1, 1, 1, -1]
-@test testbas(basCGA)
+run_basis_tests(basCGA)
 
 run_test_positive_norm(e1, e2)
 run_test_mixed_norm(e4, f4)

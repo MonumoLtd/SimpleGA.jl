@@ -12,7 +12,7 @@ bas64 = GA3232.basis
                                     1,-1,1,-1,1,-1,1,-1,
                                     1,-1,1,-1,1,-1,1,-1]
 #! format:on
-@test testbas(bas64)
+run_basis_tests(bas64)
 
 function randvec(n)
     rints = rand(1:64, n)

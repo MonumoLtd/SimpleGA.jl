@@ -7,7 +7,7 @@ e2 = bas30[2]
 e3 = bas30[3]
 
 @test map(x -> dot(x, x), bas30) == [1, 1, 1]
-@test testbas(bas30)
+run_basis_tests(bas30)
 
 run_test_positive_norm(e1, e2)
 

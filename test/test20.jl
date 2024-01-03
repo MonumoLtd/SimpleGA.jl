@@ -6,7 +6,7 @@ e1 = bas20[1]
 e2 = bas20[2]
 
 @test map(x -> dot(x, x), bas20) == [1, 1]
-@test testbas(bas20)
+run_basis_tests(bas20)
 
 run_test_positive_norm(e1, e2)
 

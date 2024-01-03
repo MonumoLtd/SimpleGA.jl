@@ -6,7 +6,7 @@ basGA31 = GA31.basis
 I4 = e1 * e2 * e3 * f3
 
 @test map(x -> dot(x, x), basGA31) == [1, 1, 1, -1]
-@test testbas(basGA31)
+run_basis_tests(basGA31)
 
 run_test_positive_norm(e1, e2)
 run_test_mixed_norm(e3, f3)
