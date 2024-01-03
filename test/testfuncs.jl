@@ -1,15 +1,68 @@
 # Common functions used in testing.
 
-"""Test that off-diagonal basis elements all vanish."""
-function testbas(bas)
-    res = true
+"""Return true iff off-diagonal basis elements all vanish."""
+function _do_off_diagonal_elements_vanish(bas)
     n = length(bas)
     for i in 1:(n - 1)
         for j in (i + 1):n
-            res = isequal(res && bas[i] * bas[j] + bas[j] * bas[i], zero(bas[i] * bas[j]))
+            ok = isequal(bas[i] * bas[j] + bas[j] * bas[i], zero(bas[i] * bas[j]))
+            ok || return false
         end
     end
-    return res
+    return true
+end
+
+"""Run common tests given a basis."""
+function run_basis_tests(basis)
+    @test _do_off_diagonal_elements_vanish(basis)
+
+    @testset "promotion" begin
+        # If our elements are not bitstypes, then we cannot compare values with identity. 
+        # This will be the case for GA(4, 4) and GA(32, 32).
+        # For these algebras, we will just compare the _types_ with identity when checking
+        # for promotion.
+        # NOTE: In practice it is probably good enough to always just check the types, since
+        #   we later perform an equality check on values.
+        can_test_identity = all.(isbits(basis))
+
+        # Tests for https://github.com/MonumoLtd/SimpleGA.jl/issues/18
+        for e in basis
+            @test 1.0 * e !== e
+            @test 1.0f0 * e !== 1.0 * e
+            if can_test_identity
+                @test promote(1.0f0 * e, e) === (1.0f0 * e, 1.0f0 * e)
+                @test promote(1.0 * e, e) === (1.0 * e, 1.0 * e)
+                @test promote(1.0 * e, 1.0f0 * e) === (1.0 * e, 1.0 * e)
+            else
+                @test typeof(promote(1.0f0 * e, e)) === typeof((1.0f0 * e, 1.0f0 * e))
+                @test typeof(promote(1.0 * e, e)) === typeof((1.0 * e, 1.0 * e))
+                @test typeof(promote(1.0 * e, 1.0f0 * e)) === typeof((1.0 * e, 1.0 * e))
+            end
+
+            # If promotion works, so should equality testing
+            @test 1.0 * e == e
+            @test isequal(1.0 * e, e)
+            @test isapprox(1.0 * e, e)
+        end
+
+        # Check that we also promote even elements as expected.
+        @test length(basis) >= 2
+
+        # Construct a bivector B; this will be even.
+        B = basis[1] * basis[2]
+        @test project(B, 2) == B  # Convince ourselves that this is indeed a bivector
+        @test 1.0 * B !== B
+        @test 1.0f0 * B !== 1.0 * B
+        if can_test_identity
+            @test promote(1.0f0 * B, B) === (1.0f0 * B, 1.0f0 * B)
+            @test promote(1.0 * B, B) === (1.0 * B, 1.0 * B)
+            @test promote(1.0 * B, 1.0f0 * B) === (1.0 * B, 1.0 * B)
+        else
+            @test typeof(promote(1.0f0 * B, B)) === typeof((1.0f0 * B, 1.0f0 * B))
+            @test typeof(promote(1.0 * B, B)) === typeof((1.0 * B, 1.0 * B))
+            @test typeof(promote(1.0 * B, 1.0f0 * B)) === typeof((1.0 * B, 1.0 * B))
+        end
+    end
 end
 
 """Tests that unit vector generators behave correctly over integers"""

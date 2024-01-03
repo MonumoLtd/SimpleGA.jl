@@ -20,9 +20,14 @@ end
 function Base.convert(::Type{Even{T}}, a::Even) where {T<:Real}
     return Even{T}(convert(Quaternion{T}, a.qp), convert(Quaternion{T}, a.qm))
 end
-
 function Base.convert(::Type{Odd{T}}, a::Odd) where {T<:Real}
     return Odd{T}(convert(Quaternion{T}, a.qp), convert(Quaternion{T}, a.qm))
+end
+function Base.promote_rule(::Type{Even{S}}, ::Type{Even{T}}) where {S<:Real,T<:Real}
+    return Even{promote_type(S, T)}
+end
+function Base.promote_rule(::Type{Odd{S}}, ::Type{Odd{T}}) where {S<:Real,T<:Real}
+    return Odd{promote_type(S, T)}
 end
 
 Base.zero(a::Even) = Even(zero(a.qp), zero(a.qm))

@@ -5,7 +5,7 @@ bas24 = GA24.basis
 (g0, g1, g2, g3, g4, g5) = (bas24[1], bas24[2], bas24[3], bas24[4], bas24[5], bas24[6])
 
 @test map(x -> dot(x, x), bas24) == [1, -1, -1, -1, -1, 1]
-@test testbas(bas24)
+run_basis_tests(bas24)
 
 run_test_positive_norm(g0, g5)
 run_test_mixed_norm(g0, g1)

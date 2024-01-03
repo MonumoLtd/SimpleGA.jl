@@ -3,7 +3,7 @@
 
 bas44 = GA44.basis
 @test map(x -> dot(x, x), bas44) == [1, 1, 1, 1, -1, -1, -1, -1]
-@test testbas(bas44)
+run_basis_tests(bas44)
 
 v1 = inject(rand(8), bas44)
 v2 = inject(rand(8), bas44)

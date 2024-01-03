@@ -5,7 +5,7 @@ bas33 = GA33.basis
 (e1, e2, e3, f1, f2, f3) = (bas33[1], bas33[2], bas33[3], bas33[4], bas33[5], bas33[6])
 
 @test map(x -> dot(x, x), bas33) == [1, 1, 1, -1, -1, -1]
-@test testbas(bas33)
+run_basis_tests(bas33)
 
 run_test_positive_norm(e1, e2)
 run_test_mixed_norm(e3, f3)

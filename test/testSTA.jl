@@ -6,7 +6,7 @@ basSTA = STA.basis
 I4 = g0 * g1 * g2 * g3
 
 @test map(x -> dot(x, x), basSTA) == [1, -1, -1, -1]
-@test testbas(basSTA)
+run_basis_tests(basSTA)
 
 run_test_mixed_norm(g0, g1)
 

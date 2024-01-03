@@ -8,9 +8,10 @@ Use with caution. GA(32,32) is very BIG!
 """
 module GA3232
 
-using SimpleGA
 using LinearAlgebra
 using StaticArrays
+
+using SimpleGA
 
 include("core3232.jl")
 
@@ -36,7 +37,6 @@ const bldbas = SA[
 #! format:on
 
 const basis = map(n -> Multivector([n], [convert(Int8, 1)]), bldbas)
-export construct3232
 
 struct Blade
     bas::UInt64

@@ -4,7 +4,7 @@
 basPGA = PGA.basis
 (e1, e2, e3, e0) = (basPGA[1], basPGA[2], basPGA[3], basPGA[4])
 @test map(x -> dot(x, x), basPGA) == [1, 1, 1, 0]
-@test testbas(basPGA)
+run_basis_tests(basPGA)
 
 run_test_positive_norm(e1, e2)
 

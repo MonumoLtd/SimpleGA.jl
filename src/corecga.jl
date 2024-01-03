@@ -41,6 +41,12 @@ function Base.convert(::Type{Odd{T}}, a::Odd) where {T<:Real}
         convert(Quaternion{T}, a.q4),
     )
 end
+function Base.promote_rule(::Type{Even{S}}, ::Type{Even{T}}) where {S<:Real,T<:Real}
+    return Even{promote_type(S, T)}
+end
+function Base.promote_rule(::Type{Odd{S}}, ::Type{Odd{T}}) where {S<:Real,T<:Real}
+    return Odd{promote_type(S, T)}
+end
 
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a.q1, -a.q2, -a.q3, -a.q4)

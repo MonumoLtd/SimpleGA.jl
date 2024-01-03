@@ -6,7 +6,7 @@ bas40 = GA40.basis
 E4 = e1 * e2 * e3 * e4
 
 @test map(x -> dot(x, x), bas40) == [1, 1, 1, 1]
-@test testbas(bas40)
+run_basis_tests(bas40)
 
 run_test_positive_norm(e1, e2)
 

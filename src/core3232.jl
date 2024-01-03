@@ -4,10 +4,15 @@ Implementation of GA(32,32) in Julia using Uint64 bitwise operations.
 
 #The Multivector type assumes that the blade list is unique and in order. But we want to avoid checking this at runtime.
 #Only use this constructor if you are certain the blade list is correct. If not, use construct64()
-struct Multivector{T<:Number} <: Number
+struct Multivector{T<:Real} <: Number
     bas::Vector{UInt64}
     val::Vector{T}
 end
+
+# NOTE: we do not define equality in terms of the individual components, since we have many ways to represent "zero" that
+#   we wish to be equivalent.
+Base.:(==)(mv1::Multivector, mv2::Multivector) = iszero((mv1 - mv2).val)
+Base.hash(a::Multivector, h::UInt) = hash(a.bas, hash(a.val, hash(:Multivector, h)))
 
 function construct64(bs, vs)
     if length(bs) != length(unique(bs))
@@ -19,6 +24,16 @@ function construct64(bs, vs)
 end
 
 basscl = 0x0000000000000000
+
+function Base.convert(::Type{Multivector{T}}, a::Multivector) where {T<:Real}
+    return Multivector{T}(a.bas, convert.(T, a.val))
+end
+function Base.promote_rule(
+    ::Type{Multivector{S}}, ::Type{Multivector{T}}
+) where {S<:Real,T<:Real}
+    return Multivector{promote_type(S, T)}
+end
+
 Base.zero(a::Multivector) = Multivector([basscl], [zero(a.val[1])])
 Base.one(a::Multivector) = Multivector([basscl], [one(a.val[1])])
 
@@ -66,16 +81,16 @@ function Base.:(+)(mv1::Multivector, mv2::Multivector)
     return Multivector(rsbas, rsval)
 end
 
-Base.:(+)(nm::Number, mv::Multivector) = mv + nm * one(mv)
-Base.:(+)(mv::Multivector, nm::Number) = nm + mv
-Base.:(-)(nm::Number, mv::Multivector) = nm + (-mv)
-Base.:(-)(mv::Multivector, nm::Number) = (-nm) + mv
+Base.:(+)(nm::Real, mv::Multivector) = mv + nm * one(mv)
+Base.:(+)(mv::Multivector, nm::Real) = nm + mv
+Base.:(-)(nm::Real, mv::Multivector) = nm + (-mv)
+Base.:(-)(mv::Multivector, nm::Real) = (-nm) + mv
 Base.:(-)(mv1::Multivector, mv2::Multivector) = mv1 + (-(mv2))
 
 #Multiplication
 
-Base.:(*)(num::Number, mv::Multivector) = Multivector(mv.bas, num * mv.val)
-Base.:(*)(mv::Multivector, num::Number) = num * mv
+Base.:(*)(num::Real, mv::Multivector) = Multivector(mv.bas, num * mv.val)
+Base.:(*)(mv::Multivector, num::Real) = num * mv
 
 function gaprodsign(bld1, bld2)
     tp1 = xor(bld2, bld2 << 1)
@@ -96,7 +111,7 @@ function Base.:(*)(mv1::Multivector, mv2::Multivector)
 end
 
 #Division by a real
-Base.:(/)(mv::Multivector, num::Number) = (1 / num) * mv
+Base.:(/)(mv::Multivector, num::Real) = (1 / num) * mv
 
 #Reverse
 
@@ -182,13 +197,8 @@ function SimpleGA.bivector_exp(a::Multivector)
     return (1 - 0.5 * delt + 0.375 * delt * delt) * R
 end
 
-#Comparison
+# Approximate comparison
 function Base.isapprox(mv1::Multivector, mv2::Multivector)
     tmp = mvtidy(mv1 - mv2)
     return tmp.bas == [basscl] && tmp.val == [0.0]
-end
-
-function Base.isequal(mv1::Multivector, mv2::Multivector)
-    tmp = mv1 - mv2
-    return iszero(tmp.val)
 end

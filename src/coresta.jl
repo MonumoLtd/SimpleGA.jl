@@ -39,6 +39,13 @@ function Base.convert(::Type{Odd{T}}, a::Odd) where {T<:Real}
     )
 end
 
+function Base.promote_rule(::Type{Even{S}}, ::Type{Even{T}}) where {S<:Real,T<:Real}
+    return Even{promote_type(S, T)}
+end
+function Base.promote_rule(::Type{Odd{S}}, ::Type{Odd{T}}) where {S<:Real,T<:Real}
+    return Odd{promote_type(S, T)}
+end
+
 Base.zero(a::Even) = Even(zero(a.c1), zero(a.c2), zero(a.c3), zero(a.c4))
 Base.zero(a::Odd) = Odd(zero(a.c1), zero(a.c2), zero(a.c3), zero(a.c4))
 Base.one(a::Even) = Even(one(a.c1), zero(a.c2), zero(a.c3), one(a.c4))
