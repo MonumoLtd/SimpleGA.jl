@@ -11,12 +11,17 @@ sparsify(x, eps) = abs(x) < eps ? 0.0 : x
 #The Multivector type assumes that the blade list is unique and in order. But we want to avoid checking this at runtime.
 #Only use this constructor if you are certain the blade list is correct. If not, use construct44()
 
-@auto_hash_equals struct Multivector{T<:Real} <: Number
+struct Multivector{T<:Real} <: Number
     bas::Vector{UInt8}
     val::Vector{T}
 end
 
 Multivector(ns, vs) = Multivector{typeof(vs[1])}(convert(Vector{UInt8}, ns), vs)
+
+# NOTE: we do not define equality in terms of the individual components, since we have many ways to represent "zero" that
+#   we wish to be equivalent.
+Base.:(==)(mv1::Multivector, mv2::Multivector) = iszero((mv1 - mv2).val)
+Base.hash(a::Multivector, h::UInt) = hash(a.bas, hash(a.val, hash(:Multivector, h)))
 
 function construct44(T, bs, vs)
     if length(bs) != length(unique(bs))

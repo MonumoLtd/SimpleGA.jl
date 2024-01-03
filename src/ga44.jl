@@ -6,7 +6,6 @@ Not as fast as smaller algebras, but useful for checks.
 """
 module GA44
 
-using AutoHashEquals: @auto_hash_equals
 using LinearAlgebra
 using SparseArrays
 using StaticArrays
