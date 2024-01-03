@@ -36,7 +36,6 @@ const bldbas = SA[
 #! format:on
 
 const basis = map(n -> Multivector([n], [convert(Int8, 1)]), bldbas)
-export construct3232
 
 struct Blade
     bas::UInt64
