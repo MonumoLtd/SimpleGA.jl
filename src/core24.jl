@@ -24,6 +24,12 @@ end
 function Base.convert(::Type{Odd{T}}, a::Odd) where {T<:Real}
     return Odd{T}(convert(SMatrix{4,4,Complex{T},16}, a.m))
 end
+function Base.promote_rule(::Type{Even{S}}, ::Type{Even{T}}) where {S<:Real,T<:Real}
+    return Even{promote_rule(S, T)}
+end
+function Base.promote_rule(::Type{Odd{S}}, ::Type{Odd{T}}) where {S<:Real,T<:Real}
+    return Odd{promote_rule(S, T)}
+end
 
 Base.zero(a::Even) = Even(zero(a.m))
 Base.zero(a::Odd) = Odd(zero(a.m))

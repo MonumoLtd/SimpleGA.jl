@@ -15,6 +15,12 @@ end
 
 Base.convert(::Type{Even{T}}, a::Even) where {T<:Real} = Even{T}(convert(Complex{T}, a.c1))
 Base.convert(::Type{Odd{T}}, a::Odd) where {T<:Real} = Odd{T}(convert(Complex{T}, a.c1))
+function Base.promote_rule(::Type{Even{S}}, ::Type{Even{T}}) where {S<:Real,T<:Real}
+    return Even{promote_rule(S, T)}
+end
+function Base.promote_rule(::Type{Odd{S}}, ::Type{Odd{T}}) where {S<:Real,T<:Real}
+    return Odd{promote_rule(S, T)}
+end
 Base.zero(a::Even) = Even(zero(a.c1))
 Base.zero(a::Odd) = Odd(zero(a.c1))
 Base.one(a::Even) = Even(one(a.c1))

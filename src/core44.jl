@@ -11,7 +11,7 @@ sparsify(x, eps) = abs(x) < eps ? 0.0 : x
 #The Multivector type assumes that the blade list is unique and in order. But we want to avoid checking this at runtime.
 #Only use this constructor if you are certain the blade list is correct. If not, use construct44()
 
-struct Multivector{T<:Number} <: Number
+@auto_hash_equals struct Multivector{T<:Real} <: Number
     bas::Vector{UInt8}
     val::Vector{T}
 end
@@ -27,8 +27,13 @@ function construct44(T, bs, vs)
     end
 end
 
-function Base.convert(::Type{Multivector{T}}, a::Multivector) where {T<:Number}
+function Base.convert(::Type{Multivector{T}}, a::Multivector) where {T<:Real}
     return Multivector{T}(a.bas, convert.(T, a.val))
+end
+function Base.promote_rule(
+    ::Type{Multivector{S}}, ::Type{Multivector{T}}
+) where {S<:Real,T<:Real}
+    return Multivector{promote_rule(S, T)}
 end
 Base.zero(a::Multivector) = Multivector([0x00], [zero(a.val[1])])
 Base.one(a::Multivector) = Multivector([0x00], [one(a.val[1])])
@@ -43,10 +48,10 @@ function Base.:(+)(mv1::Multivector, mv2::Multivector)
     return length(sps.nzind) == 0 ? zero(mv1) : Multivector(sps.nzind .- 1, sps.nzval)
 end
 
-Base.:(+)(nm::Number, mv::Multivector) = mv + Multivector([0x00], [nm])
-Base.:(+)(mv::Multivector, nm::Number) = nm + mv
-Base.:(-)(nm::Number, mv::Multivector) = nm + (-mv)
-Base.:(-)(mv::Multivector, nm::Number) = (-nm) + mv
+Base.:(+)(nm::Real, mv::Multivector) = mv + Multivector([0x00], [nm])
+Base.:(+)(mv::Multivector, nm::Real) = nm + mv
+Base.:(-)(nm::Real, mv::Multivector) = nm + (-mv)
+Base.:(-)(mv::Multivector, nm::Real) = (-nm) + mv
 Base.:(-)(mv1::Multivector, mv2::Multivector) = mv1 + (-(mv2))
 
 #Multiplication
@@ -68,9 +73,9 @@ function Base.:(*)(mv1::Multivector, mv2::Multivector)
     return length(sps.nzind) == 0 ? zero(mv1) : Multivector(sps.nzind .- 1, sps.nzval)
 end
 
-Base.:(*)(num::Number, mv::Multivector) = Multivector(mv.bas, num * mv.val)
-Base.:(*)(mv::Multivector, num::Number) = num * mv
-Base.:(/)(mv::Multivector, num::Number) = (1 / num) * mv
+Base.:(*)(num::Real, mv::Multivector) = Multivector(mv.bas, num * mv.val)
+Base.:(*)(mv::Multivector, num::Real) = num * mv
+Base.:(/)(mv::Multivector, num::Real) = (1 / num) * mv
 
 #Reverse
 
@@ -162,8 +167,4 @@ function Base.isapprox(mv1::Multivector, mv2::Multivector; atol=1e-6, kwargs...)
         atol,
         kwargs...,
     )
-end
-
-function Base.isequal(mv1::Multivector, mv2::Multivector)
-    return isequal(mv1.bas, mv2.bas) && isequal(mv1.val, mv2.val)
 end
