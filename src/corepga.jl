@@ -26,10 +26,10 @@ function Base.convert(::Type{Odd{T}}, a::Odd) where {T<:Real}
     return Odd{T}(convert(Quaternion{T}, a.q), convert(Quaternion{T}, a.n))
 end
 function Base.promote_rule(::Type{Even{S}}, ::Type{Even{T}}) where {S<:Real,T<:Real}
-    return Even{promote_rule(S, T)}
+    return Even{promote_type(S, T)}
 end
 function Base.promote_rule(::Type{Odd{S}}, ::Type{Odd{T}}) where {S<:Real,T<:Real}
-    return Odd{promote_rule(S, T)}
+    return Odd{promote_type(S, T)}
 end
 
 Base.zero(a::Even) = Even(zero(a.q), zero(a.n))
