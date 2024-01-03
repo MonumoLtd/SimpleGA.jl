@@ -19,8 +19,28 @@ function run_basis_tests(basis)
     @testset "promotion" begin
         # Tests for https://github.com/MonumoLtd/SimpleGA.jl/issues/18
         for e in basis
+            @test 1.0 * e !== e
+            @test 1.0f0 * e !== 1.0 * e
+            @test promote(1.0f0 * e, e) === (1.0f0 * e, 1.0f0 * e)
+            @test promote(1.0 * e, e) === (1.0 * e, 1.0 * e)
+            @test promote(1.0 * e, 1.0f0 * e) === (1.0 * e, 1.0 * e)
+            # If promotion works, so should equality testing
             @test 1.0 * e == e
+            @test isequal(1.0 * e, e)
+            @test isapprox(1.0 * e, e)
         end
+
+        # Check that we also promote even elements as expected.
+        @test length(basis) >= 2
+
+        # Construct a bivector B; this will be even.
+        B = basis[1] * basis[2]
+        @test project(B, 2) == B  # Convince ourselves that this is indeed a bivector
+        @test 1.0 * B !== B
+        @test 1.0f0 * B !== 1.0 * B
+        @test promote(1.0f0 * B, B) === (1.0f0 * B, 1.0f0 * B)
+        @test promote(1.0 * B, B) === (1.0 * B, 1.0 * B)
+        @test promote(1.0 * B, 1.0f0 * B) === (1.0 * B, 1.0 * B)
     end
 end
 
