@@ -2,8 +2,6 @@ module SimpleGA
 
 using LinearAlgebra
 
-# Prototype functions.
-
 """
     project(multivector::T, n::Integer) -> T
 
@@ -19,9 +17,9 @@ function bivector_exp end
 
 export project, bivector_exp, inject
 
-#Useful function for doting vectors into GA bases.
-#Dot works in most cases, but not for GA44.
-#TODO: Understand why dot() does not work for GA44.
+# Useful function for dot-ing vectors into GA bases.
+# Dot works in most cases, but not for GA44.
+# TODO: Understand why dot() does not work for GA44.
 function inject(xs, ys)
     return reduce(+, map((x, y) -> x * y, xs, ys))
 end
@@ -73,14 +71,14 @@ export GA24
 
 include("ga3232.jl")
 using .GA3232
-export construct64, GA3232
+export GA3232
 
 # The main basis function.
 include("basis.jl")
-export basis, testbas
+export basis
 
 # Maps into GA(4,4). Primarily for testing.
 include("embed.jl")
 export embed
 
-end #module
+end
