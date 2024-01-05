@@ -1,6 +1,8 @@
 #Test suite for PGA.
 #Test stand-alone results and compares with GA(4,4)
 
+test_type(PGA.Even, PGA.Odd)
+
 basPGA = PGA.basis
 (e1, e2, e3, e0) = (basPGA[1], basPGA[2], basPGA[3], basPGA[4])
 @test map(x -> dot(x, x), basPGA) == [1, 1, 1, 0]

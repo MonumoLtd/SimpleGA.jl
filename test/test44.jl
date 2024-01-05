@@ -1,6 +1,8 @@
 #Stand-alone tests of GA(4,4)
 #All other algebras are compared to this.
 
+test_type(GA44.Multivector, GA44.Multivector)
+
 bas44 = GA44.basis
 @test map(x -> dot(x, x), bas44) == [1, 1, 1, 1, -1, -1, -1, -1]
 run_basis_tests(bas44)

@@ -1,6 +1,8 @@
 #Test suite for GA31.
 #Test stand-alone results and compares with GA(4,4)
 
+test_type(GA31.Even, GA31.Odd)
+
 basGA31 = GA31.basis
 (e1, e2, e3, f3) = (basGA31[1], basGA31[2], basGA31[3], basGA31[4])
 I4 = e1 * e2 * e3 * f3

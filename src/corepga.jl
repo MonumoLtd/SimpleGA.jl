@@ -32,9 +32,12 @@ function Base.promote_rule(::Type{Odd{S}}, ::Type{Odd{T}}) where {S<:Real,T<:Rea
     return Odd{promote_type(S, T)}
 end
 
-Base.zero(a::Even) = Even(zero(a.q), zero(a.n))
-Base.zero(a::Odd) = Odd(zero(a.q), zero(a.n))
-Base.one(a::Even) = Even(one(a.q), zero(a.n))
+Base.zero(::Type{Even{T}}) where {T} = Even(zero(Quaternion{T}), zero(Quaternion{T}))
+Base.zero(::Type{Odd{T}}) where {T} = Odd(zero(Quaternion{T}), zero(Quaternion{T}))
+Base.one(::Type{Even{T}}) where {T} = Even(one(Quaternion{T}), zero(Quaternion{T}))
+Base.zero(a::Even) = zero(typeof(a))
+Base.zero(a::Odd) = zero(typeof(a))
+Base.one(a::Even) = one(typeof(a))
 
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a.q, -a.n)
@@ -86,6 +89,8 @@ end
 LinearAlgebra.tr(a::Even) = a.q.w
 LinearAlgebra.dot(a::Even, b::Even) = dot(a.q, b.q)
 LinearAlgebra.dot(a::Odd, b::Odd) = -dot(a.q, b.q)
+LinearAlgebra.norm(a::Even) = sqrt(abs(dot(a, a)))
+LinearAlgebra.norm(a::Odd) = sqrt(abs(dot(a, a)))
 
 #Exponentiation
 function SimpleGA.bivector_exp(a::Even)

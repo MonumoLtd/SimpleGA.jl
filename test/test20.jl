@@ -1,6 +1,8 @@
 # Test suite for GA 20.
 # Test stand-alone results and compares with GA(4,4)
 
+test_type(GA20.Even, GA20.Odd)
+
 bas20 = GA20.basis
 e1 = bas20[1]
 e2 = bas20[2]

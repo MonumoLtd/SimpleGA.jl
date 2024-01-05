@@ -65,10 +65,44 @@ function run_basis_tests(basis)
     end
 end
 
+"""Run common tests based on a multivector type.
+
+Note that Even and Odd _might_ be the same type.
+"""
+function test_type(Even::Type, Odd::Type)
+    # Scalar construction
+    ae = zero(Even{Int8})
+    @test zero(ae) == ae
+    @test norm(ae) == 0
+    ao = zero(Odd{Int8})
+    @test zero(ao) == ao
+    @test norm(ao) == 0
+
+    be = one(Even{Int8})
+    @test norm(be) == 1
+    # NB: There is no concept of "one" for Odd multivectors
+
+    # arrays of ones and zeros should work too.
+    aes = zeros(Even{Int8}, 3, 3)
+    @test all(aes .== ae)
+    aos = zeros(Odd{Int8}, 3, 3)
+    @test all(aos .== ao)
+
+    bes = ones(Even{Int8}, 3, 3)
+    @test all(bes .== be)
+end
+
 """Tests that unit vector generators behave correctly over integers"""
 function run_test_positive_norm(e1, e2)
+    @test norm(e1) == 1
+    @test norm(e2) == 1
+    @test norm(10 * e1) == 10
     @test e1 * e1 == one(e1 * e2)
     @test e2 * e2 == one(e2 * e1)
+    @test norm(e1 * e2) == 1
+    @test norm(e2 * e1) == 1
+    @test norm(3.0 * e1 * e2) == 3
+    @test norm(3.0 * e2 * e1) == 3
     @test 1 + e1 * e2 == e1 * e2 + 1
     @test 1 - e1 * e2 == -e1 * e2 + 1
     @test (1 + e1 * e2) * (1 + e1 * e2) == 2 * e1 * e2

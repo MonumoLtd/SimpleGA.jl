@@ -1,6 +1,8 @@
 #Test suite for CGA.
 #Test stand-alone results and compares with GA(4,4)
 
+test_type(CGA.Even, CGA.Odd)
+
 basCGA = CGA.basis
 (e1, e2, e3, e4, f4) = (basCGA[1], basCGA[2], basCGA[3], basCGA[4], basCGA[5])
 I5 = e1 * e2 * e3 * e4 * f4

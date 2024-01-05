@@ -1,6 +1,8 @@
 #Test suite for GA(3,0).
 #Test stand-alone results and compares with GA(4,4)
 
+test_type(GA30.Even, GA30.Odd)
+
 bas30 = GA30.basis
 e1 = bas30[1]
 e2 = bas30[2]

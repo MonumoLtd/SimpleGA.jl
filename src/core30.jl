@@ -33,9 +33,12 @@ end
 function Base.promote_rule(::Type{Odd{S}}, ::Type{Odd{T}}) where {S<:Real,T<:Real}
     return Odd{promote_type(S, T)}
 end
-Base.zero(a::Even) = Even(zero(a.w), zero(a.x), zero(a.y), zero(a.z))
-Base.zero(a::Odd) = Odd(zero(a.w), zero(a.x), zero(a.y), zero(a.z))
-Base.one(a::Even) = Even(one(a.w), zero(a.x), zero(a.y), zero(a.z))
+Base.zero(::Type{Even{T}}) where {T} = Even(zero(T), zero(T), zero(T), zero(T))
+Base.zero(::Type{Odd{T}}) where {T} = Odd(zero(T), zero(T), zero(T), zero(T))
+Base.one(::Type{Even{T}}) where {T} = Even(one(T), zero(T), zero(T), zero(T))
+Base.zero(a::Even) = zero(typeof(a))
+Base.zero(a::Odd) = zero(typeof(a))
+Base.one(a::Even) = one(typeof(a))
 
 # Addition / subtraction
 Base.:(-)(a::Even) = Even(-a.w, -a.x, -a.y, -a.z)
@@ -118,6 +121,8 @@ end
 LinearAlgebra.tr(a::Even) = a.w
 LinearAlgebra.dot(a::Even, b::Even) = a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z
 LinearAlgebra.dot(a::Odd, b::Odd) = -a.w * b.w + a.x * b.x + a.y * b.y + a.z * b.z
+LinearAlgebra.norm(a::Even) = sqrt(abs(dot(a, a)))
+LinearAlgebra.norm(a::Odd) = sqrt(abs(dot(a, a)))
 
 # Exponentiation
 function SimpleGA.bivector_exp(a::Even)

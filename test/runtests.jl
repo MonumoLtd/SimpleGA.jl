@@ -1,5 +1,6 @@
 #Test suite for Geometric Algebra
 
+using Aqua
 using SimpleGA
 using LinearAlgebra
 using Test
@@ -7,6 +8,15 @@ using Test
 include("testfuncs.jl")
 
 @testset "GA Tests" begin
+    @testset "aqua" begin
+        # NOTE: We run ambiguities separately, since we _only_ want to include methods in this
+        #   package. See the discussion in this thread:
+        #       https://discourse.julialang.org/t/aqua-jl-finds-many-ambiguities-in-core-base/103963
+        #   By passing only our own package, we skip quite a bit of noise from upstream.
+        Aqua.test_all(SimpleGA; ambiguities=false)
+        Aqua.detect_ambiguities(SimpleGA)
+    end
+
     #! format: off
     @testset "GA(2, 0)" begin include("test20.jl") end
     @testset "GA(3, 0)" begin include("test30.jl") end

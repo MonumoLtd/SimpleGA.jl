@@ -1,6 +1,8 @@
 #Test suite for STA.
 #Test STAnd-alone results and compares with GA(4,4)
 
+test_type(STA.Even, STA.Odd)
+
 basSTA = STA.basis
 (g0, g1, g2, g3) = g0 = (basSTA[1], basSTA[2], basSTA[3], basSTA[4])
 I4 = g0 * g1 * g2 * g3

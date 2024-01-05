@@ -1,6 +1,8 @@
 #Test suite for GA(3,3).
 #Test stand-alone results and compares with GA(4,4)
 
+test_type(GA33.Even, GA33.Odd)
+
 bas33 = GA33.basis
 (e1, e2, e3, f1, f2, f3) = (bas33[1], bas33[2], bas33[3], bas33[4], bas33[5], bas33[6])
 
