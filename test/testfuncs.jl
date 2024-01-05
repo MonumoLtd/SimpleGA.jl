@@ -78,7 +78,7 @@ function test_type(Even::Type, Odd::Type)
 
     be = one(Even{Int8})
     # NB: There is no concept of "one" for Odd multivectors
-    
+
     # arrays of ones and zeros should work too.
     aes = zeros(Even{Int8}, 3, 3)
     @test all(aes .== ae)
