@@ -72,6 +72,8 @@ SimpleGA.project(a::Odd, n::Integer) = n == 1 ? a : zero(a)
 LinearAlgebra.tr(a::Even) = real(a.c1)
 LinearAlgebra.dot(a::Even, b::Even) = real(a.c1 * b.c1)
 LinearAlgebra.dot(a::Odd, b::Odd) = real(conj(a.c1) * b.c1)
+LinearAlgebra.norm(a::Even) = sqrt(abs(dot(a, a)))
+LinearAlgebra.norm(a::Odd) = sqrt(abs(dot(a, a)))
 
 #Exponentiation
 Base.exp(a::Even) = Even(exp(a.c1))

@@ -110,6 +110,8 @@ function LinearAlgebra.dot(a::Odd, b::Odd)
     tmp = real(tr(a.m * g2.m * conj(b.m) * g2.m))
     return convert(typeof(tmp), tmp / 4)
 end
+LinearAlgebra.norm(a::Even) = sqrt(abs(dot(a, a)))
+LinearAlgebra.norm(a::Odd) = sqrt(abs(dot(a, a)))
 
 #Exponentiation
 Base.exp(a::Even) = Even(exp(a.m))

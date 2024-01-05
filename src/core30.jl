@@ -121,6 +121,8 @@ end
 LinearAlgebra.tr(a::Even) = a.w
 LinearAlgebra.dot(a::Even, b::Even) = a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z
 LinearAlgebra.dot(a::Odd, b::Odd) = -a.w * b.w + a.x * b.x + a.y * b.y + a.z * b.z
+LinearAlgebra.norm(a::Even) = sqrt(abs(dot(a, a)))
+LinearAlgebra.norm(a::Odd) = sqrt(abs(dot(a, a)))
 
 # Exponentiation
 function SimpleGA.bivector_exp(a::Even)

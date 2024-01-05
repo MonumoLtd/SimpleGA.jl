@@ -89,6 +89,8 @@ end
 LinearAlgebra.tr(a::Even) = a.q.w
 LinearAlgebra.dot(a::Even, b::Even) = dot(a.q, b.q)
 LinearAlgebra.dot(a::Odd, b::Odd) = -dot(a.q, b.q)
+LinearAlgebra.norm(a::Even) = sqrt(abs(dot(a, a)))
+LinearAlgebra.norm(a::Odd) = sqrt(abs(dot(a, a)))
 
 #Exponentiation
 function SimpleGA.bivector_exp(a::Even)

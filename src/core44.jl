@@ -141,6 +141,7 @@ function LinearAlgebra.dot(mv1::Multivector, mv2::Multivector)
     end
     return res
 end
+LinearAlgebra.norm(a::Multivector) = sqrt(abs(dot(a, a)))
 
 #Exponentiation
 function Base.exp(a::Multivector)

@@ -124,6 +124,8 @@ function LinearAlgebra.dot(a::Odd, b::Odd)
     tmp = tr(a.p * b.m) + tr(a.m * b.p)
     return convert(typeof(tmp), tmp / 8)
 end
+LinearAlgebra.norm(a::Even) = sqrt(abs(dot(a, a)))
+LinearAlgebra.norm(a::Odd) = sqrt(abs(dot(a, a)))
 
 #Exponentiation
 Base.exp(a::Even) = Even(exp(a.p), exp(a.m))

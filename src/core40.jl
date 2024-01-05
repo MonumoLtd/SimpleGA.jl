@@ -101,6 +101,9 @@ function LinearAlgebra.dot(a::Odd, b::Odd)
     return convert(typeof(tmp), tmp / 2)
 end
 
+LinearAlgebra.norm(a::Even) = sqrt(abs(dot(a, a)))
+LinearAlgebra.norm(a::Odd) = sqrt(abs(dot(a, a)))
+
 #Exponentiation
 SimpleGA.bivector_exp(a::Even) = Even(bivector_exp(a.qp), bivector_exp(a.qm))
 

@@ -162,6 +162,8 @@ function LinearAlgebra.dot(a::Odd, b::Odd)
     tmp = -(dot(a.q1, b.q1) - dot(a.q2, b.q3) + dot(a.q4, b.q4) - dot(a.q3, b.q2))
     return convert(typeof(tmp), tmp / 2)
 end
+LinearAlgebra.norm(a::Even) = sqrt(abs(dot(a, a)))
+LinearAlgebra.norm(a::Odd) = sqrt(abs(dot(a, a)))
 
 #Exponentiation
 #Uses a simple scale and square implementation.
