@@ -5,8 +5,6 @@ Work using self-dual and anti-self-dual decomposition, so just use a pair of qua
 Useful algebra for projective geometry.
 """
 
-using ..Quaternions
-
 struct Even{T<:Real} <: Number
     qp::Quaternion{T}
     qm::Quaternion{T}
@@ -30,9 +28,12 @@ function Base.promote_rule(::Type{Odd{S}}, ::Type{Odd{T}}) where {S<:Real,T<:Rea
     return Odd{promote_type(S, T)}
 end
 
-Base.zero(a::Even) = Even(zero(a.qp), zero(a.qm))
-Base.zero(a::Odd) = Odd(zero(a.qp), zero(a.qm))
-Base.one(a::Even) = Even(one(a.qp), one(a.qm))
+Base.zero(::Type{Even{T}}) where {T} = Even(zero(Quaternion{T}), zero(Quaternion{T}))
+Base.zero(::Type{Odd{T}}) where {T} = Odd(zero(Quaternion{T}), zero(Quaternion{T}))
+Base.one(::Type{Even{T}}) where {T} = Even(one(Quaternion{T}), one(Quaternion{T}))
+Base.zero(a::Even) = zero(typeof(a))
+Base.zero(a::Odd) = zero(typeof(a))
+Base.one(a::Even) = one(typeof(a))
 
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a.qp, -a.qm)

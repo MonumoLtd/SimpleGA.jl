@@ -1,6 +1,8 @@
 #Test suite for GA(2,4).
 #Test stand-alone results and compares with GA(2,4)
 
+test_type(GA24.Even, GA24.Odd)
+
 bas24 = GA24.basis
 (g0, g1, g2, g3, g4, g5) = (bas24[1], bas24[2], bas24[3], bas24[4], bas24[5], bas24[6])
 

@@ -34,8 +34,10 @@ function Base.promote_rule(
     return Multivector{promote_type(S, T)}
 end
 
-Base.zero(a::Multivector) = Multivector([basscl], [zero(a.val[1])])
-Base.one(a::Multivector) = Multivector([basscl], [one(a.val[1])])
+Base.zero(::Type{Multivector{T}}) where {T} = Multivector([basscl], [zero(T)])
+Base.one(::Type{Multivector{T}}) where {T} = Multivector([basscl], [one(T)])
+Base.zero(a::Multivector) = zero(typeof(a))
+Base.one(a::Multivector) = one(typeof(a))
 
 #This avoids rounding error bloating multivectors. Set of FP64
 const mvtol = 1e-14

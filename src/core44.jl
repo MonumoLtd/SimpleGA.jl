@@ -40,8 +40,10 @@ function Base.promote_rule(
 ) where {S<:Real,T<:Real}
     return Multivector{promote_type(S, T)}
 end
-Base.zero(a::Multivector) = Multivector([0x00], [zero(a.val[1])])
-Base.one(a::Multivector) = Multivector([0x00], [one(a.val[1])])
+Base.zero(::Type{Multivector{T}}) where {T} = Multivector([0x00], [zero(T)])
+Base.one(::Type{Multivector{T}}) where {T} = Multivector([0x00], [one(T)])
+Base.zero(a::Multivector) = zero(typeof(a))
+Base.one(a::Multivector) = one(typeof(a))
 
 #Addition / subtraction
 Base.:(-)(mv::Multivector) = Multivector(mv.bas, -mv.val)

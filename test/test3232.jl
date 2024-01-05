@@ -1,6 +1,8 @@
 #Tests of GA(32,32)
 #Full fat products are slow in this algebra, so test with random subsets
 
+test_type(GA3232.Multivector, GA3232.Multivector)
+
 bas64 = GA3232.basis
 #! format:off
 @test map(x->dot(x,x), bas64) == [  1,-1,1,-1,1,-1,1,-1,

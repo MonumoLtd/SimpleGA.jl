@@ -20,9 +20,22 @@ end
 Even(q1, q2, q3, q4) = Even(promote(q1, q2, q3, q4)...)
 Odd(q1, q2, q3, q4) = Odd(promote(q1, q2, q3, q4)...)
 
-Base.zero(a::Even) = Even(zero(a.q1), zero(a.q1), zero(a.q1), zero(a.q1))
-Base.zero(a::Odd) = Odd(zero(a.q1), zero(a.q1), zero(a.q1), zero(a.q1))
-Base.one(a::Even) = Even(one(a.q1), zero(a.q1), zero(a.q1), one(a.q1))
+function Base.zero(::Type{Even{T}}) where {T}
+    z = zero(Quaternion{T})
+    return Even(z, z, z, z)
+end
+function Base.zero(::Type{Odd{T}}) where {T}
+    z = zero(Quaternion{T})
+    return Odd(z, z, z, z)
+end
+function Base.one(::Type{Even{T}}) where {T}
+    o = one(Quaternion{T})
+    z = zero(Quaternion{T})
+    return Even(o, z, z, o)
+end
+Base.zero(a::Even) = zero(typeof(a))
+Base.zero(a::Odd) = zero(typeof(a))
+Base.one(a::Even) = one(typeof(a))
 
 function Base.convert(::Type{Even{T}}, a::Even) where {T<:Real}
     return Even{T}(

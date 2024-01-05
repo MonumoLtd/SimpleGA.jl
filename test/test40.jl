@@ -1,6 +1,8 @@
 #Test suite for GA(4,0).
 #Test stand-alone results and compares with GA(4,4)
 
+test_type(GA40.Even, GA40.Odd)
+
 bas40 = GA40.basis
 (e1, e2, e3, e4) = (bas40[1], bas40[2], bas40[3], bas40[4])
 E4 = e1 * e2 * e3 * e4

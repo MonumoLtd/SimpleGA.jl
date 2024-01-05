@@ -31,9 +31,21 @@ function Base.promote_rule(::Type{Odd{S}}, ::Type{Odd{T}}) where {S<:Real,T<:Rea
     return Odd{promote_type(S, T)}
 end
 
-Base.zero(a::Even) = Even(zero(a.p), zero(a.m))
-Base.zero(a::Odd) = Odd(zero(a.p), zero(a.m))
-Base.one(a::Even) = Even(one(a.p), one(a.m))
+function Base.zero(::Type{Even{T}}) where {T}
+    z = zero(SMatrix{4,4,T,16})
+    return Even(z, z)
+end
+function Base.zero(::Type{Odd{T}}) where {T}
+    z = zero(SMatrix{4,4,T,16})
+    return Odd(z, z)
+end
+function Base.one(::Type{Even{T}}) where {T}
+    o = one(SMatrix{4,4,T,16})
+    return Even(o, o)
+end
+Base.zero(a::Even) = zero(typeof(a))
+Base.zero(a::Odd) = zero(typeof(a))
+Base.one(a::Even) = one(typeof(a))
 
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a.p, -a.m)

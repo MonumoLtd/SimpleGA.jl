@@ -21,9 +21,12 @@ end
 function Base.promote_rule(::Type{Odd{S}}, ::Type{Odd{T}}) where {S<:Real,T<:Real}
     return Odd{promote_type(S, T)}
 end
-Base.zero(a::Even) = Even(zero(a.c1))
-Base.zero(a::Odd) = Odd(zero(a.c1))
-Base.one(a::Even) = Even(one(a.c1))
+Base.zero(::Type{Even{T}}) where {T} = Even(zero(Complex{T}))
+Base.zero(::Type{Odd{T}}) where {T} = Odd(zero(Complex{T}))
+Base.one(::Type{Even{T}}) where {T} = Even(one(Complex{T}))
+Base.zero(a::Even) = zero(typeof(a))
+Base.zero(a::Odd) = zero(typeof(a))
+Base.one(a::Even) = one(typeof(a))
 
 #Addition / subtraction
 Base.:(-)(a::Even) = Even(-a.c1)
