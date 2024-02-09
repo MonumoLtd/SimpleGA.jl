@@ -57,12 +57,12 @@ Base.:(-)(a::Odd, b::Odd) = Odd(a.p - b.p, a.m - b.m)
 
 #Scalar addition / subtraction. Other cases are in GAcommon
 #Relies on Julia's promotion rules to do the sensible thing.
-Base.:(+)(num::Number, a::Even) = Even(a.p + num * one(a.p), a.m + num * one(a.m))
-Base.:(-)(num::Number, a::Even) = Even(-a.p + num * one(a.p), -a.m + num * one(a.m))
+Base.:(+)(num::Real, a::Even) = Even(a.p + num * one(a.p), a.m + num * one(a.m))
+Base.:(-)(num::Real, a::Even) = Even(-a.p + num * one(a.p), -a.m + num * one(a.m))
 
 #Multiplication
-Base.:(*)(num::Number, a::Even) = Even(num * a.p, num * a.m)
-Base.:(*)(num::Number, a::Odd) = Odd(num * a.p, num * a.m)
+Base.:(*)(num::Real, a::Even) = Even(num * a.p, num * a.m)
+Base.:(*)(num::Real, a::Odd) = Odd(num * a.p, num * a.m)
 Base.:(*)(a::Even, b::Even) = Even(a.p * b.p, a.m * b.m)
 Base.:(*)(a::Even, b::Odd) = Odd(a.p * b.p, a.m * b.m)
 Base.:(*)(a::Odd, b::Even) = Odd(a.p * b.m, a.m * b.p)

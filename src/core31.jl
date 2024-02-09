@@ -72,12 +72,12 @@ Base.:(-)(a::Odd, b::Odd) = Odd(a.c1 - b.c1, a.c2 - b.c2, a.c3 - b.c3, a.c4 - b.
 
 #Scalar addition / subtraction. Other cases are in GAcommon
 #Relies on Julia's promotion rules to do the sensible thing.
-Base.:(+)(num::Number, a::Even) = Even(a.c1 + num, a.c2, a.c3, a.c4 + num)
-Base.:(-)(num::Number, a::Even) = Even(-a.c1 + num, -a.c2, -a.c3, -a.c4 + num)
+Base.:(+)(num::Real, a::Even) = Even(a.c1 + num, a.c2, a.c3, a.c4 + num)
+Base.:(-)(num::Real, a::Even) = Even(-a.c1 + num, -a.c2, -a.c3, -a.c4 + num)
 
 #Multiplication
-Base.:(*)(num::Number, a::Even) = Even(num * a.c1, num * a.c2, num * a.c3, num * a.c4)
-Base.:(*)(num::Number, a::Odd) = Odd(num * a.c1, num * a.c2, num * a.c3, num * a.c4)
+Base.:(*)(num::Real, a::Even) =Even(num * a.c1, num * a.c2, num * a.c3, num * a.c4)
+Base.:(*)(num::Real, a::Odd) = Odd(num * a.c1, num * a.c2, num * a.c3, num * a.c4)
 
 function Base.:(*)(a::Even, b::Even)
     return Even(
@@ -162,6 +162,16 @@ end
 LinearAlgebra.norm(a::Even) = sqrt(abs(dot(a, a)))
 LinearAlgebra.norm(a::Odd) = sqrt(abs(dot(a, a)))
 
+"""
+    _as_even(x::Complex) -> Even
+
+Wrap a complex number `x` as an Even type.
+
+We don't expose this so as to avoid leaking our representation abstraction in the definition
+of +, - and *.
+"""
+_as_even(x::Complex) = Even(x, zero(x), zero(x), x)
+
 #Exponentiation
 function SimpleGA.bivector_exp(a::Even)
     a = project(a, 2)
@@ -170,7 +180,7 @@ function SimpleGA.bivector_exp(a::Even)
     return if iszero(fct)
         1 + a
     else
-        cosh(fct) + sinh(fct) / fct * a
+        _as_even(cosh(fct)) + _as_even(sinh(fct) / fct) * a
     end
 end
 
@@ -180,7 +190,7 @@ function Base.exp(a::Even)
     return if iszero(fct)
         R
     else
-        exp(fct) * R
+        _as_even(exp(fct)) * R
     end
 end
 

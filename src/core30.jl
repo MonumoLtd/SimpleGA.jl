@@ -50,12 +50,12 @@ Base.:(-)(a::Odd, b::Odd) = Odd(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z)
 
 # Scalar addition / subtraction. Other cases are in GAcommon
 # Relies on Julia's promotion rules to do the sensible thing.
-Base.:(+)(num::Number, a::Even) = Even(a.w + num, a.x, a.y, a.z)
-Base.:(-)(num::Number, a::Even) = Even(-a.w + num, -a.x, -a.y, -a.z)
+Base.:(+)(num::Real, a::Even) = Even(a.w + num, a.x, a.y, a.z)
+Base.:(-)(num::Real, a::Even) = Even(-a.w + num, -a.x, -a.y, -a.z)
 
 # Multiplication
-Base.:(*)(num::Number, a::Even) = Even(num * a.w, num * a.x, num * a.y, num * a.z)
-Base.:(*)(num::Number, a::Odd) = Odd(num * a.w, num * a.x, num * a.y, num * a.z)
+Base.:(*)(num::Real, a::Even) = Even(num * a.w, num * a.x, num * a.y, num * a.z)
+Base.:(*)(num::Real, a::Odd) = Odd(num * a.w, num * a.x, num * a.y, num * a.z)
 
 function Base.:(*)(a::Even, b::Even)
     return Even(

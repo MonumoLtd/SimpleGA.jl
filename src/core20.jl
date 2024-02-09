@@ -38,12 +38,12 @@ Base.:(-)(a::Odd, b::Odd) = Odd(a.c1 - b.c1)
 
 #Scalar addition / subtraction. Other cases are in GAcommon
 #Relies on Julia's promotion rules to do the sensible thing.
-Base.:(+)(num::Number, a::Even) = Even(a.c1 + num)
-Base.:(-)(num::Number, a::Even) = Even(-a.c1 + num)
+Base.:(+)(num::Real, a::Even) = Even(a.c1 + num)
+Base.:(-)(num::Real, a::Even) = Even(-a.c1 + num)
 
 #Multiplication
-Base.:(*)(num::Number, a::Even) = Even(num * a.c1)
-Base.:(*)(num::Number, a::Odd) = Odd(num * a.c1)
+Base.:(*)(num::Real, a::Even) = Even(num * a.c1)
+Base.:(*)(num::Real, a::Odd) = Odd(num * a.c1)
 Base.:(*)(a::Even, b::Even) = Even(a.c1 * b.c1)
 Base.:(*)(a::Even, b::Odd) = Odd(conj(a.c1) * b.c1)
 Base.:(*)(a::Odd, b::Even) = Odd(a.c1 * b.c1)
