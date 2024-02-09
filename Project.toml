@@ -1,7 +1,7 @@
 name = "SimpleGA"
 uuid = "6f159fe9-4850-48a0-97c4-7cf487b3e6ea"
 authors = ["Monumo Ltd.", "Tom Gillam <tpgillam@googlemail.com>"]
-version = "0.2.1"
+version = "0.3.0"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
