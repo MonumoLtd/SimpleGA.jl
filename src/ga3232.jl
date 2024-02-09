@@ -112,7 +112,7 @@ function Base.show(io::IO, mv::Multivector)
         tp = " + " * string(blds[i].val) * bdptype(blds[i].bas)
         res *= tp
     end
-    print(io, res)
+    return print(io, res)
 end
 
 end #Module

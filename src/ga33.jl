@@ -64,7 +64,7 @@ function Base.show(io::IO, a::Even)
     else
         res = chop(res; head=3, tail=0)
     end
-    print(io, res)
+    return print(io, res)
 end
 
 function Base.show(io::IO, a::Odd)
@@ -101,7 +101,7 @@ function Base.show(io::IO, a::Odd)
     else
         res = chop(res; head=3, tail=0)
     end
-    print(io, res)
+    return print(io, res)
 end
 
 end #Module

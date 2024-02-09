@@ -76,7 +76,7 @@ Base.:(+)(num::Real, a::Even) = Even(a.c1 + num, a.c2, a.c3, a.c4 + num)
 Base.:(-)(num::Real, a::Even) = Even(-a.c1 + num, -a.c2, -a.c3, -a.c4 + num)
 
 #Multiplication
-Base.:(*)(num::Real, a::Even) =Even(num * a.c1, num * a.c2, num * a.c3, num * a.c4)
+Base.:(*)(num::Real, a::Even) = Even(num * a.c1, num * a.c2, num * a.c3, num * a.c4)
 Base.:(*)(num::Real, a::Odd) = Odd(num * a.c1, num * a.c2, num * a.c3, num * a.c4)
 
 function Base.:(*)(a::Even, b::Even)
