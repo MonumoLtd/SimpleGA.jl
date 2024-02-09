@@ -26,23 +26,15 @@ basis = SA[e1, e2, e3, e0]
 export pdual
 
 #Additional Functions. Sign conventions agree with De Keninck et al.
-function pdual(a::Even)
-    return Even(-a.n', -a.q')
-end
-
-function pdual(a::Odd)
-    return Odd(-a.n, -a.q)
-end
-
-#Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
-approxzero(x::Real) = isapprox(1 + x, 1.0)
+pdual(a::Even) = Even(-a.n', -a.q')
+pdual(a::Odd) = Odd(-a.n, -a.q)
 
 function mv_to_text(a::Even)
     res = ""
     evenlist = [a.q.w, -a.q.z, -a.q.x, -a.q.y, -a.n.x, -a.n.y, -a.n.z, -a.n.w]
     evenstring = ["", "e1e2", "e2e3", "e3e1", "e0e1", "e0e2", "e0e3", "e0I3"]
     for i in 1:8
-        tp = approxzero(evenlist[i]) ? "" : " + " * string(evenlist[i]) * evenstring[i]
+        tp = iszero(evenlist[i]) ? "" : " + " * string(evenlist[i]) * evenstring[i]
         res *= tp
     end
     if (length(res) == 0)
@@ -58,7 +50,7 @@ function mv_to_text(a::Odd)
     oddlist = [a.n.w, -a.q.x, -a.q.y, -a.q.z, a.n.z, a.n.y, a.n.x, -a.q.w]
     oddstring = ["e0", "e1", "e2", "e3", "e0e2e1", "e0e1e3", "e0e3e2", "I3"]
     for i in 1:8
-        tp = approxzero(oddlist[i]) ? "" : " + " * string(oddlist[i]) * oddstring[i]
+        tp = iszero(oddlist[i]) ? "" : " + " * string(oddlist[i]) * oddstring[i]
         res *= tp
     end
     if (length(res) == 0)
@@ -71,4 +63,4 @@ end
 
 include("show.jl")
 
-end #Module
+end # Module

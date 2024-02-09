@@ -25,12 +25,9 @@ const I4 = e1 * e2 * e3 * f3
 
 const basis = SA[e1, e2, e3, f3]
 
-#Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
-approxzero(x::Real) = isapprox(1 + x, 1.0)
-
 function mv_to_text(a::Even)
     scl = tr(a)
-    res = approxzero(scl) ? "" : " + " * string(scl)
+    res = iszero(scl) ? "" : " + " * string(scl)
      #! format:off
     tpevenbas = [-e1*e2, -e1*e3, -e2*e3, e1*f3 , e2*f3, e3*f3,
                 -I4]
@@ -39,7 +36,7 @@ function mv_to_text(a::Even)
     #! format:on
     for i in 1:7
         scl = dot(a, tpevenbas[i])
-        tp = approxzero(scl) ? "" : " + " * string(scl) * tpevenstr[i]
+        tp = iszero(scl) ? "" : " + " * string(scl) * tpevenstr[i]
         res *= tp
     end
     if (length(res) == 0)
@@ -60,7 +57,7 @@ function mv_to_text(a::Odd)
     res = ""
     for i in 1:8
         scl = dot(a, tpoddbas[i])
-        tp = approxzero(scl) ? "" : " + " * string(scl) * tpoddstr[i]
+        tp = iszero(scl) ? "" : " + " * string(scl) * tpoddstr[i]
         res *= tp
     end
     if (length(res) == 0)
