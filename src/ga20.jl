@@ -25,37 +25,32 @@ Base.log(a::Even) = Even(log(a.c1))
 Base.real(a::Even) = real(a.c1)
 Base.imag(a::Even) = imag(a.c1)
 
-#Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
-approxzero(x::Real) = isapprox(1 + x, 1.0)
-
-function mv_to_text(a::Even)
+function Base.show(io::IO, a::Even)
     res = ""
-    tp = approxzero(real(a.c1)) ? "" : " + " * string(real(a.c1))
+    tp = iszero(real(a.c1)) ? "" : " + " * string(real(a.c1))
     res *= tp
-    tp = approxzero(imag(a.c1)) ? "" : " + " * string(imag(a.c1)) * "I2"
+    tp = iszero(imag(a.c1)) ? "" : " + " * string(imag(a.c1)) * "I2"
     res *= tp
     if (length(res) == 0)
         res = string(zero(real(a.c1)))
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    return print(io, res)
 end
 
-function mv_to_text(a::Odd)
+function Base.show(io::IO, a::Odd)
     res = ""
-    tp = approxzero(real(a.c1)) ? "" : " + " * string(real(a.c1)) * "e1"
+    tp = iszero(real(a.c1)) ? "" : " + " * string(real(a.c1)) * "e1"
     res *= tp
-    tp = approxzero(imag(a.c1)) ? "" : " + " * string(imag(a.c1)) * "e2"
+    tp = iszero(imag(a.c1)) ? "" : " + " * string(imag(a.c1)) * "e2"
     res *= tp
     if (length(res) == 0)
         res = string(zero(real(a.c1)))
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    return print(io, res)
 end
-
-include("show.jl")
 
 end  #Module

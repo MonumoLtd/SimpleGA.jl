@@ -70,12 +70,12 @@ Base.:(-)(a::Even, b::Even) = Even(a.q1 - b.q1, a.q2 - b.q2, a.q3 - b.q3, a.q4 -
 Base.:(-)(a::Odd, b::Odd) = Odd(a.q1 - b.q1, a.q2 - b.q2, a.q3 - b.q3, a.q4 - b.q4)
 
 #Scalar addition / subtraction. Other cases are in GAcommon
-Base.:(+)(num::Number, a::Even) = Even(a.q1 + num, a.q2, a.q3, a.q4 + num)
-Base.:(-)(num::Number, a::Even) = Even(-a.q1 + num, -a.q2, -a.q3, -a.q4 + num)
+Base.:(+)(num::Real, a::Even) = Even(a.q1 + num, a.q2, a.q3, a.q4 + num)
+Base.:(-)(num::Real, a::Even) = Even(-a.q1 + num, -a.q2, -a.q3, -a.q4 + num)
 
 #Multiplication
-Base.:(*)(num::Number, a::Even) = Even(num * a.q1, num * a.q2, num * a.q3, num * a.q4)
-Base.:(*)(num::Number, a::Odd) = Odd(num * a.q1, num * a.q2, num * a.q3, num * a.q4)
+Base.:(*)(num::Real, a::Even) = Even(num * a.q1, num * a.q2, num * a.q3, num * a.q4)
+Base.:(*)(num::Real, a::Odd) = Odd(num * a.q1, num * a.q2, num * a.q3, num * a.q4)
 
 function Base.:(*)(a::Even, b::Even)
     return Even(

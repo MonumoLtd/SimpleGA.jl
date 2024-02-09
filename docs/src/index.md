@@ -212,7 +212,7 @@ M -> M * e4  # Map from odd to even.
     * `STA.I4 = g0 * g1 * g2 * g3`
 * Extra functions: `bar(M) = g0 * M * g0 `
 
-The algebra G(1,3) is the geometric algebra for Minkowski spacetime, better known as the Spacetime Algebra (STA). STA is the standard abbreviationn for this algebra so is used for the namespace.
+The algebra G(1,3) is the geometric algebra for Minkowski spacetime, better known as the Spacetime Algebra (STA). STA is the standard abbreviation for this algebra so is used for the namespace.
 
 Even elements in the STA are isomorphic to 2X2 complex matrices (the full Pauli algebra), which is essentially how they are implemented here. (We acually unwrap the matrices and store the entries explicitly in a struct, which turns out to be slightly more efficient.)
 
@@ -228,12 +228,12 @@ Note that the STA is also perfect for the conformal model of 2D Euclidean space,
 ## G(3,1) and 2D conformal geometry
 * Name: `GA31`
 * Basis: `GA31.basis`
-* Basis vectors: `[GA31.e1, GA31.e2, GA31.e3. GA31.f3]`
+* Basis vectors: `[GA31.e1, GA31.e2, GA31.e3, GA31.f3]`
 * Other basis elements: `GA31.I4 = e1 * e2 * e3 * f3`
 
 The algebra G(3,1) is the close relative of the STA, just with signatures flipped. Under the hood the implementation is almost identical, based on 2X2 complex matrices. Only a handful of signs are changed.
 
-The main reason for including G(3,1) as a separate algebra is its use as the conformal algebra for the 2D plane. It is more convenient for 2D work to have an algebra where the 2D basis vectors have positive norm. As this is the main use case, we have not copied the STA convention of displaying the basis vectors with Greek letters. Instead we have adopted the standard convention of ```e1, e2, e3```s have positive square and ```f3``` having negative square.
+The main reason for including G(3,1) as a separate algebra is its use as the conformal algebra for the 2D plane. It is more convenient for 2D work to have an algebra where the 2D basis vectors have positive norm. As this is the main use case, we have not copied the STA convention of displaying the basis vectors with Greek letters. Instead we have adopted the standard convention of `e1, e2, e3`s have positive square and `f3` having negative square.
 
 
 ## G(3,0,1), the PGA

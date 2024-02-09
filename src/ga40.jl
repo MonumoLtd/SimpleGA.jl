@@ -23,77 +23,72 @@ const E4 = e1 * e2 * e3 * e4
 
 const basis = SA[e1, e2, e3, e4]
 
-#Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
-approxzero(x::Real) = isapprox(1 + x, 1.0)
-
-function mv_to_text(a::Even)
+function Base.show(io::IO, a::Even)
     res = ""
     scl = tr(a)
-    tp = approxzero(scl) ? "" : " + " * string(scl)
+    tp = iszero(scl) ? "" : " + " * string(scl)
     res *= tp
     scl = dot(a, -e1 * e2)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "e1e2"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "e1e2"
     res *= tp
     scl = dot(a, -e2 * e3)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "e2e3"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "e2e3"
     res *= tp
     scl = dot(a, -e3 * e1)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "e3e1"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "e3e1"
     res *= tp
     scl = dot(a, -e1 * e4)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "e1e4"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "e1e4"
     res *= tp
     scl = dot(a, -e2 * e4)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "e2e4"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "e2e4"
     res *= tp
     scl = dot(a, -e3 * e4)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "e3e4"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "e3e4"
     res *= tp
     scl = dot(a, E4)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "E4"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "E4"
     res *= tp
     if (length(res) == 0)
         res = string(zero(scl))
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    return print(io, res)
 end
 
-function mv_to_text(a::Odd)
+function Base.show(io::IO, a::Odd)
     res = ""
     scl = dot(a, e1)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "e1"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "e1"
     res *= tp
     scl = dot(a, e2)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "e2"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "e2"
     res *= tp
     scl = dot(a, e3)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "e3"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "e3"
     res *= tp
     scl = dot(a, e4)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "e4"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "e4"
     res *= tp
     scl = dot(a, -e1 * E4)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "e1E4"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "e1E4"
     res *= tp
     scl = dot(a, -e2 * E4)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "e2E4"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "e2E4"
     res *= tp
     scl = dot(a, -e3 * E4)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "e3E4"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "e3E4"
     res *= tp
     scl = dot(a, -e4 * E4)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "e4E4"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "e4E4"
     res *= tp
     if (length(res) == 0)
         res = string(zero(scl))
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    return print(io, res)
 end
-
-include("show.jl")
 
 end #Module

@@ -44,12 +44,12 @@ Base.:(-)(a::Even, b::Even) = Even(a.qp - b.qp, a.qm - b.qm)
 Base.:(-)(a::Odd, b::Odd) = Odd(a.qp - b.qp, a.qm - b.qm)
 
 #Scalar addition / subtraction. Other cases are in GAcommon
-Base.:(+)(num::Number, a::Even) = Even(a.qp + num, a.qm + num)
-Base.:(-)(num::Number, a::Even) = Even(-a.qp + num, -a.qm + num)
+Base.:(+)(num::Real, a::Even) = Even(a.qp + num, a.qm + num)
+Base.:(-)(num::Real, a::Even) = Even(-a.qp + num, -a.qm + num)
 
 #Multiplication
-Base.:(*)(num::Number, a::Even) = Even(num * a.qp, num * a.qm)
-Base.:(*)(num::Number, a::Odd) = Odd(num * a.qp, num * a.qm)
+Base.:(*)(num::Real, a::Even) = Even(num * a.qp, num * a.qm)
+Base.:(*)(num::Real, a::Odd) = Odd(num * a.qp, num * a.qm)
 Base.:(*)(a::Even, b::Even) = Even(a.qp * b.qp, a.qm * b.qm)
 Base.:(*)(a::Even, b::Odd) = Odd(a.qp * b.qp, a.qm * b.qm)
 Base.:(*)(a::Odd, b::Even) = Odd(a.qp * b.qm, a.qm * b.qp)

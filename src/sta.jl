@@ -31,77 +31,72 @@ export bar
 bar(a::Even) = Even(conj(a.c4), -conj(a.c3), -conj(a.c2), conj(a.c1))
 bar(a::Odd) = Odd(conj(a.c4), -conj(a.c3), -conj(a.c2), conj(a.c1))
 
-#Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
-approxzero(x::Real) = isapprox(1 + x, 1.0)
-
-function mv_to_text(a::Even)
+function Base.show(io::IO, a::Even)
     res = ""
     scl = tr(a)
-    tp = approxzero(scl) ? "" : " + " * string(scl)
+    tp = iszero(scl) ? "" : " + " * string(scl)
     res *= tp
     scl = dot(a, s1)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "σ1"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "σ1"
     res *= tp
     scl = dot(a, s2)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "σ2"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "σ2"
     res *= tp
     scl = dot(a, s3)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "σ3"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "σ3"
     res *= tp
     scl = dot(a, -I4 * s1)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "Iσ1"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "Iσ1"
     res *= tp
     scl = dot(a, -I4 * s2)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "Iσ2"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "Iσ2"
     res *= tp
     scl = dot(a, -I4 * s3)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "Iσ3"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "Iσ3"
     res *= tp
     scl = dot(a, -I4)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "I"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "I"
     res *= tp
     if (length(res) == 0)
         res = string(zero(scl))
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    return print(io, res)
 end
 
-function mv_to_text(a::Odd)
+function Base.show(io::IO, a::Odd)
     res = ""
     scl = dot(a, g0)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "γ0"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "γ0"
     res *= tp
     scl = dot(a, -g1)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "γ1"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "γ1"
     res *= tp
     scl = dot(a, -g2)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "γ2"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "γ2"
     res *= tp
     scl = dot(a, -g3)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "γ3"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "γ3"
     res *= tp
     scl = dot(a, I4 * g0)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "Iγ0"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "Iγ0"
     res *= tp
     scl = dot(a, -I4 * g1)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "Iγ1"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "Iγ1"
     res *= tp
     scl = dot(a, -I4 * g2)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "Iγ2"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "Iγ2"
     res *= tp
     scl = dot(a, -I4 * g3)
-    tp = approxzero(scl) ? "" : " + " * string(scl) * "Iγ3"
+    tp = iszero(scl) ? "" : " + " * string(scl) * "Iγ3"
     res *= tp
     if (length(res) == 0)
         res = string(zero(scl))
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    return print(io, res)
 end
-
-include("show.jl")
 
 end #Module

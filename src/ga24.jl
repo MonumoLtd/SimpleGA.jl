@@ -27,12 +27,9 @@ const I6 = g0 * g1 * g2 * g3 * g4 * g5
 
 const basis = SA[g0, g1, g2, g3, g4, g5]
 
-#Sets tolerance for not displaying results. Adding 1 to comparison seems to work well.
-approxzero(x::Real) = isapprox(1 + x, 1.0)
-
-function mv_to_text(a::Even)
+function Base.show(io::IO, a::Even)
     scl = tr(a)
-    res = approxzero(scl) ? "" : " + " * string(scl)
+    res = iszero(scl) ? "" : " + " * string(scl)
     #! format:off
     tpevenbas = [g1*g0, g2*g0, g3*g0, g4*g0, -g5*g0,
                 -g1*g2, -g1*g3, -g1*g4, g1*g5,
@@ -59,7 +56,7 @@ function mv_to_text(a::Even)
         #! format:on
     for i in 1:31
         scl = dot(a, tpevenbas[i])
-        tp = approxzero(scl) ? "" : " + " * string(scl) * tpevenstr[i]
+        tp = iszero(scl) ? "" : " + " * string(scl) * tpevenstr[i]
         res *= tp
     end
     if (length(res) == 0)
@@ -67,10 +64,10 @@ function mv_to_text(a::Even)
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    return print(io, res)
 end
 
-function mv_to_text(a::Odd)
+function Base.show(io::IO, a::Odd)
     #! format:off
     tpoddbas = [g0, -g1, -g2, -g3, -g4, g5,
                 g0*g1*g2, -g0*g1*g3, -g0*g1*g4, g0*g1*g5, -g0*g2*g3, -g0*g2*g4, g0*g2*g5, -g0*g3*g4, g0*g3*g5, g0*g4*g5,
@@ -84,7 +81,7 @@ function mv_to_text(a::Odd)
     res = ""
     for i in 1:32
         scl = dot(a, tpoddbas[i])
-        tp = approxzero(scl) ? "" : " + " * string(scl) * tpoddstr[i]
+        tp = iszero(scl) ? "" : " + " * string(scl) * tpoddstr[i]
         res *= tp
     end
     if (length(res) == 0)
@@ -92,9 +89,7 @@ function mv_to_text(a::Odd)
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    return print(io, res)
 end
-
-include("show.jl")
 
 end #Module

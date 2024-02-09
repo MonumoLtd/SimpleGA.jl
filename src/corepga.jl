@@ -48,12 +48,12 @@ Base.:(-)(a::Even, b::Even) = Even(a.q - b.q, a.n - b.n)
 Base.:(-)(a::Odd, b::Odd) = Odd(a.q - b.q, a.n - b.n)
 
 #Scalar addition / subtraction. Other cases are in GAcommon
-Base.:(+)(num::Number, a::Even) = Even(a.q + num, a.n)
-Base.:(-)(num::Number, a::Even) = Even(-a.q + num, -a.n)
+Base.:(+)(num::Real, a::Even) = Even(a.q + num, a.n)
+Base.:(-)(num::Real, a::Even) = Even(-a.q + num, -a.n)
 
 #Multiplication
-Base.:(*)(num::Number, a::Even) = Even(num * a.q, num * a.n)
-Base.:(*)(num::Number, a::Odd) = Odd(num * a.q, num * a.n)
+Base.:(*)(num::Real, a::Even) = Even(num * a.q, num * a.n)
+Base.:(*)(num::Real, a::Odd) = Odd(num * a.q, num * a.n)
 Base.:(*)(a::Even, b::Even) = Even(a.q * b.q, a.q * b.n + a.n * b.q)
 Base.:(*)(a::Even, b::Odd) = Odd(a.q * b.q, a.q * b.n - a.n * b.q)
 Base.:(*)(a::Odd, b::Even) = Odd(a.q * b.q, a.q * b.n + a.n * b.q)
