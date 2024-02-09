@@ -48,14 +48,14 @@ end
 function Base.:(-)(a::Quaternion, b::Quaternion)
     return Quaternion(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z)
 end
-Base.:(+)(x::Number, a::Quaternion) = Quaternion(x + a.w, a.x, a.y, a.z)
-Base.:(-)(x::Number, a::Quaternion) = Quaternion(x - a.w, -a.x, -a.y, -a.z)
-Base.:(+)(a::Quaternion, x::Number) = Quaternion(a.w + x, a.x, a.y, a.z)
-Base.:(-)(a::Quaternion, x::Number) = Quaternion(a.w - x, a.x, a.y, a.z)
+Base.:(+)(x::Real, a::Quaternion) = Quaternion(x + a.w, a.x, a.y, a.z)
+Base.:(-)(x::Real, a::Quaternion) = Quaternion(x - a.w, -a.x, -a.y, -a.z)
+Base.:(+)(a::Quaternion, x::Real) = Quaternion(a.w + x, a.x, a.y, a.z)
+Base.:(-)(a::Quaternion, x::Real) = Quaternion(a.w - x, a.x, a.y, a.z)
 
 #Multiplication
-Base.:(*)(x::Number, a::Quaternion) = Quaternion(x * a.w, x * a.x, x * a.y, x * a.z)
-Base.:(*)(a::Quaternion, x::Number) = x * a
+Base.:(*)(x::Real, a::Quaternion) = Quaternion(x * a.w, x * a.x, x * a.y, x * a.z)
+Base.:(*)(a::Quaternion, x::Real) = x * a
 
 function Base.:(*)(a::Quaternion, b::Quaternion)
     return Quaternion(
@@ -66,7 +66,7 @@ function Base.:(*)(a::Quaternion, b::Quaternion)
     )
 end
 
-Base.:(/)(a::Quaternion, x::Number) = (1 / x) * a
+Base.:(/)(a::Quaternion, x::Real) = (1 / x) * a
 Base.:(/)(a::Quaternion, b::Quaternion) = a * conj(b) / dot(b, conj(b))
 LinearAlgebra.norm(a::Quaternion) = sqrt(a.w^2 + a.x^2 + a.y^2 + a.z^2)
 
@@ -114,10 +114,9 @@ function Base.isapprox(a::Quaternion{T}, b::Quaternion{T}; kwargs...) where {T}
     )
 end
 
-function Base.show(io::IO, ::MIME"text/plain", a::Quaternion)
+function Base.show(io::IO, a::Quaternion)
     return print(
         io,
-        "",
         string(a.w) *
         " + " *
         string(a.x) *
@@ -127,14 +126,6 @@ function Base.show(io::IO, ::MIME"text/plain", a::Quaternion)
         string(a.z) *
         "k",
     )
-end
-
-function Base.show(io::IO, ::MIME"text/plain", mvs::Vector{Quaternion})
-    n = length(mvs)
-    println(io, n, "-element Vector{Quaternion}")
-    for i in eachindex(mvs)
-        println(io, " ", mvs[i])
-    end
 end
 
 end #Module
