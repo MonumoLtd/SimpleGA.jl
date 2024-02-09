@@ -25,7 +25,7 @@ const I4 = e1 * e2 * e3 * f3
 
 const basis = SA[e1, e2, e3, f3]
 
-function mv_to_text(a::Even)
+function Base.show(io::IO, a::Even)
     scl = tr(a)
     res = iszero(scl) ? "" : " + " * string(scl)
      #! format:off
@@ -44,10 +44,10 @@ function mv_to_text(a::Even)
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    print(io, res)
 end
 
-function mv_to_text(a::Odd)
+function Base.show(io::IO, a::Odd)
     #! format:off
     tpoddbas = [e1, e2, e3, -f3,
                 I4*e1, I4*e2, I4*e3, -I4*f3]
@@ -65,9 +65,7 @@ function mv_to_text(a::Odd)
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    print(io, res)
 end
-
-include("show.jl")
 
 end #Module

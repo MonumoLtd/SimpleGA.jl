@@ -23,7 +23,7 @@ const E4 = e1 * e2 * e3 * e4
 
 const basis = SA[e1, e2, e3, e4]
 
-function mv_to_text(a::Even)
+function Base.show(io::IO, a::Even)
     res = ""
     scl = tr(a)
     tp = iszero(scl) ? "" : " + " * string(scl)
@@ -54,10 +54,10 @@ function mv_to_text(a::Even)
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    print(io, res)
 end
 
-function mv_to_text(a::Odd)
+function Base.show(io::IO, a::Odd)
     res = ""
     scl = dot(a, e1)
     tp = iszero(scl) ? "" : " + " * string(scl) * "e1"
@@ -88,9 +88,7 @@ function mv_to_text(a::Odd)
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    print(io, res)
 end
-
-include("show.jl")
 
 end #Module

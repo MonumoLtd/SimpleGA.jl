@@ -25,7 +25,7 @@ Base.log(a::Even) = Even(log(a.c1))
 Base.real(a::Even) = real(a.c1)
 Base.imag(a::Even) = imag(a.c1)
 
-function mv_to_text(a::Even)
+function Base.show(io::IO, a::Even)
     res = ""
     tp = iszero(real(a.c1)) ? "" : " + " * string(real(a.c1))
     res *= tp
@@ -36,10 +36,10 @@ function mv_to_text(a::Even)
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    print(io, res)
 end
 
-function mv_to_text(a::Odd)
+function Base.show(io::IO, a::Odd)
     res = ""
     tp = iszero(real(a.c1)) ? "" : " + " * string(real(a.c1)) * "e1"
     res *= tp
@@ -50,9 +50,7 @@ function mv_to_text(a::Odd)
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    print(io, res)
 end
-
-include("show.jl")
 
 end  #Module

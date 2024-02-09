@@ -31,7 +31,7 @@ export bar
 bar(a::Even) = Even(conj(a.c4), -conj(a.c3), -conj(a.c2), conj(a.c1))
 bar(a::Odd) = Odd(conj(a.c4), -conj(a.c3), -conj(a.c2), conj(a.c1))
 
-function mv_to_text(a::Even)
+function Base.show(io::IO, a::Even)
     res = ""
     scl = tr(a)
     tp = iszero(scl) ? "" : " + " * string(scl)
@@ -62,10 +62,10 @@ function mv_to_text(a::Even)
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    print(io, res)
 end
 
-function mv_to_text(a::Odd)
+function Base.show(io::IO, a::Odd)
     res = ""
     scl = dot(a, g0)
     tp = iszero(scl) ? "" : " + " * string(scl) * "γ0"
@@ -96,9 +96,7 @@ function mv_to_text(a::Odd)
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    print(io, res)
 end
-
-include("show.jl")
 
 end #Module

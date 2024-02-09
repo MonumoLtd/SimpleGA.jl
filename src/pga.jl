@@ -29,7 +29,7 @@ export pdual
 pdual(a::Even) = Even(-a.n', -a.q')
 pdual(a::Odd) = Odd(-a.n, -a.q)
 
-function mv_to_text(a::Even)
+function Base.show(io::IO, a::Even)
     res = ""
     evenlist = [a.q.w, -a.q.z, -a.q.x, -a.q.y, -a.n.x, -a.n.y, -a.n.z, -a.n.w]
     evenstring = ["", "e1e2", "e2e3", "e3e1", "e0e1", "e0e2", "e0e3", "e0I3"]
@@ -42,10 +42,10 @@ function mv_to_text(a::Even)
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    print(io, res)
 end
 
-function mv_to_text(a::Odd)
+function Base.show(io::IO, a::Odd)
     res = ""
     oddlist = [a.n.w, -a.q.x, -a.q.y, -a.q.z, a.n.z, a.n.y, a.n.x, -a.q.w]
     oddstring = ["e0", "e1", "e2", "e3", "e0e2e1", "e0e1e3", "e0e3e2", "I3"]
@@ -58,9 +58,7 @@ function mv_to_text(a::Odd)
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    print(io, res)
 end
-
-include("show.jl")
 
 end # Module

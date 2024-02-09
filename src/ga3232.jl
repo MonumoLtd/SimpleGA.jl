@@ -101,7 +101,7 @@ function bdptype(nn::UInt64)
     return res
 end
 
-function mv_to_text(mv::Multivector)
+function Base.show(io::IO, mv::Multivector)
     blds = mvtoblds(mv)
     sort!(blds)
     res = string(blds[1].val) * bdptype(blds[1].bas)
@@ -112,9 +112,7 @@ function mv_to_text(mv::Multivector)
         tp = " + " * string(blds[i].val) * bdptype(blds[i].bas)
         res *= tp
     end
-    return res
+    print(io, res)
 end
-
-Base.show(io::IO, mv::Multivector) = print(io, mv_to_text(mv))
 
 end #Module

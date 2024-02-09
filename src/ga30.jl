@@ -21,7 +21,7 @@ const I3 = Odd{Int8}(1, 0, 0, 0)
 
 const basis = SA[e1, e2, e3]
 
-function mv_to_text(a::Even)
+function Base.show(io::IO, a::Even)
     res = ""
     tp = iszero(a.w) ? "" : " + " * string(a.w)
     res *= tp
@@ -36,10 +36,10 @@ function mv_to_text(a::Even)
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    print(io, res)
 end
 
-function mv_to_text(a::Odd)
+function Base.show(io::IO, a::Odd)
     res = ""
     tp = iszero(a.x) ? "" : " + " * string(a.x) * "e1"
     res *= tp
@@ -54,9 +54,7 @@ function mv_to_text(a::Odd)
     else
         res = chop(res; head=3, tail=0)
     end
-    return res
+    print(io, res)
 end
-
-include("show.jl")
 
 end
