@@ -19,9 +19,6 @@ jobs:
           using JuliaFormatter
           # HACK: as-of 2023-12-18, it seems that _two_ formatting passes are sometimes
           #   required to ensure subsequent formattings have no effect.
+          was_already_formatted = format("."; verbose=true)
           format("."; verbose=true)
-          format("."; verbose=true)
-      - uses: reviewdog/action-suggester@v1
-        with:
-          tool_name: JuliaFormatter
-          fail_on_error: true
+          exit(was_already_formatted ? 0 : 42)
