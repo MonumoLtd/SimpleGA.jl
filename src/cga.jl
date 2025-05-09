@@ -17,7 +17,7 @@ include("common.jl")
 
 #Basis
 const e1 = Odd{Int8}(
-    Quaternion(0, 1, 0, 0), Quaternion(0.0), Quaternion(0.0), Quaternion(0, -1, 0, 0)
+       Quaternion(0, 1, 0, 0), Quaternion(0.0), Quaternion(0.0), Quaternion(0, -1, 0, 0)
 )
 const e2 = Odd{Int8}(
     Quaternion(0, 0, 1, 0), Quaternion(0.0), Quaternion(0.0), Quaternion(0, 0, -1, 0)
