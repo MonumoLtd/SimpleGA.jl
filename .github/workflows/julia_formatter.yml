@@ -21,7 +21,3 @@ jobs:
           #   required to ensure subsequent formattings have no effect.
           format("."; verbose=true)
           format("."; verbose=true)
-      - uses: reviewdog/action-suggester@v1
-        with:
-          tool_name: JuliaFormatter
-          fail_on_error: true
